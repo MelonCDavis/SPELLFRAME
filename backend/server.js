@@ -25,13 +25,25 @@ app.set("trust proxy", 1);
 
 connectDB();
 
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  /\.vercel\.app$/,
+];
 /**
  * CORS
  * Allow frontend dev server (Vite) to access API
  */
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      const allowed = allowedOrigins.some((o) =>
+        o instanceof RegExp ? o.test(origin) : o === origin
+      );
+
+      callback(allowed ? null : new Error("Not allowed by CORS"), allowed);
+    },
     credentials: true,
   })
 );
