@@ -21,6 +21,7 @@ const collectionRoutes = require("./routes/collectionRoutes");
 const deckRoutes = require("./routes/deckRoutes");
 
 const app = express();
+app.set("trust proxy", 1);
 
 connectDB();
 
