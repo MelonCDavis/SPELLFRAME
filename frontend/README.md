@@ -111,7 +111,7 @@ frontend/
 The API will be available at:
 
 ```
-http://localhost:3000
+https://spellframe.onrender.com
 ```
 
 ---
@@ -139,7 +139,7 @@ http://localhost:3000
 The frontend will be available at:
 
 ```
-http://localhost:5173
+https://spellframe-rho.vercel.app
 ```
 
 ---

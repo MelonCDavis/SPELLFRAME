@@ -24,7 +24,7 @@ exports.register = async (req, res) => {
     await user.save({ validateBeforeSave: false });
 
     // 📧 Send verification email
-    const verifyUrl = `http://localhost:3000/api/auth/verify-email?token=${verificationToken}`;
+    const verifyUrl = `${process.env.BACKEND_URL}/api/auth/verify-email?token=${verificationToken}`;
 
     await sendEmail({
       to: user.email,
@@ -74,7 +74,7 @@ exports.verifyEmail = async (req, res) => {
     await user.save();
 
     return res.redirect(
-  `${process.env.FRONTEND_URL || "http://localhost:5173"}/login?verified=1`
+    process.env.FRONTEND_URL
 );
   } catch (err) {
     return res.status(500).json({ error: err.message });
