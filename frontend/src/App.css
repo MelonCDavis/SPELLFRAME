@@ -1,0 +1,131 @@
+@keyframes inspectorSwap {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes inspectorIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-bg-dark {
+  background-color: #020617; 
+  min-height: 100dvh;
+}
+
+.mainpage-bg {
+  position: fixed;
+  inset: 0;
+  background-image: url("./assets/backgrounds/four.jpg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.page-veil {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.35) 0%,
+      rgba(0, 0, 0, 0.45) 40%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
+}
+
+.profile-banner {
+  position: relative;
+  height: 160px;
+  width: 100%;
+
+  background-image: url("/src/assets/backgrounds/leb-137-word-of-command.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  background-position: center 42%;
+
+  overflow: hidden;
+}
+
+.profile-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0.35) 50%,
+      rgba(0, 0, 0, 0.75) 80%
+    );
+
+  z-index: 1;
+}
+
+.profile-page-root {
+  background-color: #0a0a0a; 
+  min-height: 100dvh;
+}
+
+.library-bg {
+  background-image: url("/src/assets/backgrounds/one.jpg");
+  background-size: cover;
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.commander-bg {
+  position: fixed;
+  inset: 0;
+  background-image: url("/src/assets/backgrounds/three.jpg");
+  background-size: cover;
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.faq-bg {
+  background-image: url("/src/assets/backgrounds/two.jpg");
+  background-size: cover;
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+@media (min-width: 640px) {
+  .profile-banner {
+    height: 180px;
+  }
+}
+
+@media (min-width: 768px) {
+  .profile-banner {
+    height: 210px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-banner {
+    height: 260px;
+  }
+}

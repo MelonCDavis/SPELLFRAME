@@ -1,0 +1,87 @@
+.mana {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+
+.mana-w { background-image: url("/mana/W.svg"); }
+.mana-u { background-image: url("/mana/U.svg"); }
+.mana-b { background-image: url("/mana/B.svg"); }
+.mana-r { background-image: url("/mana/R.svg"); }
+.mana-g { background-image: url("/mana/G.svg"); }
+.mana-c { background-image: url("/mana/C.svg"); }
+
+.mana-0  { background-image: url("/mana/0.svg"); }
+.mana-1  { background-image: url("/mana/1.svg"); }
+.mana-2  { background-image: url("/mana/2.svg"); }
+.mana-3  { background-image: url("/mana/3.svg"); }
+.mana-4  { background-image: url("/mana/4.svg"); }
+.mana-5  { background-image: url("/mana/5.svg"); }
+.mana-6  { background-image: url("/mana/6.svg"); }
+.mana-7  { background-image: url("/mana/7.svg"); }
+.mana-8  { background-image: url("/mana/8.svg"); }
+.mana-9  { background-image: url("/mana/9.svg"); }
+.mana-10 { background-image: url("/mana/10.svg"); }
+.mana-11 { background-image: url("/mana/11.svg"); }
+.mana-12 { background-image: url("/mana/12.svg"); }
+.mana-13 { background-image: url("/mana/13.svg"); }
+.mana-14 { background-image: url("/mana/14.svg"); }
+.mana-15 { background-image: url("/mana/15.svg"); }
+.mana-16 { background-image: url("/mana/16.svg"); }
+.mana-17 { background-image: url("/mana/17.svg"); }
+.mana-18 { background-image: url("/mana/18.svg"); }
+.mana-19 { background-image: url("/mana/19.svg"); }
+.mana-20 { background-image: url("/mana/20.svg"); }
+
+.mana-x { background-image: url("/mana/X.svg"); }
+.mana-y { background-image: url("/mana/Y.svg"); }
+.mana-z { background-image: url("/mana/Z.svg"); }
+.mana-s { background-image: url("/mana/S.svg"); } 
+.mana-t { background-image: url("/mana/T.svg"); } 
+.mana-q { background-image: url("/mana/Q.svg"); } 
+.mana-e { background-image: url("/mana/E.svg"); } 
+
+.mana-w-u { background-image: url("/mana/WU.svg"); }
+.mana-w-b { background-image: url("/mana/WB.svg"); }
+.mana-u-b { background-image: url("/mana/UB.svg"); }
+.mana-u-r { background-image: url("/mana/UR.svg"); }
+.mana-b-r { background-image: url("/mana/BR.svg"); }
+.mana-b-g { background-image: url("/mana/BG.svg"); }
+.mana-r-g { background-image: url("/mana/RG.svg"); }
+.mana-r-w { background-image: url("/mana/RW.svg"); }
+.mana-g-w { background-image: url("/mana/GW.svg"); }
+.mana-g-u { background-image: url("/mana/GU.svg"); }
+
+.mana-2-w { background-image: url("/mana/2W.svg"); }
+.mana-2-u { background-image: url("/mana/2U.svg"); }
+.mana-2-b { background-image: url("/mana/2B.svg"); }
+.mana-2-r { background-image: url("/mana/2R.svg"); }
+.mana-2-g { background-image: url("/mana/2G.svg"); }
+
+.mana-w-p { background-image: url("/mana/WP.svg"); }
+.mana-u-p { background-image: url("/mana/UP.svg"); }
+.mana-b-p { background-image: url("/mana/BP.svg"); }
+.mana-r-p { background-image: url("/mana/RP.svg"); }
+.mana-g-p { background-image: url("/mana/GP.svg"); }
+
+.mana-w-u-p { background-image: url("/mana/WUP.svg"); }
+.mana-w-b-p { background-image: url("/mana/WBP.svg"); }
+.mana-u-b-p { background-image: url("/mana/UBP.svg"); }
+.mana-u-r-p { background-image: url("/mana/URP.svg"); }
+.mana-b-r-p { background-image: url("/mana/BRP.svg"); }
+.mana-b-g-p { background-image: url("/mana/BGP.svg"); }
+.mana-r-g-p { background-image: url("/mana/RGP.svg"); }
+.mana-r-w-p { background-image: url("/mana/RWP.svg"); }
+.mana-g-w-p { background-image: url("/mana/GWP.svg"); }
+.mana-g-u-p { background-image: url("/mana/GUP.svg"); }
+
+.mana-c-w { background-image: url("/mana/CW.svg"); }
+.mana-c-u { background-image: url("/mana/CU.svg"); }
+.mana-c-b { background-image: url("/mana/CB.svg"); }
+.mana-c-r { background-image: url("/mana/CR.svg"); }
+.mana-c-g { background-image: url("/mana/CG.svg"); }
+
+
