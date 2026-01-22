@@ -1,4 +1,5 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_BASE =
+  import.meta.env.VITE_API_URL || "https://spellframe.onrender.com";
 
 function getToken() {
   return localStorage.getItem("tcc_token");
@@ -18,7 +19,6 @@ async function request(path, options = {}) {
 
   if (!res.ok) {
      const text = await res.text().catch(() => "");
-     // Try to extract a readable message from JSON-ish error bodies
      try {
        const data = text ? JSON.parse(text) : null;
        const msg = data?.error || data?.message;
