@@ -24,7 +24,7 @@ exports.register = async (req, res) => {
     await user.save({ validateBeforeSave: false });
 
     // 📧 Send verification email
-    const verifyUrl = `${process.env.BACKEND_URL}/api/auth/verify-email?token=${verificationToken}`;
+    const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
 
     await sendEmail({
       to: user.email,
@@ -73,9 +73,10 @@ exports.verifyEmail = async (req, res) => {
 
     await user.save();
 
-    return res.redirect(
-    process.env.FRONTEND_URL
+   return res.redirect(
+  `${process.env.FRONTEND_URL}/login?verified=1`
 );
+
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -90,6 +91,12 @@ exports.login = async (req, res) => {
 
     const user = await User.findOne({ email }).select("+passwordHash");
     if (!user) return res.status(401).json({ error: "Invalid credentials" });
+
+    if (!user.isEmailVerified) {
+      return res.status(403).json({
+        error: "Please verify your email before logging in.",
+      });
+    }
 
     const passwordValid = await user.comparePassword(password);
     if (!passwordValid) {

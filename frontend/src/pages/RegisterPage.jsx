@@ -12,6 +12,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const AUTH_GLOW = [34, 211, 238];
   const [r, g, b] = AUTH_GLOW;
@@ -92,14 +93,35 @@ export default function RegisterPage() {
                 required
               />
 
+             <div className="relative">
               <input
-                className="w-full p-2 bg-neutral-900 border border-neutral-700"
-                type="password"
+                className="w-full p-2 pr-10 bg-neutral-900 border border-neutral-700"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 required
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="
+                  absolute
+                  inset-y-0
+                  right-2
+                  flex
+                  items-center
+                  text-neutral-400
+                  hover:text-neutral-200
+                  transition
+                  hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]
+                "
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
 
               <button
                 type="submit"
