@@ -2362,28 +2362,34 @@ function truncateName(name, max = 22) {
             )}
       </div>
        {showVisibilityModal && (
-         <DeckVisibilityModal
-           step={visibilityStep}
-           onMakePublic={async () => {
-             await apiPatch(`/api/decks/${deckId}/visibility`, {
-               isPublic: true,
-               visibilityPrompted: true, 
-             });
+          <DeckVisibilityModal
+            step={visibilityStep}
 
-             setVisibilityPrompted(true);
-             setShowVisibilityModal(false);
-           }}
-           onConfirmPrivate={async () => {
-             await apiPatch(`/api/decks/${deckId}/visibility`, {
-               isPublic: false,
-               visibilityPrompted: true, 
-             });
+            onMakePublic={async () => {
+              await apiPatch(`/api/decks/${deckId}/visibility`, {
+                isPublic: true,
+                visibilityPrompted: true,
+              });
 
-             setVisibilityPrompted(true);
-             setShowVisibilityModal(false);
-           }}
-         />
-     )}
+              setVisibilityPrompted(true);
+              setShowVisibilityModal(false);
+            }}
+
+            onChoosePrivate={() => {
+              setVisibilityStep("confirm");
+            }}
+
+            onConfirmPrivate={async () => {
+              await apiPatch(`/api/decks/${deckId}/visibility`, {
+                isPublic: false,
+                visibilityPrompted: true,
+              });
+
+              setVisibilityPrompted(true);
+              setShowVisibilityModal(false);
+            }}
+          />
+        )}
     </div>
   );
 }
