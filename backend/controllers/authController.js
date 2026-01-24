@@ -25,10 +25,10 @@ exports.register = async (req, res) => {
 
     // 📧 Send verification email
     const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
-    
+
     await sendEmail({
       to: user.email,
-      subject: "Verify your Commander Compendium email",
+      subject: "Verify your SPELLFRAME email",
       html: `
         <h2>Welcome to SPELLFRAME!</h2>
         <p>Please verify your email by clicking the link below:</p>

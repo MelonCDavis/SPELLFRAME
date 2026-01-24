@@ -8,8 +8,6 @@ exports.sendEmail = async ({ to, subject, html }) => {
     to,
     subject,
     html,
-    headers: {
-      "X-Resend-Tracking": "no",
-    },
+    click_trading: false,
   });
 };
