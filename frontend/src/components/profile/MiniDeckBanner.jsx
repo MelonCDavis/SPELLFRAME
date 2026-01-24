@@ -90,21 +90,34 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
       </div>
 
       <div className="absolute right-3 bottom-2 z-50 flex gap-2">
-        <button
-          type="button"
-          onClick={handleToggleLike}
+        <div
           className="
+            flex items-center gap-1
             text-xs
             px-2
             py-1
             rounded
             bg-black/50
-            hover:bg-black/70
             text-neutral-200
           "
         >
-           {deck.likes ?? 0}
-        </button>
+          <button
+            type="button"
+            onClick={handleToggleLike}
+            className="
+              hover:scale-110
+              transition-transform
+              cursor-pointer
+            "
+            aria-label="Like deck"
+          >
+            👍
+          </button>
+
+          <span className="select-none">
+            {deck.likes ?? 0}
+          </span>
+        </div>
 
         {onToggleVisibility && (
           <button
