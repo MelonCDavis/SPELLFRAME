@@ -3,15 +3,21 @@ const router = express.Router();
 
 const { protect } = require("../middleware/authMiddleware");
 const founderOnly = require("../middleware/founderOnly");
-const collectionController = require("../controllers/collectionController");
-const { getTotalOwned } = require("../controllers/collectionController");
-router.use(protect);
-router.use(founderOnly);
+const {
+  getMyCollection,
+  addOrUpdateEntry,
+  updateEntry,
+  deleteEntry,
+  getTotalOwned,
+} = require("../controllers/collectionController");
 
-router.get("/", collectionController.getMyCollection);
-router.post("/", collectionController.addOrUpdateEntry);
-router.patch("/:id", collectionController.updateEntry);
-router.delete("/:id", collectionController.deleteEntry);
-router.get("/total", protect, founderOnly, getTotalOwned);
+router.use(protect);
+
+// Collection
+router.get("/", founderOnly, getMyCollection);
+router.post("/", founderOnly, addOrUpdateEntry);
+router.patch("/:id", founderOnly, updateEntry);
+router.delete("/:id", founderOnly, deleteEntry);
+router.get("/total", founderOnly, getTotalOwned);
 
 module.exports = router;
