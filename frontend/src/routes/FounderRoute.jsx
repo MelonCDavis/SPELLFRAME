@@ -5,10 +5,6 @@ import { isFounder } from "../auth/founder";
 export default function FounderRoute({ children }) {
    const { user, isAuthenticated, isInitializing } = useAuth();
 
-  if (isInitializing) {
-    return null; 
-  }
-
   if (!isInitializing) {
     return null;
   }
