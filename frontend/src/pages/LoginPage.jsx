@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import { apiGet } from "../services/apiClient";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -15,6 +16,26 @@ export default function LoginPage() {
 
   const AUTH_GLOW = [34, 211, 238];
   const [r, g, b] = AUTH_GLOW;
+
+  const location = useLocation();
+
+  useEffect(() => {
+    // Handle email verification bridge
+    if (location.pathname === "/verify-email") {
+      const token = searchParams.get("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      apiGet(`/api/auth/verify-email?token=${token}`)
+        // backend will redirect to /login?verified=1
+        .catch(() => {
+          navigate("/login");
+        });
+    }
+  }, [location.pathname, searchParams, navigate]);
+
 
   async function handleSubmit(e) {
     e.preventDefault();

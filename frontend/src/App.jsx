@@ -34,6 +34,7 @@ export default function App() {
           <Routes>
             {/* PUBLIC ROUTES */}
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/verify-email" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/decks/:deckId" element={<DeckViewerPage />} />
             <Route path="/" element={<MainPage />} />
