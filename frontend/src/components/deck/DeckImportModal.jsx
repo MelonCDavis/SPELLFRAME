@@ -82,9 +82,13 @@ export default function DeckImportModal({
       return;
     }
 
+    const filteredEntries = parsed.entries.filter(
+      (entry) => !selectedCommanders.includes(entry.cardName)
+    );
+
     onDeckImport({
       commanders: resolvedCommanders,
-      entries: parsed.entries,
+      entries: filteredEntries,
     });
 
     setLoading(false);
