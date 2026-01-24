@@ -9,11 +9,11 @@ export default function FounderRoute({ children }) {
     return null; 
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (!isInitializing) {
+    return null;
   }
   
-  if (!isFounder(user)) {
+  if (!isAuthenticated || !isFounder(user)) {
     return <Navigate to="/profile" replace />;
   }
 
