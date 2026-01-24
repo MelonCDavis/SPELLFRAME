@@ -129,11 +129,11 @@ exports.forgotPassword = async (req, res) => {
     const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
 
-    const resetUrl = `${process.env.FRONTEND_URL}reset-password?token=${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
     await sendEmail({
       to: user.email,
-      subject: "Reset your Commander Compendium password",
+      subject: "Reset your SPELLFRAME password",
       html: `
         <h2>Password Reset</h2>
         <p>Click the link below to reset your password:</p>
