@@ -19,7 +19,7 @@ export default function AvatarCardPicker({ onSelect }) {
         `/api/cards/search?q=${encodeURIComponent(query.trim())}`
       );
 
-      setResults((res.cards ?? []).slice(0, 9));
+      setResults(res.cards ?? []);
     } catch (err) {
       console.error("Avatar search failed", err);
       setResults([]);
@@ -59,36 +59,44 @@ export default function AvatarCardPicker({ onSelect }) {
       )}
 
       {results.length > 0 && (
-        <div className="grid grid-cols-3 gap-3">
-          {results.map((card) => (
-            <button
-              key={card.scryfallId}
-              onClick={() =>
-                onSelect({
-                  scryfallId: card.scryfallId,
-                  image: card.imageNormal || card.imageSmall,
-                  name: card.name,
-                })
-              }
-              className="
-                relative rounded-md overflow-hidden border
-                border-neutral-800
-                transition
-                hover:border-indigo-500
-                hover:shadow-(--spellframe-glow)
-                focus:shadow-(--spellframe-glow)
-              "
-            >
-              <img
-                src={card.imageNormal || card.imageSmall}
-                alt={card.name}
-                className="w-full h-24 object-cover"
-              />
-              <div className="absolute bottom-0 inset-x-0 bg-black/60 text-xs px-1 py-0.5 truncate">
-                {card.name}
-              </div>
-            </button>
-          ))}
+        <div
+          className="
+            max-h-[60vh]
+            overflow-y-auto
+            pr-2
+          "
+        >
+          <div className="grid grid-cols-3 gap-3">
+            {results.map((card) => (
+              <button
+                key={card.scryfallId}
+                onClick={() =>
+                  onSelect({
+                    scryfallId: card.scryfallId,
+                    image: card.imageNormal || card.imageSmall,
+                    name: card.name,
+                  })
+                }
+                className="
+                  relative rounded-md overflow-hidden border
+                  border-neutral-800
+                  transition
+                  hover:border-indigo-500
+                  hover:shadow-(--spellframe-glow)
+                  focus:shadow-(--spellframe-glow)
+                "
+              >
+                <img
+                  src={card.imageNormal || card.imageSmall}
+                  alt={card.name}
+                  className="w-full h-24 object-cover"
+                />
+                <div className="absolute bottom-0 inset-x-0 bg-black/60 text-xs px-1 py-0.5 truncate">
+                  {card.name}
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
