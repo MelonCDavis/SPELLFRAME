@@ -882,14 +882,32 @@ export default function LibraryPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={prevInspector}
-                          className="px-3 shadow-(--spellframe-glow) py-1 rounded border border-neutral-700 text-sm hover:bg-neutral-800"
+                          className="
+                             px-3 py-1 rounded
+                             border border-neutral-700
+                             text-sm text-neutral-200
+                             shadow-(--spellframe-glow)
+                             transition-colors
+                             hover:bg-indigo-600/30
+                             hover:border-indigo-400
+                             hover:text-white
+                           "  
                         >
                           ← Prev
                         </button>
 
                         <button
                           onClick={nextInspector}
-                          className="px-3 shadow-(--spellframe-glow) py-1 rounded border border-neutral-700 text-sm hover:bg-neutral-800"
+                           className="
+                             px-3 py-1 rounded
+                             border border-neutral-700
+                             text-sm text-neutral-200
+                             shadow-(--spellframe-glow)
+                             transition-colors
+                             hover:bg-indigo-600/30
+                             hover:border-indigo-400
+                             hover:text-white
+                           "  
                         >
                           Next →
                         </button>
@@ -897,8 +915,17 @@ export default function LibraryPage() {
 
                       <button
                         onClick={closeInspector}
-                        className="px-3 py-1 shadow-(--spellframe-glow) rounded border border-neutral-700 text-sm hover:bg-neutral-800"
-                      >
+                          className="
+                             px-3 py-1 rounded
+                             border border-neutral-700
+                             text-sm text-neutral-200
+                             shadow-(--spellframe-glow)
+                             transition-colors
+                             hover:bg-indigo-600/30
+                             hover:border-indigo-400
+                             hover:text-white
+                           "  
+                        >
                         ✕ Close
                       </button>
                     </div>
