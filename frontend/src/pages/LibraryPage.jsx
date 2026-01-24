@@ -2,13 +2,14 @@ import { useEffect, useState, useRef } from "react";
 import { apiGet, apiPost } from "../services/apiClient";
 import CardGrid from "../components/cards/CardGrid";
 import CardQuantityOverlay from "../components/cards/CardQuantityOverlay";
-import { sanitizeSearchQuery } from "../utils/validateSearchQuery";
+import { useAuth } from "../auth/AuthContext"
 
 export default function LibraryPage() {
   const [query, setQuery] = useState("");
   const [searchMode, setSearchMode] = useState("all");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user, isAuthenticated, isInitializing } = useAuth();
 
   // Inspector
   const [detailList, setDetailList] = useState([]);
@@ -457,8 +458,13 @@ export default function LibraryPage() {
   /* Effects                            */
   /* ---------------------------------- */
   useEffect(() => {
+    if (isInitializing) return;
+    if (!isAuthenticated) return;
+    if (!user?.founder) return;
+
     hydrateOwnedMap();
-  }, []);
+  }, [isInitializing, isAuthenticated, user]);
+
 
   useEffect(() => {
     if (detailIndex === null) return;
@@ -550,14 +556,21 @@ export default function LibraryPage() {
 
 
   useEffect(() => {
+    if (isInitializing) return;
+    if (!isAuthenticated) return;
+    if (!user?.founder) return;
+
     async function fetchLibraryTotal() {
       try {
         const res = await apiGet("/api/collection/total");
         setLibraryTotal(res.totalOwned);
-      } catch {}
+      } catch (err) {
+        console.error("Failed to load library total", err);
+      }
     }
+
     fetchLibraryTotal();
-  }, []);
+  }, [isInitializing, isAuthenticated, user]);
 
   useEffect(() => {
     if (detailIndex === null) return;
