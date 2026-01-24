@@ -10,6 +10,10 @@ export default function LibraryPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user, isAuthenticated, isInitializing } = useAuth();
+  const canUseCollection =
+  !isInitializing &&
+  isAuthenticated &&
+  user?.founder === true;
 
   // Inspector
   const [detailList, setDetailList] = useState([]);
@@ -146,7 +150,8 @@ export default function LibraryPage() {
 
   async function searchLibrary(e) {
     e.preventDefault();
-
+    if (searchMode === "owned" && !canUseCollection) return;
+    
     const hasText = query.trim().length > 0;
     const hasFilters =
       selectedColors.length > 0 ||
@@ -241,6 +246,7 @@ export default function LibraryPage() {
   /* ---------------------------------- */
 
   async function hydrateOwnedMap() {
+    if (!canUseCollection) return;
     try {
       const res = await apiGet("/api/collection?limit=5000");
       const map = {};
@@ -259,6 +265,7 @@ export default function LibraryPage() {
   }
 
   async function updateQuantity(card, delta) {
+    if(!canUseCollection) return;
   const current = ownedMap[card.scryfallId] || 0;
   const next = Math.max(0, current + delta);
 
@@ -300,7 +307,7 @@ export default function LibraryPage() {
     setCurrentPage(1);
     setSetDropdownOpen(false);
 
-    if (searchMode === "owned") {
+    if (searchMode === "owned" && canUseCollection) {
       const res = await apiGet("/api/collection?limit=5000");
 
       let cards = (res.entries || [])
@@ -458,13 +465,9 @@ export default function LibraryPage() {
   /* Effects                            */
   /* ---------------------------------- */
   useEffect(() => {
-    if (isInitializing) return;
-    if (!isAuthenticated) return;
-    if (!user?.founder) return;
-
+    if (!canUseCollection) return;
     hydrateOwnedMap();
-  }, [isInitializing, isAuthenticated, user]);
-
+  }, [canUseCollection]);
 
   useEffect(() => {
     if (detailIndex === null) return;
@@ -556,21 +559,18 @@ export default function LibraryPage() {
 
 
   useEffect(() => {
-    if (isInitializing) return;
-    if (!isAuthenticated) return;
-    if (!user?.founder) return;
+    if (!canUseCollection) return;
 
     async function fetchLibraryTotal() {
       try {
         const res = await apiGet("/api/collection/total");
         setLibraryTotal(res.totalOwned);
-      } catch (err) {
+      }catch (err) {
         console.error("Failed to load library total", err);
       }
     }
-
     fetchLibraryTotal();
-  }, [isInitializing, isAuthenticated, user]);
+  }, [canUseCollection]);  
 
   useEffect(() => {
     if (detailIndex === null) return;
