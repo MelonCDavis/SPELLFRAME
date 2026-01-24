@@ -456,6 +456,9 @@ export default function LibraryPage() {
   /* ---------------------------------- */
   /* Effects                            */
   /* ---------------------------------- */
+  useEffect(() => {
+    hydrateOwnedMap();
+  }, []);
 
   useEffect(() => {
     if (detailIndex === null) return;
