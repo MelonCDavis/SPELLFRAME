@@ -15,6 +15,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import FounderRoute from "./routes/FounderRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { useAuth } from "./auth/AuthContext";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 export default function App() {
   const { user, isInitializing } = useAuth(); 
@@ -40,6 +41,8 @@ export default function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/commander" element={<CommanderSelectPage />} />
             <Route path="/faq" element={<CommanderFAQPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+
             {/*  PROTECTED ROUTES */}
             <Route
               path="/deck"

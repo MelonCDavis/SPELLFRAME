@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { apiGet } from "../services/apiClient";
+import ForgotPasswordModal from "../auth/ForgotPasswordModal";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -13,7 +14,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const emailVerified = searchParams.get("verified") === "1";
-
+  const passwordReset = searchParams.get("reset") === "1";
+  const [forgotOpen, setForgotOpen] = useState(false);
   const AUTH_GLOW = [34, 211, 238];
   const [r, g, b] = AUTH_GLOW;
 
@@ -98,6 +100,12 @@ export default function LoginPage() {
                 </p>
               )}
 
+              {passwordReset && (
+                <p className="mb-3 text-green-400">
+                  Password reset successful.  You can now log in.
+                </p>
+              )}
+
               {error && <p className="text-red-500 mb-3">{error}</p>}
 
               <form noValidate onSubmit={handleSubmit} className="space-y-4">
@@ -128,6 +136,20 @@ export default function LoginPage() {
                 </button>
               </form>
 
+              <div className ="text-right text-sm">
+                <button
+                  type="button"
+                  onClick={() => setForgotOpen(true)}
+                  className="
+                    text-neutral-400
+                    hover:text-indigo-400
+                    hover:underline
+                    transition
+                  "
+                 >
+                    Forgot your password?
+                </button>
+              </div>
               <div className="mt-6 text-sm text-neutral-400">
                 <p>
                   Don’t have an account?{" "}
@@ -142,6 +164,13 @@ export default function LoginPage() {
               </div>
             </div>  
           </div>
+        <ForgotPasswordModal
+          isOpen={forgotOpen}
+          onClose={() => setForgotOpen(false)}
+          onSubmit={async ({ email }) => {
+            await apiPost("/api/auth.forgot-password", { email });
+          }}
+        />
     </div>
   );
 }
