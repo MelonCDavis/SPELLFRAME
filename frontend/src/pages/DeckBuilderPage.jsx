@@ -1824,6 +1824,7 @@ function truncateName(name, max = 22) {
               lg:columns-2
               xl:columns-3
               gap-6
+              pr-2 md:pr-2 lg:pr-2 xl:pr-2.5
             "
           >
           {/* COMMANDER GROUP */}
