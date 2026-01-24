@@ -2,18 +2,13 @@ import { useEffect, useState, useRef } from "react";
 import { apiGet, apiPost } from "../services/apiClient";
 import CardGrid from "../components/cards/CardGrid";
 import CardQuantityOverlay from "../components/cards/CardQuantityOverlay";
-import { useAuth } from "../auth/AuthContext"
+import { sanitizeSearchQuery } from "../utils/validateSearchQuery";
 
 export default function LibraryPage() {
   const [query, setQuery] = useState("");
   const [searchMode, setSearchMode] = useState("all");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user, isAuthenticated, isInitializing } = useAuth();
-  const canUseCollection =
-  !isInitializing &&
-  isAuthenticated &&
-  user?.founder === true;
 
   // Inspector
   const [detailList, setDetailList] = useState([]);
@@ -150,8 +145,7 @@ export default function LibraryPage() {
 
   async function searchLibrary(e) {
     e.preventDefault();
-    if (searchMode === "owned" && !canUseCollection) return;
-    
+
     const hasText = query.trim().length > 0;
     const hasFilters =
       selectedColors.length > 0 ||
@@ -246,7 +240,6 @@ export default function LibraryPage() {
   /* ---------------------------------- */
 
   async function hydrateOwnedMap() {
-    if (!canUseCollection) return;
     try {
       const res = await apiGet("/api/collection?limit=5000");
       const map = {};
@@ -265,7 +258,6 @@ export default function LibraryPage() {
   }
 
   async function updateQuantity(card, delta) {
-    if(!canUseCollection) return;
   const current = ownedMap[card.scryfallId] || 0;
   const next = Math.max(0, current + delta);
 
@@ -307,7 +299,7 @@ export default function LibraryPage() {
     setCurrentPage(1);
     setSetDropdownOpen(false);
 
-    if (searchMode === "owned" && canUseCollection) {
+    if (searchMode === "owned") {
       const res = await apiGet("/api/collection?limit=5000");
 
       let cards = (res.entries || [])
@@ -464,10 +456,6 @@ export default function LibraryPage() {
   /* ---------------------------------- */
   /* Effects                            */
   /* ---------------------------------- */
-  useEffect(() => {
-    if (!canUseCollection) return;
-    hydrateOwnedMap();
-  }, [canUseCollection]);
 
   useEffect(() => {
     if (detailIndex === null) return;
@@ -559,18 +547,14 @@ export default function LibraryPage() {
 
 
   useEffect(() => {
-    if (!canUseCollection) return;
-
     async function fetchLibraryTotal() {
       try {
         const res = await apiGet("/api/collection/total");
         setLibraryTotal(res.totalOwned);
-      }catch (err) {
-        console.error("Failed to load library total", err);
-      }
+      } catch {}
     }
     fetchLibraryTotal();
-  }, [canUseCollection]);  
+  }, []);
 
   useEffect(() => {
     if (detailIndex === null) return;

@@ -11,7 +11,7 @@ import ChangePasswordModal from "../components/profile/ChangePasswordModal";
 import DeleteAccountModal from "../components/profile/DeleteAccountModal";
 
 export default function ProfilePage() {
-  const { user, isAuthenticated, isInitializing, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation(); 
   const [accountOpen, setAccountOpen] = useState(false);
@@ -24,12 +24,6 @@ export default function ProfilePage() {
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [libraryTotal, setLibraryTotal] = useState(null);
 
-  const canUseCollection =
-  !isInitializing &&
-  isAuthenticated &&
-  isFounder(user);
-
-
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
@@ -40,16 +34,15 @@ export default function ProfilePage() {
       .then(setDecks)
       .finally(() => setLoading(false));
 
-    if (canUseCollection) {
+    if (isFounder(user)) {
       apiGet("/api/collection/total")
-      .then(res => setLibraryTotal(res.totalOwned))
-      .catch(err => 
-        console.error("Failed to load library total", err)
-      );
+        .then(res => setLibraryTotal(res.totalOwned))
+        .catch(err =>
+          console.error("Failed to load library total", err)
+        );
     }
   }, [
     isAuthenticated,
-    isInitializing,
     navigate,
     user,
     location.state?.refreshDecks,
