@@ -1993,7 +1993,7 @@ function truncateName(name, max = 22) {
                 className="
                   relative
                   w-full lg:w-1/2 max-w-4xl
-                  h-full
+                  max-h-[90dvh]
                   bg-neutral-950
                   border border-neutral-800
                   shadow-(--spellframe-glow)
@@ -2002,8 +2002,8 @@ function truncateName(name, max = 22) {
                 "
               >
                 {/* Header */}
-                <div
-                  className="flex items-center justify-between px-5 py-3 border-b pt-27"
+              <div
+                  className="shrink-0 flex items-center justify-between px-5 py-3 border-b pt-27"
                   style={{
                     borderColor: `rgba(${r},${g},${b},0.4)`,
                     boxShadow: `0 4px 16px rgba(${r},${g},${b},0.35)`,
@@ -2018,6 +2018,9 @@ function truncateName(name, max = 22) {
                         border border-neutral-700
                         transition-shadow
                         shadow-(--spellframe-glow)
+                        hover:bg-indigo-600/30
+                        hover:border-indigo-400
+                        hover:text-white
                       "                    
                     >
                       ← Prev
@@ -2031,6 +2034,9 @@ function truncateName(name, max = 22) {
                         border border-neutral-700
                         transition-shadow
                         shadow-(--spellframe-glow)
+                        hover:bg-indigo-600/30
+                        hover:border-indigo-400
+                        hover:text-white
                       "
                     >
                       Next →
@@ -2045,120 +2051,130 @@ function truncateName(name, max = 22) {
                       border border-neutral-700
                       transition-shadow
                       shadow-(--spellframe-glow)
+                      hover:bg-indigo-600/30
+                      hover:border-indigo-400
+                      hover:text-white
                     "
                   >
                     ✕ Close
                   </button>
-                </div>
+              </div>
 
                 {/* Body */}
                 <div
                   key={detailList[detailIndex].name}
                   className="
-                    grid grid-cols-[256px_1fr]
-                    gap-x-6 gap-y-10
                     flex-1
-                    overflow-hidden
+                    overflow-y-auto
+                    overscroll-contain
                   "
                 >
+                <div
+                  className="
+                     grid grid-cols-[256px_1fr]
+                     gap-x-6 gap-y-10
+                     px-6 py-6
+                   "
+                 >
 
-            {/* IMAGE COLUMN */}
-            <div>
-              <img
-                src={
-                  activePrinting?.image ||
-                  detailList[detailIndex].imageLarge ||
-                  detailList[detailIndex].imageNormal
-                }
-                alt={detailList[detailIndex].name}
-                className="w-64 rounded-md border border-neutral-800"
-              />
-              {effectivePrices && (
-                  <div className="mt-3 rounded-md border border-neutral-800 bg-neutral-900/60 px-3 py-3 text-center">
-                    <div className="text-xs uppercase tracking-wide text-neutral-400 mb-1">
-                      Current Average Price
-                    </div>
+                {/* IMAGE COLUMN */}
+                <div>
+                    <img
+                      src={
+                        activePrinting?.image ||
+                        detailList[detailIndex].imageLarge ||
+                        detailList[detailIndex].imageNormal
+                      }
+                      alt={detailList[detailIndex].name}
+                      className="w-64 rounded-md border border-neutral-800"
+                    />
+                    {effectivePrices && (
+                      <div className="mt-3 rounded-md border border-neutral-800 bg-neutral-900/60 px-3 py-3 text-center">
+                        <div className="text-xs uppercase tracking-wide text-neutral-400 mb-1">
+                          Current Average Price
+                        </div>
 
-                    <div className="flex items-center justify-center gap-2 text-lg font-semibold text-neutral-100">
-                      {effectivePrices.usd_foil ? (
-                        <>
-                          <span>${effectivePrices.usd_foil}</span>
-                          <span className="text-xs font-normal text-neutral-400">
-                            Foil
-                          </span>
-                        </>
-                      ) : effectivePrices.usd ? (
-                        <>
-                          <span>${effectivePrices.usd}</span>
-                          <span className="text-xs font-normal text-neutral-400">
-                            Non-foil
-                          </span>
-                        </>
-                      ) : effectivePrices.eur_foil ? (
-                        <>
-                          <span>€{effectivePrices.eur_foil}</span>
-                          <span className="text-xs font-normal text-neutral-400">
-                            Foil
-                          </span>
-                        </>
-                      ) : effectivePrices.eur ? (
-                        <>
-                          <span>€{effectivePrices.eur}</span>
-                          <span className="text-xs font-normal text-neutral-400">
-                            Non-foil
-                          </span>
-                        </>
-                      ) : (
-                        <span className="text-sm text-neutral-500">
-                          No pricing data
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                )}
-                {pendingDeckPrinting && (
-                  <div className="mt-4 flex justify-center gap-3">
-                    <button
-                      className="px-4 py-2 rounded border border-neutral-700 text-sm hover:bg-neutral-800"
-                      onClick={() => setPendingDeckPrinting(null)}
-                    >
-                      Keep Browsing
-                    </button>
+                        <div className="flex items-center justify-center gap-2 text-lg font-semibold text-neutral-100">
+                          {effectivePrices.usd_foil ? (
+                            <>
+                              <span>${effectivePrices.usd_foil}</span>
+                              <span className="text-xs font-normal text-neutral-400">
+                                Foil
+                              </span>
+                            </>
+                          ) : effectivePrices.usd ? (
+                            <>
+                              <span>${effectivePrices.usd}</span>
+                              <span className="text-xs font-normal text-neutral-400">
+                                Non-foil
+                              </span>
+                            </>
+                          ) : effectivePrices.eur_foil ? (
+                            <>
+                              <span>€{effectivePrices.eur_foil}</span>
+                              <span className="text-xs font-normal text-neutral-400">
+                                Foil
+                              </span>
+                            </>
+                          ) : effectivePrices.eur ? (
+                            <>
+                              <span>€{effectivePrices.eur}</span>
+                              <span className="text-xs font-normal text-neutral-400">
+                                Non-foil
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-sm text-neutral-500">
+                              No pricing data
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {pendingDeckPrinting && (
+                      <div className="mt-4 flex justify-center gap-3">
+                        <button
+                          className="px-4 py-2 rounded border border-neutral-700 text-sm hover:bg-neutral-800"
+                          onClick={() => setPendingDeckPrinting(null)}
+                        >
+                          Keep Browsing
+                        </button>
 
-                    <button
-                      className="px-4 py-2 rounded bg-indigo-600 text-sm font-semibold hover:bg-indigo-500"
-                      onClick={() => {
-                        const { baseScryfallId, newCard } = pendingDeckPrinting;
+                        <button
+                          className="px-4 py-2 rounded bg-indigo-600 text-sm font-semibold hover:bg-indigo-500"
+                          onClick={() => {
+                            const { baseScryfallId, newCard } = pendingDeckPrinting;
 
-                        if (commanders.some(c => c.scryfallId === baseScryfallId)) {
-                          if (primaryCommander?.scryfallId === baseScryfallId) {
-                            setPrimaryCommander(newCard);
-                          } else if (partner?.scryfallId === baseScryfallId) {
-                            setPartner(newCard);
-                          } else if (friendsForever?.scryfallId === baseScryfallId) {
-                            setFriendsForever(newCard);
-                          } else if (doctorsCompanion?.scryfallId === baseScryfallId) {
-                            setDoctorsCompanion(newCard);
-                          } else if (background?.scryfallId === baseScryfallId) {
-                            setBackground(newCard);
-                          }
-                        } else {
-                          replaceDeck(
-                            deckCards.map(dc =>
-                              dc.card.scryfallId === baseScryfallId
-                                ? { ...dc, card: newCard }
-                                : dc
-                            )
-                          );
-                        }
+                            if (commanders.some(c => c.scryfallId === baseScryfallId)) {
+                              if (primaryCommander?.scryfallId === baseScryfallId) {
+                                setPrimaryCommander(newCard);
+                              } else if (partner?.scryfallId === baseScryfallId) {
+                                setPartner(newCard);
+                              } else if (friendsForever?.scryfallId === baseScryfallId) {
+                                setFriendsForever(newCard);
+                              } else if (doctorsCompanion?.scryfallId === baseScryfallId) {
+                                setDoctorsCompanion(newCard);
+                              } else if (background?.scryfallId === baseScryfallId) {
+                                setBackground(newCard);
+                              }
+                            } else {
+                              replaceDeck(
+                                deckCards.map(dc =>
+                                  dc.card.scryfallId === baseScryfallId
+                                    ? { ...dc, card: newCard }
+                                    : dc
+                                )
+                              );
+                            }
 
-                        setPendingDeckPrinting(null);
-                      }}
-                    >
-                      Update Deck
-                    </button>
-                  </div>
-                )}
+                            setPendingDeckPrinting(null);
+                          }}
+                        >
+                          Update Deck
+                        </button>
+                      </div>
+                    )}
+                </div>
             </div>
 
             {/* TEXT COLUMN */}

@@ -575,173 +575,199 @@ export default function MainPage() {
                 </section>
 
                 {detailIndex !== null && mode === "cards" && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 pt-27">
+                    <div className="fixed inset-0 z-50 flex px-4 pt-27">
                       <div className="absolute inset-0 bg-black/70" onClick={closeInspector} />
+                        <div className="flex-1 overflow-y-auto pb-6 flex justify-center">
+                          <div className="relative w-full max-w-4xl bg-neutral-950 border border-neutral-800 rounded-md shadow-2xl flex flex-col">
+                              <div className="flex items-center justify-between px-5 py-3 border-b border-neutral-800">
+                                <div className="flex gap-2">
+                                    <button
+                                    onClick={prevInspector}
+                                    className="
+                                      px-3 py-1 rounded
+                                      border border-neutral-700
+                                      text-sm text-neutral-200
+                                      shadow-(--spellframe-glow)
+                                      transition-colors
+                                      hover:bg-indigo-600/30
+                                      hover:border-indigo-400
+                                      hover:text-white
+                                    "
+                                    >
+                                    ← Prev
+                                    </button>
+                                    <button
+                                    onClick={nextInspector}
+                                    className="
+                                      px-3 py-1 rounded
+                                      border border-neutral-700
+                                      text-sm text-neutral-200
+                                      shadow-(--spellframe-glow)
+                                      transition-colors
+                                      hover:bg-indigo-600/30
+                                      hover:border-indigo-400
+                                      hover:text-white
+                                    "                                    >
+                                    Next →
+                                    </button>
+                                </div>
 
-                        <div className="relative w-full max-w-4xl h-[90vh] bg-neutral-950 border border-neutral-800 rounded-md shadow-2xl flex flex-col">
-                            <div className="flex items-center justify-between px-5 py-3 border-b border-neutral-800">
-                              <div className="flex gap-2">
-                                  <button
-                                  onClick={prevInspector}
-                                  className="px-3 py-1 rounded border border-neutral-700 text-sm hover:bg-neutral-800 hover:shadow-(--spellframe-glow) transition-shadow"
-                                  >
-                                  ← Prev
-                                  </button>
-                                  <button
-                                  onClick={nextInspector}
-                                  className="px-3 py-1 rounded border border-neutral-700 text-sm hover:bg-neutral-800 hover:shadow-(--spellframe-glow) transition-shadow"
-                                  >
-                                  Next →
-                                  </button>
+                                <button
+                                    onClick={closeInspector}
+                                    className="
+                                      px-3 py-1 rounded
+                                      border border-neutral-700
+                                      text-sm text-neutral-200
+                                      shadow-(--spellframe-glow)
+                                      transition-colors
+                                      hover:bg-indigo-600/30
+                                      hover:border-indigo-400
+                                      hover:text-white
+                                    "                                 >
+                                    ✕ Close
+                                </button>
                               </div>
 
-                              <button
-                                  onClick={closeInspector}
-                                  className="px-3 py-1 rounded border border-neutral-700 text-sm hover:bg-neutral-800 hover:shadow-(--spellframe-glow) transition-shadow"
-                              >
-                                  ✕ Close
-                              </button>
-                            </div>
-
-                            <div ref={inspectorScrollRef} className="flex-1 overflow-y-auto">
-                              {!card ? (
-                                  <div className="p-6 text-neutral-500">Loading…</div>
-                              ) : (
-                                  <div className="p-6 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-8">
-                                    <div className="space-y-3">
-                                        {activePrinting ? (
-                                        <img
-                                            src={
-                                            activePrinting?.image ||
-                                            card.imageLarge ||
-                                            card.imageNormal
-                                            }
-                                            className="w-full max-w-[320px] rounded border border-neutral-800"
-                                            alt={card.name}
-                                        />
-                                        ) : (
-                                        <div
-                                            className="w-full max-w-[320px] rounded border border-neutral-800 bg-neutral-900"
-                                            style={{ aspectRatio: "63 / 88" }}
-                                        />
-                                        )}
-
-                                        {effectivePrices && (
-                                        <div className="mt-3 rounded-md border border-neutral-800 bg-neutral-900/60 px-3 py-3 text-center">
-                                            <div className="text-xs uppercase tracking-wide text-neutral-400 mb-1">
-                                            Current Average Price
-                                            </div>
-
-                                            <div className="flex items-center justify-center gap-2 text-lg font-semibold text-neutral-100">
-                                            {effectivePrices.usd_foil ? (
-                                                <>
-                                                <span>${effectivePrices.usd_foil}</span>
-                                                <span className="text-xs font-normal text-neutral-400">
-                                                    Foil
-                                                </span>
-                                                </>
-                                            ) : effectivePrices.usd ? (
-                                                <>
-                                                <span>${effectivePrices.usd}</span>
-                                                <span className="text-xs font-normal text-neutral-400">
-                                                    Non-foil
-                                                </span>
-                                                </>
-                                            ) : effectivePrices.eur_foil ? (
-                                                <>
-                                                <span>€{effectivePrices.eur_foil}</span>
-                                                <span className="text-xs font-normal text-neutral-400">
-                                                    Foil
-                                                </span>
-                                                </>
-                                            ) : effectivePrices.eur ? (
-                                                <>
-                                                <span>€{effectivePrices.eur}</span>
-                                                <span className="text-xs font-normal text-neutral-400">
-                                                    Non-foil
-                                                </span>
-                                                </>
-                                            ) : (
-                                                <span className="text-sm text-neutral-500">
-                                                No pricing data
-                                                </span>
-                                            )}
-                                            </div>
-                                        </div>
-                                        )}
-                                    </div>
-
-                                    <div className="space-y-6">
-                                        <section className="space-y-3">
-                                          <h2 className="text-3xl font-semibold text-neutral-100">
-                                              {card.name}
-                                          </h2>
-                                          <div className="text-sm text-neutral-400">{card.typeLine}</div>
-                                          <p className="whitespace-pre-line text-neutral-200">
-                                              {card.oracleText}
-                                          </p>
-                                          {card.flavorText && (
-                                              <p className="italic text-neutral-400">{card.flavorText}</p>
+                              <div ref={inspectorScrollRef} className="flex-1 overflow-y-auto">
+                                {!card ? (
+                                    <div className="p-6 text-neutral-500">Loading…</div>
+                                ) : (
+                                    <div className="p-6 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-8">
+                                      <div className="space-y-3">
+                                          {activePrinting ? (
+                                          <img
+                                              src={
+                                              activePrinting?.image ||
+                                              card.imageLarge ||
+                                              card.imageNormal
+                                              }
+                                              className="w-full max-w-[320px] rounded border border-neutral-800"
+                                              alt={card.name}
+                                          />
+                                          ) : (
+                                          <div
+                                              className="w-full max-w-[320px] rounded border border-neutral-800 bg-neutral-900"
+                                              style={{ aspectRatio: "63 / 88" }}
+                                          />
                                           )}
-                                        </section>
 
-                                        <hr className="border-neutral-800" />
+                                          {effectivePrices && (
+                                          <div className="mt-3 rounded-md border border-neutral-800 bg-neutral-900/60 px-3 py-3 text-center">
+                                              <div className="text-xs uppercase tracking-wide text-neutral-400 mb-1">
+                                              Current Average Price
+                                              </div>
 
-                                        <section className="space-y-2">
+                                              <div className="flex items-center justify-center gap-2 text-lg font-semibold text-neutral-100">
+                                              {effectivePrices.usd_foil ? (
+                                                  <>
+                                                  <span>${effectivePrices.usd_foil}</span>
+                                                  <span className="text-xs font-normal text-neutral-400">
+                                                      Foil
+                                                  </span>
+                                                  </>
+                                              ) : effectivePrices.usd ? (
+                                                  <>
+                                                  <span>${effectivePrices.usd}</span>
+                                                  <span className="text-xs font-normal text-neutral-400">
+                                                      Non-foil
+                                                  </span>
+                                                  </>
+                                              ) : effectivePrices.eur_foil ? (
+                                                  <>
+                                                  <span>€{effectivePrices.eur_foil}</span>
+                                                  <span className="text-xs font-normal text-neutral-400">
+                                                      Foil
+                                                  </span>
+                                                  </>
+                                              ) : effectivePrices.eur ? (
+                                                  <>
+                                                  <span>€{effectivePrices.eur}</span>
+                                                  <span className="text-xs font-normal text-neutral-400">
+                                                      Non-foil
+                                                  </span>
+                                                  </>
+                                              ) : (
+                                                  <span className="text-sm text-neutral-500">
+                                                  No pricing data
+                                                  </span>
+                                              )}
+                                              </div>
+                                          </div>
+                                          )}
+                                      </div>
+
+                                      <div className="space-y-6">
+                                          <section className="space-y-3">
+                                            <h2 className="text-3xl font-semibold text-neutral-100">
+                                                {card.name}
+                                            </h2>
+                                            <div className="text-sm text-neutral-400">{card.typeLine}</div>
+                                            <p className="whitespace-pre-line text-neutral-200">
+                                                {card.oracleText}
+                                            </p>
+                                            {card.flavorText && (
+                                                <p className="italic text-neutral-400">{card.flavorText}</p>
+                                            )}
+                                          </section>
+
+                                          <hr className="border-neutral-800" />
+
+                                          <section className="space-y-2">
+                                            <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-200">
+                                                Printings
+                                            </h3>
+
+                                              {cardPrintings ? (
+                                              <ul className="space-y-1 text-sm text-neutral-400">
+                                              {cardPrintings.map((p) => (
+                                                  <li key={p.scryfallId}>
+                                                  <button
+                                                      type="button"
+                                                      onClick={() =>
+                                                      setActivePrinting({
+                                                          image: p.imageLarge || p.imageNormal || null,
+                                                          prices: p.prices ?? null,
+                                                      })
+                                                      }
+                                                      className="text-left hover:underline hover:text-white transition"
+                                                  >
+                                                      {p.setName} ({p.collectorNumber})
+                                                  </button>
+                                                  </li>
+                                              ))}
+                                              </ul>
+                                          ) : (
+                                              <p className="text-sm text-neutral-500">Loading…</p>
+                                          )}
+                                          </section>
+
+                                          <hr className="border-neutral-800" />
+
+                                          <section className="space-y-2">
                                           <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-200">
-                                              Printings
+                                              Rulings
                                           </h3>
 
-                                            {cardPrintings ? (
-                                            <ul className="space-y-1 text-sm text-neutral-400">
-                                            {cardPrintings.map((p) => (
-                                                <li key={p.scryfallId}>
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                    setActivePrinting({
-                                                        image: p.imageLarge || p.imageNormal || null,
-                                                        prices: p.prices ?? null,
-                                                    })
-                                                    }
-                                                    className="text-left hover:underline hover:text-white transition"
-                                                >
-                                                    {p.setName} ({p.collectorNumber})
-                                                </button>
-                                                </li>
-                                            ))}
-                                            </ul>
-                                        ) : (
-                                            <p className="text-sm text-neutral-500">Loading…</p>
-                                        )}
-                                        </section>
-
-                                        <hr className="border-neutral-800" />
-
-                                        <section className="space-y-2">
-                                        <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-200">
-                                            Rulings
-                                        </h3>
-
-                                        {cardRulings ? (
-                                            <ul className="space-y-2 text-sm text-neutral-400">
-                                            {cardRulings.map((r, i) => (
-                                                <li key={i}>
-                                                <span className="block text-neutral-500 text-xs">
-                                                    {r.publishedAt}
-                                                </span>
-                                                {r.comment}
-                                                </li>
-                                            ))}
-                                            </ul>
-                                        ) : (
-                                            <p className="text-sm text-neutral-500">Loading…</p>
-                                        )}
-                                        </section>
+                                          {cardRulings ? (
+                                              <ul className="space-y-2 text-sm text-neutral-400">
+                                              {cardRulings.map((r, i) => (
+                                                  <li key={i}>
+                                                  <span className="block text-neutral-500 text-xs">
+                                                      {r.publishedAt}
+                                                  </span>
+                                                  {r.comment}
+                                                  </li>
+                                              ))}
+                                              </ul>
+                                          ) : (
+                                              <p className="text-sm text-neutral-500">Loading…</p>
+                                          )}
+                                          </section>
+                                      </div>
                                     </div>
-                                  </div>
-                              )}
-                            </div>
+                                )}
+                              </div>
+                          </div>
                         </div>
                     </div>
                       
