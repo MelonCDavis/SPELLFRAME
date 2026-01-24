@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import { apiGet } from "../services/apiClient";
+import { apiGet, apiPost } from "../services/apiClient";
 import ForgotPasswordModal from "../auth/ForgotPasswordModal";
 
 export default function LoginPage() {
@@ -168,7 +168,7 @@ export default function LoginPage() {
           isOpen={forgotOpen}
           onClose={() => setForgotOpen(false)}
           onSubmit={async ({ email }) => {
-            await apiPost("/api/auth.forgot-password", { email });
+            await apiPost("/api/auth/forgot-password", { email });
           }}
         />
     </div>
