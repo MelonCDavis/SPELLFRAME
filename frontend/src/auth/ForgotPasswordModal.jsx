@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-export default function ForgotPassordModal({
+export default function ForgotPasswordModal({
     isOpen,
     onClose,
     onSubmit,
 }) {
     const [email, setEmail]  = useState("");
-    const [error, setEror] = useState(null);
+    const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -30,7 +30,7 @@ export default function ForgotPassordModal({
         setLoading(true);
 
         try {
-            await onSUbmit?.({ email });
+            await onSubmit?.({ email });
             setSuccess(
                 "if an account exists for the email, a password reset link had been sent."
             );
@@ -48,7 +48,7 @@ export default function ForgotPassordModal({
                 <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
 
                 {error && <p className="text-red-500 mb-3">{error}</p>}
-                {success && <p className="text-green-400 mb-3"></p>}
+                {success && <p className="text-green-400 mb-3">{success}</p>}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input 
@@ -62,14 +62,14 @@ export default function ForgotPassordModal({
                     <button 
                       type="submit"
                       disabled={loading}
-                      className="w-full bg-indigo-600 py-2 deisabled:opacity-60"
+                      className="w-full bg-indigo-600 py-2 disabled:opacity-60"
                     >
                       {loading ? "Sending..." : "Send Reset Link"}
                     </button>
                 </form>
                 <button
                   type="button"
-                  onCLick={onClose}
+                  onClick={onClose}
                   className="mt-4 text-sm text-nuetral-400 hover:underline"
                 >
                     Cancel
