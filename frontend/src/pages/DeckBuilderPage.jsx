@@ -239,6 +239,19 @@ export default function DeckBuilderPage({
 
   }
 
+  const deckOwner = injectedDeck?.owner || injectedDeck?.user || null;
+
+  const ownerName =
+    isReadOnly && deckOwner
+      ? deckOwner.username
+      : user?.username;
+
+  const ownerAvatar =
+    isReadOnly && deckOwner
+      ? deckOwner.avatar
+      : user?.avatar;
+
+
   function updateCommanderPrinting(updatedCard) {
     if (!updatedCard?.scryfallId) return;
 
@@ -1224,8 +1237,8 @@ function truncateName(name, max = 22) {
               commanders={commanders}
               deckColors={deckColors}
               totalDeckCount={totalDeckCount}
-              ownerName={user?.username}
-              ownerAvatar={user?.avatar}
+              ownerName={ownerName}
+              ownerAvatar={ownerAvatar}
               isOwner={!isReadOnly}
               bannerSettings={bannerSettings}
               onBannerSettingsChange={setBannerSettings}
