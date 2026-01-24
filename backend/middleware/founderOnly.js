@@ -3,7 +3,7 @@ module.exports = function founderOnly(req, res, next) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
-  if (!req.user.founder) {
+  if (!req.user.isFounder) {
     return res.status(403).json({ error: "Founder access only" });
   }
 
