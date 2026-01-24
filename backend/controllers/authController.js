@@ -24,11 +24,12 @@ exports.register = async (req, res) => {
     await user.save({ validateBeforeSave: false });
 
     // 📧 Send verification email
-    const verifyUrl = `${process.env.FRONTEND_URL}/apu/auth/verify-email?token=${verificationToken}`;
+    const verifyUrl = `${process.env.BACKEND_URL}/api/auth/verify-email?token=${verificationToken}`;
 
     await sendEmail({
       to: user.email,
-      subject: "Verify your Commander Compendium email",
+      subject: "Verify your SPELLFRAME email",
+      tracking: false,
       html: `
         <h2>Welcome to SPELLFRAME!</h2>
         <p>Please verify your email by clicking the link below:</p>
