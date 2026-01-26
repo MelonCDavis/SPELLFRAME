@@ -129,7 +129,7 @@ export default function DeckBuilderAdvancedSearch({
         ))}
       </div>
       {allSets.length > 0 && (
-        <div ref={setDropdownRef} className="relative flex justify-end">
+        <div ref={setDropdownRef} className="relative flex justify-end w-full">
           <button
             type="button"
             onClick={() => setSetDropdownOpen((o) => !o)}
