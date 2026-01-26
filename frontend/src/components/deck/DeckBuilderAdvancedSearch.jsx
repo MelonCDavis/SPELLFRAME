@@ -33,6 +33,9 @@ export default function DeckBuilderAdvancedSearch({
   setSelectedColors,
   selectedTypes,
   setSelectedTypes,
+  selectedSet,
+  setSelectedSet,
+  allSets = [],
 }) {
   function toggleColor(color) {
     setSelectedColors(prev =>
@@ -91,6 +94,33 @@ export default function DeckBuilderAdvancedSearch({
             {type}
           </label>
         ))}
+      </div>
+      <div className="space-y-1">
+        <label className="text-xs text-neutral-400">
+          Set
+        </label>
+
+        <select
+          value={selectedSet}
+          onChange={(e) => setSelectedSet(e.target.value)}
+          className="
+            w-full
+            rounded-md
+            bg-neutral-900
+            border border-neutral-800
+            px-2 py-1
+            text-sm
+            text-neutral-200
+          "
+        >
+          <option value="">All sets</option>
+
+          {allSets.map((set) => (
+            <option key={set.code} value={set.code}>
+              {set.name}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

@@ -80,6 +80,8 @@ export default function DeckBuilderPage({
   const [importOpen, setImportOpen] = useState(false);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [selectedSet, setSelectedSet] = useState("");
+  const [allSets, setAllSets] = useState([]);
   const [mainboardError, setMainboardError] = useState(null);
   const mainboardInputRef = useRef(null);
   const [showVisibilityModal, setShowVisibilityModal] = useState(false);
@@ -106,6 +108,12 @@ export default function DeckBuilderPage({
   // =========================
   // 6) PERSISTENCE FUNCTIONS (SAVE / HYDRATE)
   // =========================
+  useEffect(() => {
+    apiGet("/api/cards/sets")
+      .then((res) => setAllSets(Array.isArray(res) ? res : []))
+      .catch(() => setAllSets([]));
+  }, []);
+
   useEffect(() => {
     if (state?.fromImport && primaryCommander) {
       setIsCommanderLocked(true);
@@ -1133,7 +1141,7 @@ function truncateName(name, max = 22) {
 
       if (hasText) {
         const q = mainboardQuery.trim();
-        parts.push(`(name:${q} or ${q})`);
+        parts.push(`(name:${q} or t:${q} or ${q})`);
       }
 
       if (selectedTypes.length > 0) {
@@ -1148,6 +1156,10 @@ function truncateName(name, max = 22) {
 
       if (deckColors.length > 0 && hasText) {
         parts.push(`ci<=${deckColors.join("")}`);
+      }
+
+      if (selectedSet) {
+        parts.push(`set:${selectedSet}`);
       }
 
       const finalQuery = parts.join(" ");
@@ -1733,6 +1745,9 @@ function truncateName(name, max = 22) {
               setSelectedColors={setSelectedColors}
               selectedTypes={selectedTypes}
               setSelectedTypes={setSelectedTypes}
+              selectedSet={selectedSet}
+              setSelectedSet={setSelectedSet}
+              allSets={allSets}
             />
           )}
         </form>
