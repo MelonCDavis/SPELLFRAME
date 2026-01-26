@@ -17,7 +17,16 @@ export default function CardTile({
       ? c.card_faces
       : null;
 
-  const hasBackFace = faces && faces.length > 1;
+  const hasFaceImages =
+    Array.isArray(faces) &&
+    faces.length > 1 &&
+    faces.every((f) =>
+      f?.imageNormal ||
+      f?.image_uris?.normal ||
+      f?.imageLarge ||
+      f?.imageSmall ||
+      f?.image_uris?.small
+    );
 
   const [showBack, setShowBack] = useState(false);
   const [isFlipping, setIsFlipping] = useState(false);
@@ -30,15 +39,20 @@ export default function CardTile({
     f?.image_uris?.small ||
     null;
 
-  const img = hasBackFace
+  const rootImg =
+    c?.imageLarge ||
+    c?.imageNormal ||
+    c?.image_uris?.normal ||
+    c?.imageSmall ||
+    c?.image_uris?.small ||
+    null;
+
+  const img = hasFaceImages
     ? showBack
       ? faceImg(faces[1])
       : faceImg(faces[0])
-    : c?.imageNormal ||
-      c?.image_uris?.normal ||
-      f?.imageLarge || 
-      c?.imageSmall ||
-      c?.image_uris?.small;
+    : rootImg;
+
 
   const name = c?.name || "Unknown Card";
   const isLegal = c?.isCommanderLegal;
@@ -86,7 +100,7 @@ export default function CardTile({
       )}
 
       {/* Flip badge */}
-      {hasBackFace && (
+      {hasFaceImages && (
         <button
           type="button"
           onClick={(e) => {
