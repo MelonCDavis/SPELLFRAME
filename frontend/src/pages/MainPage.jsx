@@ -82,6 +82,7 @@ export default function MainPage() {
   const [allSets, setAllSets] = useState([]);
   const [setDropdownOpen, setSetDropdownOpen] = useState(false);
   const setDropdownRef = useRef(null);
+  const searchFormRef = useRef(null);
 
   // inspector (read-only)
   const [detailList, setDetailList] = useState([]);
@@ -478,7 +479,7 @@ export default function MainPage() {
                 </div>
 
                 <section className="space-y-4">
-                    <form onSubmit={handleSearch} className="space-y-2 mx-auto max-w-5xl">
+                    <form ref={searchFormRef} onSubmit={handleSearch} className="space-y-2 mx-auto max-w-5xl">
                       <input
                           value={query}
                           onChange={(e) => setQuery(e.target.value)}
@@ -563,10 +564,7 @@ export default function MainPage() {
                                         onClick={async () => {
                                           setSelectedSet(set.code);
                                           setSetDropdownOpen(false);
-
-                                          await handleSearch({
-                                            preventDefault: () => {},
-                                          });
+                                          searchFormRef.current?.requestSubmit();                                
                                         }}
                                         className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800 text-neutral-200"
                                     >

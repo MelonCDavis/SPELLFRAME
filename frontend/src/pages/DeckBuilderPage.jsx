@@ -90,7 +90,7 @@ export default function DeckBuilderPage({
   const [exportOpen, setExportOpen] = useState(false);
   const [addDestination, setAddDestination] = useState("mainboard");
   const [isImporting, setIsImporting] = useState(false);
-
+  const searchFormRef = useRef(null);
   // =========================
   // 5) BANNER / APPEARANCE STATE
   // =========================
@@ -1130,7 +1130,8 @@ function truncateName(name, max = 22) {
     const hasText = mainboardQuery.trim().length > 0;
     const hasFilters =
       selectedColors.length > 0 ||
-      selectedTypes.length > 0;
+      selectedTypes.length > 0 ||
+      Boolean(selectedSet);
 
     if (!hasText && !hasFilters) return;
 
@@ -1645,7 +1646,7 @@ function truncateName(name, max = 22) {
     {/* MAINBOARD */}
     {isCommanderLocked === true && (
       <section className="w-full space-y-4">
-        <form onSubmit={searchMainboard} className="space-y-2">
+        <form ref={searchFormRef} onSubmit={searchMainboard} className="space-y-2">
           {/* Add destination toggle */}
           {!isReadOnly && (
             <div className="flex items-center gap-2 text-xs text-neutral-200">
@@ -1754,9 +1755,7 @@ function truncateName(name, max = 22) {
               setSelectedSet={setSelectedSet}
               allSets={allSets}
               onSetSelect={() => {
-                searchMainboard({
-                  preventDefault: () => {},
-                });
+                searchFormRef.current?.requestSubmit();
               }}
             />
           )}
