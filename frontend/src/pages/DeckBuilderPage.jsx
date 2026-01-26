@@ -1132,12 +1132,8 @@ function truncateName(name, max = 22) {
       const parts = [];
 
       if (hasText) {
-        const clean = sanitizeSearchQuery(mainboardQuery);
-        if (!clean) {
-          setMainboardError("Invalid search characters.");
-          return;
-        }
-        parts.push(clean);
+        const q = mainboardQuery.trim();
+        parts.push(`(name:${q} or ${q})`);
       }
 
       if (selectedTypes.length > 0) {
@@ -1166,7 +1162,7 @@ function truncateName(name, max = 22) {
         setMainboardResults([]);
         setMainboardQuery("");
         setMainboardError(
-          "Please check your spelling and search parameters and try again."
+          "There are no cards that match your search. Please refine your search."
         );                
         return;
       }
