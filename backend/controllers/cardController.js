@@ -226,20 +226,38 @@ exports.getAllSets = async (req, res) => {
   try {
     const response = await axios.get("https://api.scryfall.com/sets");
 
-    res.json(
-      response.data.data
-        .filter(set => !set.digital && set.set_type !== "token")
-        .map(set => ({
-          code: set.code,
-          name: set.name,
-          releasedAt: set.released_at,
-        }))
-        .sort(
-          (a, b) =>
-            new Date(b.releasedAt) - new Date(a.releasedAt)
-        )
-    );
+    const allowedSetTypes = new Set([
+      "core",
+      "expansion",
+      "universes_beyond",
+    ]);
+
+    const sets = response.data.data
+      .filter(set => {
+        if (set.digital) return false;
+
+        // Core / Expansion / Universes Beyond
+        if (allowedSetTypes.has(set.set_type)) return true;
+
+        // Secret Lair (special case)
+        if (set.parent_set_code === "sld") return true;
+
+        return false;
+      })
+      .map(set => ({
+        code: set.code,
+        name: set.name,
+        releasedAt: set.released_at,
+      }))
+      .sort(
+        (a, b) =>
+          new Date(b.releasedAt) - new Date(a.releasedAt)
+      );
+
+    res.json(sets);
   } catch (err) {
+    console.error("Failed to fetch sets", err);
     res.status(500).json({ error: "Failed to fetch sets" });
   }
 };
+
