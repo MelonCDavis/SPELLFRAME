@@ -1145,6 +1145,10 @@ function truncateName(name, max = 22) {
         parts.push(`(name:${q} or t:${q} or ${q})`);
       }
 
+      if (!hasText && selectedSet) {
+        parts.push("game:paper");
+      }
+
       if (selectedTypes.length > 0) {
         parts.push(
           `(${selectedTypes.map(t => `t:${t}`).join(" or ")})`

@@ -134,6 +134,7 @@ export default function DeckBuilderAdvancedSearch({
             type="button"
             onClick={() => setSetDropdownOpen((o) => !o)}
             className="
+              ml-auto
               min-w-64 px-3 py-2 rounded-md
               border border-neutral-800 bg-neutral-900
               text-sm text-left text-neutral-200

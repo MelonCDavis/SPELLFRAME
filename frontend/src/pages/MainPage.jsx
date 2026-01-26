@@ -305,6 +305,10 @@ export default function MainPage() {
             parts.push(`(name:${q} or ${q})`);
           }
 
+          if (!hasText && selectedSet) {
+            parts.push("game:paper");
+          }
+
           if (selectedTypes.length > 0) {
             parts.push(`(${selectedTypes.map((t) => `t:${t}`).join(" or ")})`);
           }
@@ -559,8 +563,6 @@ export default function MainPage() {
                                         onClick={() => {
                                           setSelectedSet(set.code);
                                           setSetDropdownOpen(false);
-
-                                          // trigger immediate search for set selection
                                           handleSearch({
                                             preventDefault: () => {},
                                           });
