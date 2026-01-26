@@ -229,17 +229,21 @@ exports.getAllSets = async (req, res) => {
     const allowedSetTypes = new Set([
       "core",
       "expansion",
-      "universes_beyond",
+      "commander",
+      "masters",
+      "draft_innovation",
+      "box",
     ]);
 
     const sets = response.data.data
       .filter(set => {
         if (set.digital) return false;
+        if (set.set_type === "token") return false;
 
-        // Core / Expansion / Universes Beyond
+        // Core paper sets
         if (allowedSetTypes.has(set.set_type)) return true;
 
-        // Secret Lair (special case)
+        // Explicit Secret Lair safety net
         if (set.parent_set_code === "sld") return true;
 
         return false;

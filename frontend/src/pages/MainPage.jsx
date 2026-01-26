@@ -560,10 +560,11 @@ export default function MainPage() {
                                     <button
                                         key={set.code}
                                         type="button"
-                                        onClick={() => {
+                                        onClick={async () => {
                                           setSelectedSet(set.code);
                                           setSetDropdownOpen(false);
-                                          handleSearch({
+
+                                          await handleSearch({
                                             preventDefault: () => {},
                                           });
                                         }}
