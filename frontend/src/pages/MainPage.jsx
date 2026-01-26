@@ -300,7 +300,10 @@ export default function MainPage() {
 
           const parts = [];
 
-          if (hasText) parts.push(buildTypedQuery(query));
+          if (hasText) {
+            const q = query.trim();
+            parts.push(`(name:${q} or ${q})`);
+          }
 
           if (selectedTypes.length > 0) {
             parts.push(`(${selectedTypes.map((t) => `t:${t}`).join(" or ")})`);
