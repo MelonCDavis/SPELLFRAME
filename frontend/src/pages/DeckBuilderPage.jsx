@@ -1754,9 +1754,7 @@ function truncateName(name, max = 22) {
               setSelectedSet={setSelectedSet}
               allSets={allSets}
               onSetSelect={() => {
-                searchMainboard({
-                  preventDefault: () => {},
-                });
+                searchMainboard(new Event("submit"));
               }}
             />
           )}
