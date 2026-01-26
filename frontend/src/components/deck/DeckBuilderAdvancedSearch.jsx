@@ -1,3 +1,32 @@
+import { useRef } from "react";
+
+useEffect(() => {
+  if (!setDropdownOpen) return;
+
+  function handleClickOutside(e) {
+    if (
+      setDropdownRef.current &&
+      !setDropdownRef.current.contains(e.target)
+    ) {
+      setSetDropdownOpen(false);
+    }
+  }
+
+  function handleEscape(e) {
+    if (e.key === "Escape") {
+      setSetDropdownOpen(false);
+    }
+  }
+
+  document.addEventListener("mousedown", handleClickOutside);
+  document.addEventListener("keydown", handleEscape);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+    document.removeEventListener("keydown", handleEscape);
+  };
+}, [setDropdownOpen]);
+
 const COLOR_STYLES = {
   w: "border-neutral-300 text-neutral-200 shadow-[0_0_8px_rgba(255,255,255,0.35)]",
   u: "border-blue-500 text-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]",
