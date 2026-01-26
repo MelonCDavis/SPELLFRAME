@@ -33,6 +33,10 @@ export default function MainPage() {
   const [cardResults, setCardResults] = useState([]);
   const [deckResults, setDeckResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hasActiveSearch, setHasActiveSearch] = useState(false);
+  const [committedQuery, setCommittedQuery] = useState("");
+  const [baseCardResults, setBaseCardResults] = useState([]);
+  const [searchMessage, setSearchMessage] = useState("");
 
   // sets dropdown
   const [allSets, setAllSets] = useState([]);
@@ -127,6 +131,10 @@ export default function MainPage() {
     setSelectedColors([]);
     setSelectedTypes([]);
     setSelectedSet("");
+    setHasActiveSearch(false);
+    setCommittedQuery("");
+    setBaseCardResults([]);
+    setSearchMessage("");
   }, [mode]);
 
   function toggleColor(color) {
@@ -231,38 +239,101 @@ export default function MainPage() {
 
     if (!hasText && !hasFilters) return;
 
-    try {
-      setLoading(true);
+        try {
+          setLoading(true);
+          setSearchMessage("");
 
-      const parts = [];
+          const parts = [];
 
-      if (hasText) parts.push(query.trim());
+          if (hasText) parts.push(query.trim());
+
+          if (selectedTypes.length > 0) {
+            parts.push(`(${selectedTypes.map((t) => `t:${t}`).join(" or ")})`);
+          }
+
+          if (selectedColors.length > 0) {
+            parts.push(`ci=${selectedColors.join("")}`);
+          }
+
+          if (selectedSet) {
+            parts.push(`set:${selectedSet}`);
+          }
+
+          const finalQuery = parts.join(" ");
+          const res = await apiGet(
+            `/api/cards/search?q=${encodeURIComponent(finalQuery)}&unique=prints`
+          );
+
+          const cards = Array.isArray(res?.cards) ? res.cards : [];
+
+          if (cards.length === 0) {
+            setHasActiveSearch(false);
+            setCommittedQuery("");
+            setBaseCardResults([]);
+            setCardResults([]);
+            setSearchMessage(
+              "There are no cards that match your search. Please refine your search and try again."
+            );
+            return;
+          }
+
+          setCommittedQuery(query.trim());
+          setBaseCardResults(cards);
+          setCardResults(cards);
+          setHasActiveSearch(true);
+
+          if (cards.length === 200) {
+            setSearchMessage(
+              "Only 200 cards are displayed. Please refine your search."
+            );
+          }
+        } catch (err) {
+          console.error("MainPage card search failed", err);
+          setHasActiveSearch(false);
+          setCommittedQuery("");
+          setBaseCardResults([]);
+          setCardResults([]);
+          setSearchMessage(
+            "There are no cards that match your search. Please refine your search and try again."
+          );
+        } finally {
+          setLoading(false);
+        }
+  }
+
+    useEffect(() => {
+      if (!hasActiveSearch) return;
+
+      let filtered = [...baseCardResults];
 
       if (selectedTypes.length > 0) {
-        parts.push(`(${selectedTypes.map((t) => `t:${t}`).join(" or ")})`);
+        filtered = filtered.filter((c) =>
+          selectedTypes.some((t) =>
+            c.typeLine?.toLowerCase().includes(t)
+          )
+        );
       }
 
       if (selectedColors.length > 0) {
-        parts.push(`ci=${selectedColors.join("")}`);
+        filtered = filtered.filter((c) =>
+          selectedColors.every((col) =>
+            (c.colorIdentity || []).includes(col.toUpperCase())
+          )
+        );
       }
 
       if (selectedSet) {
-        parts.push(`set:${selectedSet}`);
+        filtered = filtered.filter((c) => c.set === selectedSet);
       }
 
-      const finalQuery = parts.join(" ");
-      const res = await apiGet(
-        `/api/cards/search?q=${encodeURIComponent(finalQuery)}&unique=prints`
-      );
-
-      setCardResults(Array.isArray(res?.cards) ? res.cards : []);
-    } catch (err) {
-      console.error("MainPage card search failed", err);
-      setCardResults([]);
-    } finally {
-      setLoading(false);
-    }
-  }
+      setCardResults(filtered);
+    }, [
+      hasActiveSearch,
+      baseCardResults,
+      selectedTypes,
+      selectedColors,
+      selectedSet,
+    ]);
 
   async function searchPublicDecks() {
     try {
@@ -564,12 +635,21 @@ export default function MainPage() {
                         ))}
                         </ul>
                     ) : mode === "cards" ? (
+                      <>
+                        {searchMessage && (
+                          <div className="flex justify-center py-4">
+                            <div className="text-sm text-neutral-300 text-center px-4 py-2 rounded-md bg-neutral-900/60 border border-neutral-700">
+                              {searchMessage}
+                            </div>
+                          </div>
+                        )}
                         <CardGrid
                         cards={cardResults}
                         loading={loading}
                         onSelect={openInspector}
                         identityKey={identityKey}
                         />
+                      </>  
                     ) : null}
                   </div>
                 </section>
