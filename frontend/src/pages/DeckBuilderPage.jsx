@@ -28,6 +28,7 @@ export default function DeckBuilderPage({
     // =========================
   // 1) ROUTING / MODE
   // =========================
+  const [setDropdownOpen, setSetDropdownOpen] = useState(false);
   const location = useLocation();
   const state = location.state;
   const { deckId: routeDeckId } = useParams();

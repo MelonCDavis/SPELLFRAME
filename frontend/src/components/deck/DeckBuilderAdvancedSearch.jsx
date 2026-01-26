@@ -95,33 +95,57 @@ export default function DeckBuilderAdvancedSearch({
           </label>
         ))}
       </div>
-      <div className="space-y-1">
-        <label className="text-xs text-neutral-400">
-          Set
-        </label>
+      {allSets.length > 0 && (
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setSetDropdownOpen((o) => !o)}
+            className="
+              min-w-64 px-3 py-2 rounded-md
+              border border-neutral-800 bg-neutral-900
+              text-sm text-left text-neutral-200
+              hover:shadow-(--spellframe-glow)
+              transition-shadow
+            "
+          >
+            {selectedSet
+              ? allSets.find((s) => s.code === selectedSet)?.name ??
+                `Set: ${selectedSet}`
+              : "Browse by Set"}
+          </button>
 
-        <select
-          value={selectedSet}
-          onChange={(e) => setSelectedSet(e.target.value)}
-          className="
-            w-full
-            rounded-md
-            bg-neutral-900
-            border border-neutral-800
-            px-2 py-1
-            text-sm
-            text-neutral-200
-          "
-        >
-          <option value="">All sets</option>
+          {setDropdownOpen && (
+            <div className="absolute right-0 mt-2 z-50 w-80 max-h-96 overflow-y-auto rounded-md border border-neutral-800 bg-neutral-950 shadow-lg">
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedSet("");
+                  setSetDropdownOpen(false);
+                }}
+                className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800 text-neutral-300"
+              >
+                Clear set filter
+              </button>
 
-          {allSets.map((set) => (
-            <option key={set.code} value={set.code}>
-              {set.name}
-            </option>
-          ))}
-        </select>
-      </div>
+              <div className="h-px bg-neutral-800" />
+
+              {allSets.map((set) => (
+                <button
+                  key={set.code}
+                  type="button"
+                  onClick={() => {
+                    setSelectedSet(set.code);
+                    setSetDropdownOpen(false);
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800 text-neutral-200"
+                >
+                  {set.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
