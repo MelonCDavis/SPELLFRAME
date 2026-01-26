@@ -387,7 +387,7 @@ export default function MainPage() {
       }
 
       if (selectedSet) {
-        filtered = filtered.filter((c) => c.set === selectedSet);
+        filtered = filtered.filter((c) => c.setCode === selectedSet);
       }
 
       setCardResults(filtered);

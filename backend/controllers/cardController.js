@@ -228,7 +228,7 @@ exports.getAllSets = async (req, res) => {
 
     res.json(
       response.data.data
-        .filter(set => set.set_type === "expansion" || set.set_type === "core")
+        .filter(set => !set.digital && set.set_type !== "token")
         .map(set => ({
           code: set.code,
           name: set.name,

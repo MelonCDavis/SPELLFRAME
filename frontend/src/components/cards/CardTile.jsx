@@ -25,6 +25,7 @@ export default function CardTile({
   const faceImg = (f) =>
     f?.imageNormal ||
     f?.image_uris?.normal ||
+    f?.imageLarge || 
     f?.imageSmall ||
     f?.image_uris?.small ||
     null;
@@ -35,6 +36,7 @@ export default function CardTile({
       : faceImg(faces[0])
     : c?.imageNormal ||
       c?.image_uris?.normal ||
+      f?.imageLarge || 
       c?.imageSmall ||
       c?.image_uris?.small;
 
