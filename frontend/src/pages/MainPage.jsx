@@ -152,7 +152,6 @@ export default function MainPage() {
               if (s.set_type === "token") return false;
               return true;                           
             })
-            .sort((a, b) => a.name.localeCompare(b.name));
 
           setAllSets(normalized);
         })
