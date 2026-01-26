@@ -38,6 +38,25 @@ function buildTypedQuery(raw) {
   return `o:"${raw.trim()}"`;
 }
 
+function normalizeCardImage(card) {
+  if (!card) return card;
+
+  const image =
+    card.imageLarge ||
+    card.imageNormal ||
+    card.imageSmall ||
+    card.card_faces?.[0]?.imageLarge ||
+    card.card_faces?.[0]?.imageNormal ||
+    card.card_faces?.[0]?.imageSmall ||
+    null;
+
+  return {
+    ...card,
+    imageLarge: image,
+    imageNormal: image,
+  };
+}
+
 export default function MainPage() {
   // "cards" | "decks" | "users"
   const navigate = useNavigate();
@@ -119,11 +138,26 @@ export default function MainPage() {
     return fromAnyPrinting;
   }, [activePrinting, cardPrintings]);
 
-  useEffect(() => {
-    apiGet("/api/cards/sets")
-      .then((res) => setAllSets(Array.isArray(res) ? res : []))
-      .catch(() => setAllSets([]));
-  }, []);
+    useEffect(() => {
+      apiGet("/api/cards/sets")
+        .then((res) => {
+          if (!Array.isArray(res)) {
+            setAllSets([]);
+            return;
+          }
+
+          const normalized = res
+            .filter((s) => {
+              if (s.digital) return false;       
+              if (s.set_type === "token") return false;
+              return true;                           
+            })
+            .sort((a, b) => a.name.localeCompare(b.name));
+
+          setAllSets(normalized);
+        })
+        .catch(() => setAllSets([]));
+    }, []);
 
   useEffect(() => {
     if (!setDropdownOpen) return;
@@ -211,6 +245,7 @@ export default function MainPage() {
     setActivePrinting({
       image: c.imageLarge || c.imageNormal || null,
       prices: c.prices ?? null,
+      finishes: [],
     });
 
     requestAnimationFrame(() => {
@@ -285,7 +320,9 @@ export default function MainPage() {
             `/api/cards/search?q=${encodeURIComponent(finalQuery)}&unique=prints`
           );
 
-          const cards = Array.isArray(res?.cards) ? res.cards : [];
+          const cards = Array.isArray(res?.cards)
+            ? res.cards.map(normalizeCardImage)
+            : [];
 
           if (cards.length === 0) {
             setHasActiveSearch(false);
@@ -831,10 +868,11 @@ export default function MainPage() {
                                                 <button
                                                     type="button"
                                                     onClick={() =>
-                                                    setActivePrinting({
-                                                        image: p.imageLarge || p.imageNormal || null,
-                                                        prices: p.prices ?? null,
-                                                    })
+                                                      setActivePrinting({
+                                                          image: p.imageLarge || p.imageNormal || null,
+                                                          prices: p.prices ?? null,
+                                                          finishes: p.finishes ?? [],
+                                                      })
                                                     }
                                                     className="text-left hover:underline hover:text-white transition"
                                                 >
