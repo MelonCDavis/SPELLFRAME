@@ -38,6 +38,7 @@ export default function DeckBuilderAdvancedSearch({
   selectedSet,
   setSelectedSet,
   allSets = [],
+  onSetSelect,
 }) {
     const [setDropdownOpen, setSetDropdownOpen] = useState(false);
     const setDropdownRef = useRef(null);
@@ -168,6 +169,10 @@ export default function DeckBuilderAdvancedSearch({
                   onClick={() => {
                     setSelectedSet(set.code);
                     setSetDropdownOpen(false);
+
+                    if (onSetSelect) {
+                      onSetSelect();
+                    }
                   }}
                   className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800 text-neutral-200"
                 >

@@ -557,8 +557,13 @@ export default function MainPage() {
                                         key={set.code}
                                         type="button"
                                         onClick={() => {
-                                        setSelectedSet(set.code);
-                                        setSetDropdownOpen(false);
+                                          setSelectedSet(set.code);
+                                          setSetDropdownOpen(false);
+
+                                          // trigger immediate search for set selection
+                                          handleSearch({
+                                            preventDefault: () => {},
+                                          });
                                         }}
                                         className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800 text-neutral-200"
                                     >

@@ -1749,6 +1749,11 @@ function truncateName(name, max = 22) {
               selectedSet={selectedSet}
               setSelectedSet={setSelectedSet}
               allSets={allSets}
+              onSetSelect={() => {
+                searchMainboard({
+                  preventDefault: () => {},
+                });
+              }}
             />
           )}
         </form>
