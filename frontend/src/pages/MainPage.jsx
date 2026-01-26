@@ -17,6 +17,27 @@ function identityKey(card) {
   return null;
 }
 
+function hasExplicitScryfallSyntax(q) {
+  return /\b(t:|o:|ci:|set:)\b/i.test(q);
+}
+
+function isSingleToken(q) {
+  return q.trim().split(/\s+/).length === 1;
+}
+
+function buildTypedQuery(raw) {
+  const q = raw.trim().toLowerCase();
+
+  // Explicit syntax wins — do not reinterpret
+  if (hasExplicitScryfallSyntax(q)) return raw.trim();
+
+  if (isSingleToken(q)) {
+    return `t:${q}`;
+  }
+
+  return `o:"${raw.trim()}"`;
+}
+
 export default function MainPage() {
   // "cards" | "decks" | "users"
   const navigate = useNavigate();
@@ -245,7 +266,7 @@ export default function MainPage() {
 
           const parts = [];
 
-          if (hasText) parts.push(query.trim());
+          if (hasText) parts.push(buildTypedQuery(query));
 
           if (selectedTypes.length > 0) {
             parts.push(`(${selectedTypes.map((t) => `t:${t}`).join(" or ")})`);
