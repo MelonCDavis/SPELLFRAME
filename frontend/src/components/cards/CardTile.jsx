@@ -74,8 +74,6 @@ export default function CardTile({
               ${isFlipping ? "scale-x-0" : "scale-x-100"}
             `}
           />
-
-          {(c?.isFoil || card?.isFoil) && <FoilSticker />}
         </>
       ) : (
         <div className="flex h-full w-full items-center justify-center p-3 text-center text-xs text-neutral-400">

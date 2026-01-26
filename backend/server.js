@@ -92,7 +92,7 @@ app.use("/api/collection", writeLimiter, collectionRoutes);
 app.use("/api/decks", writeLimiter, deckRoutes);
 
 app.get("/", (req, res) => {
-  res.send("THE COMMANDER COMPENDIUM API RUNNING");
+  res.send("THE SPELLFRAME API RUNNING");
 });
 
 const PORT = process.env.PORT || 3000;

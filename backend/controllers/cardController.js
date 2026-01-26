@@ -56,10 +56,6 @@ exports.searchScryfall = async (req, res) => {
       setName: card.set_name,
       collectorNumber: card.collector_number,
       rarity: card.rarity,
-      isFoil: Boolean(
-        card.foil ||
-        card.finishes?.includes("foil")
-      ),
       legalities: {
         commander: card.legalities.commander,
         modern: card.legalities.modern,
@@ -212,7 +208,7 @@ exports.getPrintings = async (req, res) => {
         rarity: card.rarity,
         imageSmall: card.image_uris?.small,
         imageNormal: card.image_uris?.normal,
-        isFoil: Boolean(card.foil || card.finishes?.includes("foil")),
+        isFoil: card.finishes?.includes("foil") ?? false,
         prices: card.prices ?? null, 
       })),
     });
