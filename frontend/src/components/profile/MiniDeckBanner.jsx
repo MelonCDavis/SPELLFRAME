@@ -31,9 +31,9 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
   const rgb = Array.isArray(deck.bannerRGB) ? deck.bannerRGB : [168, 85, 247];
 
   const artUrl =
+    commander?.artCrop ||
     commander?.imageLarge ||
     commander?.imageNormal ||
-    commander?.imageSmall ||
     null;
 
   return (
@@ -42,8 +42,8 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
         className="absolute inset-0 z-0 bg-no-repeat"
         style={{
           backgroundImage: artUrl ? `url(${artUrl})` : undefined,
-          backgroundSize: "auto 555%",
-          backgroundPosition: `right ${y}%`,
+          backgroundSize: "cover",
+          backgroundPosition: `center ${y}%`,
         }}
       />
 

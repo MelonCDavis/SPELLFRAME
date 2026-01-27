@@ -16,6 +16,12 @@ export default function CommanderBanner({
 }) {
   const primary = commanders?.[0];
 
+  const bannerArt =
+  primary?.artCrop ||
+  primary?.imageLarge ||
+  primary?.imageNormal ||
+  null;
+
   const [editing, setEditing] = useState(false);
 
   const [settings, setSettings] = useState({
@@ -47,14 +53,6 @@ export default function CommanderBanner({
 
   const [saveMenuOpen, setSaveMenuOpen] = useState(false);
   const saveMenuRef = useRef(null);
-
-  const bannerImage =
-    primary?.imageArtCrop ||
-    primary?.image_uris?.art_crop ||
-    primary?.card_faces?.[0]?.image_uris?.art_crop ||
-    primary?.imageLarge ||
-    primary?.imageNormal ||
-    null;
 
   useEffect(() => {
     if (!saveMenuOpen) return;
@@ -97,54 +95,36 @@ export default function CommanderBanner({
   return (
     <section className="relative z-20 w-screen left-1/2 right-1/2 -mx-[50vw] mb-6">
       <div className="relative">
-<div
-  className="hidden lg:block bg-no-repeat"
-  style={{
-    height: "275px",
-    backgroundImage: bannerImage ? `url(${bannerImage})` : undefined,
-    backgroundSize: "auto 555%",
-    backgroundPosition: `right ${settings.y}%`,
-  }}
-/>
-
-{/* MD */}
-<div
-  className="hidden sm:block lg:hidden bg-no-repeat"
-  style={{
-    height: "220px",
-    backgroundImage: bannerImage ? `url(${bannerImage})` : undefined,
-    backgroundSize: "auto 555%",
-    backgroundPosition: `right ${settings.y}%`,
-  }}
-/>
-
-{/* SM */}
-<div
-  className="block sm:hidden bg-no-repeat"
-  style={{
-    height: "180px",
-    backgroundImage: bannerImage ? `url(${bannerImage})` : undefined,
-    backgroundSize: "auto 555%",
-    backgroundPosition: `right ${settings.y}%`,
-  }}
-/>
-
-        {/* PERMANENT LEFT SOFT EDGE */}
         <div
-            className="pointer-events-none absolute inset-0 z-10"
-            style={{
-            background: `
-                linear-gradient(
-                to right,
-                rgba(10,10,10,0.95) 31%,
-                rgba(10,10,10,0.85) 33%,
-                rgba(10,10,10,0.75) 35%,
-                rgba(10,10,10,0.45) 38%,
-                rgba(10,10,10,0.25) 42%,
-                transparent 55%
-                )
-            `,
-            }}
+          className="hidden lg:block bg-no-repeat"
+          style={{
+            height: "275px",
+            backgroundImage: bannerArt ? `url(${bannerArt})` : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: `center ${settings.y}%`,
+          }}
+        />
+
+        {/* MD */}
+        <div
+          className="hidden sm:block lg:hidden bg-no-repeat"
+          style={{
+            height: "220px",
+            backgroundImage: bannerArt ? `url(${bannerArt})` : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: `center ${settings.y}%`,    
+          }}
+        />
+
+        {/* SM */}
+        <div
+          className="block sm:hidden bg-no-repeat"
+          style={{
+            height: "180px",
+            backgroundImage: bannerArt ? `url(${bannerArt})` : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: `center ${settings.y}%`,
+          }}
         />
       </div>
       {/* LEFT fade */}
