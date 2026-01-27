@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import BannerArtEditorModal from "./BannerArtEditorModal";
 
 export default function CommanderBanner({
   deckName,
@@ -23,12 +24,15 @@ export default function CommanderBanner({
   null;
 
   const [editing, setEditing] = useState(false);
+  const [editingArt, setEditingArt] = useState(false);
 
   const [settings, setSettings] = useState({
-    y: 25,           
-    leftFade: 0.7,   
-    rightFade: 0.2,  
-    color: "black",  
+    zoom: 1,
+    x: 0.5,
+    y: 0.5,
+    leftFade: 0.7,
+    rightFade: 0.2,
+    color: "black",
     ...(bannerSettings || {}),
   });
 
@@ -330,25 +334,28 @@ export default function CommanderBanner({
               </button>
             </div>
 
-            {/* Card art position */}
-            <div>
-              <label className="block text-xs text-neutral-300/80 mb-1">
-                Card art position
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={settings.y}
-                onChange={(e) =>
-                  setSettings((s) => ({
-                    ...s,
-                    y: Number(e.target.value),
-                  }))
-                }
-                className="w-full"
-              />
-            </div>
+            {/* Banner art editor */}
+              <div className="flex justify-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditing(false);
+                    setEditingArt(true);
+                  }}
+                  className="
+                    px-4 py-2
+                    rounded-md
+                    border border-neutral-600
+                    text-sm font-medium text-neutral-200
+                    shadow-(--spellframe-glow)
+                    transition
+                    hover:border-neutral-400
+                    hover:bg-neutral-800
+                  "
+                >
+                  Edit Banner Art…
+                </button>
+              </div>
 
             {/* Left fade */}
             <div>
@@ -422,6 +429,20 @@ export default function CommanderBanner({
             </div>
           </div>
         </div>
+      )}
+      {editingArt && (
+        <BannerArtEditorModal
+          image={bannerArt}
+          value={settings}
+          onChange={(next) => {
+            setSettings(next);
+            onBannerSettingsChange?.(next);
+          }}
+          onClose={() => {
+            setEditingArt(false);
+            setEditing(true);
+          }}
+        />
       )}
     </section>
   );
