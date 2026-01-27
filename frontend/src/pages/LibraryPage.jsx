@@ -629,9 +629,9 @@ export default function LibraryPage() {
 
               
             
-              <div className="flex flex-col gap-4 items-center md:items-stretch order-2 lg:order-0 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4">
+              <div className="flex flex-col gap-4 items-center order-2 md:items-stretch lg:order-0 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4">
                 {/* Type Filter */}
-                <div className="w-full flex justify-center lg:col-span-2">
+                <div className="w-full flex justify-center order-2 lg:order-0 lg:col-span-2">
                   <div
                     className="
                       inline-flex flex-wrap gap-4
@@ -663,7 +663,7 @@ export default function LibraryPage() {
                 {/* EMPTY RIGHT CELL — keeps column alignment */}
                 <div />
                 {/* SEARCH MODE — ROW 2 / LEFT */}
-                <div className="w-full flex justify-center lg:col-span-1">
+                <div className="w-full flex justify-center order-4 lg:order-0 lg:col-span-1">
                   <div
                     className="
                       inline-flex gap-6
@@ -698,7 +698,7 @@ export default function LibraryPage() {
                   </div>
                 </div>
                 {/* MANA FILTER — ROW 2 / RIGHT */}
-                <div className="w-full flex justify-center lg:col-span-1">
+                <div className="w-full flex justify-center order-1 lg:order-0 lg:col-span-1">
                   <div
                     className="
                       inline-flex items-center
@@ -738,7 +738,7 @@ export default function LibraryPage() {
                 </div>
               </div>           
               {/* Search + Set Browser */}
-              <div className="flex gap-3 items-center order-1 lg:order-0">
+              <div className="flex flex-col gap-3 items-stretch order-1 md:flex-row md:items-center lg:order-0">
                 {/* Search input (form ONLY wraps input) */}
                 <form onSubmit={searchLibrary} className="flex-1">
                   <input
