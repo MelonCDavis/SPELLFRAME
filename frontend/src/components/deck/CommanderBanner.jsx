@@ -104,8 +104,8 @@ export default function CommanderBanner({
           style={{
             height: "275px",
             backgroundImage: bannerArt ? `url(${bannerArt})` : undefined,
-            backgroundSize: "cover",
-            backgroundPosition: `center ${settings.y}%`,
+            backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
+            backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
           }}
         />
 
@@ -115,8 +115,8 @@ export default function CommanderBanner({
           style={{
             height: "220px",
             backgroundImage: bannerArt ? `url(${bannerArt})` : undefined,
-            backgroundSize: "cover",
-            backgroundPosition: `center ${settings.y}%`,    
+            backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
+            backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,    
           }}
         />
 
@@ -126,8 +126,8 @@ export default function CommanderBanner({
           style={{
             height: "180px",
             backgroundImage: bannerArt ? `url(${bannerArt})` : undefined,
-            backgroundSize: "cover",
-            backgroundPosition: `center ${settings.y}%`,
+            backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
+            backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
           }}
         />
       </div>
