@@ -627,111 +627,9 @@ export default function LibraryPage() {
                 </p>
               </header>
 
-              {/* Search + Set Browser */}
-              <div className="flex gap-3 items-center order-1 lg:order-none">
-                {/* Search input (form ONLY wraps input) */}
-                <form onSubmit={searchLibrary} className="flex-1">
-                  <input
-                    value={query}
-                    onChange={e => setQuery(e.target.value)}
-                    placeholder="Search cards by name, type…"
-                    className="
-                    w-full 
-                    rounded-md 
-                    px-4 py-3
-                    bg-neutral-900 
-                    border
-                    border-neutral-800
-                    focus:outline-none
-                    "
-                    onFocus={e => {
-                      e.currentTarget.style.boxShadow = ROSE_ACTIVE_SHADOW;
-                      e.currentTarget.style.borderColor = "rgb(190,18,60)";
-                    }}
-                    onBlur={e => {
-                      e.currentTarget.style.boxShadow = "none";
-                      e.currentTarget.style.borderColor = "";
-                    }}
-                  />
-                </form>
-
-                {allSets.length > 0 && (
-                  <div ref={setDropdownRef} className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setSetDropdownOpen(o => !o)}
-                      className="
-                        min-w-64
-                        px-3
-                        py-3
-                        rounded-md
-                        border
-                        border-neutral-800
-                        bg-neutral-900
-                        text-sm
-                        text-left
-                        transition
-                      "
-                      style={{
-                        borderColor: "rgb(190,18,60)",
-                        boxShadow: ROSE_ACTIVE_SHADOW,
-                      }}
-                    >
-                      {activeSet ? activeSet.name : "Browse by Set"}
-                    </button>
-
-                    {setDropdownOpen && (
-                      <div
-                        className="
-                          absolute right-0 mt-2 z-50
-                          w-80 max-h-96 overflow-y-auto
-                          rounded-md
-                          border
-                          bg-neutral-950
-                        "
-                        style={{
-                          borderColor: "rgb(190,18,60)",
-                          boxShadow: ROSE_ACTIVE_SHADOW,
-                        }}
-                      >
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveSet(null);
-                            setSelectedSet("");
-                            setCurrentPage(1);
-                            setSetDropdownOpen(false);
-                          }}
-                          className="
-                            w-full
-                            px-4 py-2
-                            text-left
-                            text-sm
-                            text-neutral-300
-                            hover:bg-neutral-800
-                            border-b
-                            border-neutral-800
-                          "
-                        >
-                          Clear set filter
-                        </button>
-                        {allSets.map(set => (
-                          <button
-                            key={set.code}
-                            type="button"
-                            onClick={() => searchBySet(set)}
-                            className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800"
-                          >
-                            {set.name}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+              
             
-              <div className="flex flex-col gap-4 items-center md:items-stretch order-2 lg:order-none lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4">
+              <div className="flex flex-col gap-4 items-center md:items-stretch order-2 lg:order-0 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4">
                 {/* Type Filter */}
                 <div className="w-full flex justify-center lg:col-span-2">
                   <div
@@ -839,6 +737,109 @@ export default function LibraryPage() {
                   </div>
                 </div>
               </div>           
+              {/* Search + Set Browser */}
+              <div className="flex gap-3 items-center order-1 lg:order-0">
+                {/* Search input (form ONLY wraps input) */}
+                <form onSubmit={searchLibrary} className="flex-1">
+                  <input
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                    placeholder="Search cards by name, type…"
+                    className="
+                    w-full 
+                    rounded-md 
+                    px-4 py-3
+                    bg-neutral-900 
+                    border
+                    border-neutral-800
+                    focus:outline-none
+                    "
+                    onFocus={e => {
+                      e.currentTarget.style.boxShadow = ROSE_ACTIVE_SHADOW;
+                      e.currentTarget.style.borderColor = "rgb(190,18,60)";
+                    }}
+                    onBlur={e => {
+                      e.currentTarget.style.boxShadow = "none";
+                      e.currentTarget.style.borderColor = "";
+                    }}
+                  />
+                </form>
+
+                {allSets.length > 0 && (
+                  <div ref={setDropdownRef} className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setSetDropdownOpen(o => !o)}
+                      className="
+                        min-w-64
+                        px-3
+                        py-3
+                        rounded-md
+                        border
+                        border-neutral-800
+                        bg-neutral-900
+                        text-sm
+                        text-left
+                        transition
+                      "
+                      style={{
+                        borderColor: "rgb(190,18,60)",
+                        boxShadow: ROSE_ACTIVE_SHADOW,
+                      }}
+                    >
+                      {activeSet ? activeSet.name : "Browse by Set"}
+                    </button>
+
+                    {setDropdownOpen && (
+                      <div
+                        className="
+                          absolute right-0 mt-2 z-50
+                          w-80 max-h-96 overflow-y-auto
+                          rounded-md
+                          border
+                          bg-neutral-950
+                        "
+                        style={{
+                          borderColor: "rgb(190,18,60)",
+                          boxShadow: ROSE_ACTIVE_SHADOW,
+                        }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveSet(null);
+                            setSelectedSet("");
+                            setCurrentPage(1);
+                            setSetDropdownOpen(false);
+                          }}
+                          className="
+                            w-full
+                            px-4 py-2
+                            text-left
+                            text-sm
+                            text-neutral-300
+                            hover:bg-neutral-800
+                            border-b
+                            border-neutral-800
+                          "
+                        >
+                          Clear set filter
+                        </button>
+                        {allSets.map(set => (
+                          <button
+                            key={set.code}
+                            type="button"
+                            onClick={() => searchBySet(set)}
+                            className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800"
+                          >
+                            {set.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {searchMode === "all" &&
                 selectedColors.length === 0 &&
