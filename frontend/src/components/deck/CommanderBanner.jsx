@@ -17,6 +17,11 @@ export default function CommanderBanner({
 }) {
   const primary = commanders?.[0];
 
+  const artUrl = getArtCrop(primary)
+    || primary?.imageLarge
+    || primary?.imageNormal
+    || null;
+
   const bannerArt =
   primary?.artCrop ||
   primary?.imageLarge ||
@@ -57,6 +62,17 @@ export default function CommanderBanner({
 
   const [saveMenuOpen, setSaveMenuOpen] = useState(false);
   const saveMenuRef = useRef(null);
+
+  function getArtCrop(card) {
+    if (!card) return null;
+
+    return (
+      card.artCrop ||
+      card.imageUris?.art_crop ||
+      card.card_faces?.[0]?.imageUris?.art_crop ||
+      null
+    );
+  }
 
   useEffect(() => {
     if (!saveMenuOpen) return;
@@ -103,7 +119,7 @@ export default function CommanderBanner({
           className="hidden lg:block bg-no-repeat"
           style={{
             height: "275px",
-            backgroundImage: bannerArt ? `url(${bannerArt})` : undefined,
+            backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
           }}
@@ -114,7 +130,7 @@ export default function CommanderBanner({
           className="hidden sm:block lg:hidden bg-no-repeat"
           style={{
             height: "220px",
-            backgroundImage: bannerArt ? `url(${bannerArt})` : undefined,
+            backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,    
           }}
@@ -125,7 +141,7 @@ export default function CommanderBanner({
           className="block sm:hidden bg-no-repeat"
           style={{
             height: "180px",
-            backgroundImage: bannerArt ? `url(${bannerArt})` : undefined,
+            backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
           }}

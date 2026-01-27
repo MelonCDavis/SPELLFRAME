@@ -31,9 +31,9 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
   const rgb = Array.isArray(deck.bannerRGB) ? deck.bannerRGB : [168, 85, 247];
 
   const artUrl =
-    commander?.artCrop ||
-    commander?.imageLarge ||
-    commander?.imageNormal ||
+    deck.commanders?.[0]?.artCrop ||
+    deck.commanders?.[0]?.imageUris?.art_crop ||
+    deck.commanders?.[0]?.imageLarge ||
     null;
 
   return (
