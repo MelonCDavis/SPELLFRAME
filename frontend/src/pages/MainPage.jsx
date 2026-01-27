@@ -78,6 +78,10 @@ export default function MainPage() {
   const [baseCardResults, setBaseCardResults] = useState([]);
   const [searchMessage, setSearchMessage] = useState("");
 
+    // Pagination (cards only)
+  const PAGE_SIZE = 40;
+  const [currentPage, setCurrentPage] = useState(1);
+  
   // sets dropdown
   const [allSets, setAllSets] = useState([]);
   const [setDropdownOpen, setSetDropdownOpen] = useState(false);
@@ -122,6 +126,16 @@ export default function MainPage() {
   ];
 
   const card = detailList?.[detailIndex];
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(cardResults.length / PAGE_SIZE)
+  );
+
+  const paginatedCardResults = cardResults.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
 
   const effectivePrices = useMemo(() => {
     const fromActive = activePrinting?.prices ?? null;
@@ -181,6 +195,7 @@ export default function MainPage() {
 
   useEffect(() => {
     setCardResults([]);
+    setCurrentPage(1);
     setDeckResults([]);
     closeInspector();
     setSelectedColors([]);
@@ -345,6 +360,7 @@ export default function MainPage() {
           setCommittedQuery(query.trim());
           setBaseCardResults(cards);
           setCardResults(cards);
+          setCurrentPage(1);
           setHasActiveSearch(true);
 
           if (cards.length === 200) {
@@ -390,6 +406,8 @@ export default function MainPage() {
       if (selectedSet) {
         filtered = filtered.filter((c) => c.setCode === selectedSet);
       }
+
+      setCurrentPage(1);
 
       setCardResults(filtered);
     }, [
@@ -710,11 +728,44 @@ export default function MainPage() {
                           </div>
                         )}
                         <CardGrid
-                        cards={cardResults}
-                        loading={loading}
-                        onSelect={openInspector}
-                        identityKey={identityKey}
+                          cards={paginatedCardResults}
+                          loading={loading}
+                          onSelect={openInspector}
+                          identityKey={identityKey}
                         />
+                        {mode === "cards" && cardResults.length > PAGE_SIZE && (
+                          <div className="flex justify-center items-center gap-3 pt-6">
+                            <button
+                              disabled={currentPage === 1}
+                              onClick={() => setCurrentPage(p => p - 1)}
+                              className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
+                            >
+                              ←
+                            </button>
+
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                              <button
+                                key={p}
+                                onClick={() => setCurrentPage(p)}
+                                className={`px-3 py-1 text-sm rounded border ${
+                                  p === currentPage
+                                    ? "border-indigo-400 text-indigo-300 shadow-(--spellframe-glow)"
+                                    : "border-neutral-700 text-neutral-400 hover:text-neutral-200"
+                                }`}
+                              >
+                                {p}
+                              </button>
+                            ))}
+
+                            <button
+                              disabled={currentPage === totalPages}
+                              onClick={() => setCurrentPage(p => p + 1)}
+                              className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
+                            >
+                              →
+                            </button>
+                          </div>
+                        )}
                       </>  
                     ) : null}
                   </div>
