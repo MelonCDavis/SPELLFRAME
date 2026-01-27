@@ -22,6 +22,11 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
   }
   const isPublic = Boolean(deck.isPublic);
 
+  const ownerName =
+    deck.user?.username ??
+    deck.owner?.username ??
+    "Unknown";
+
   const y = typeof deck.bannerSettings?.y === "number" ? deck.bannerSettings.y : 25;
   const rgb = Array.isArray(deck.bannerRGB) ? deck.bannerRGB : [168, 85, 247];
 
@@ -85,7 +90,7 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
           {deck.commanders?.map((c) => c.name).join(", ")}
         </div>
         <div className="text-[11px] text-neutral-300 truncate">
-          by {deck.user?.username ?? "Unknown"}
+          by {ownerName}
         </div>
       </div>
 
