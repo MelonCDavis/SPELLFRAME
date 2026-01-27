@@ -48,6 +48,14 @@ export default function CommanderBanner({
   const [saveMenuOpen, setSaveMenuOpen] = useState(false);
   const saveMenuRef = useRef(null);
 
+  const bannerImage =
+    primary?.imageArtCrop ||
+    primary?.image_uris?.art_crop ||
+    primary?.card_faces?.[0]?.image_uris?.art_crop ||
+    primary?.imageLarge ||
+    primary?.imageNormal ||
+    null;
+
   useEffect(() => {
     if (!saveMenuOpen) return;
 
@@ -93,7 +101,7 @@ export default function CommanderBanner({
   className="hidden lg:block bg-no-repeat"
   style={{
     height: "275px",
-    backgroundImage: `url(${primary?.imageNormal})`,
+    backgroundImage: bannerImage ? `url(${bannerImage})` : undefined,
     backgroundSize: "auto 555%",
     backgroundPosition: `right ${settings.y}%`,
   }}
@@ -104,7 +112,7 @@ export default function CommanderBanner({
   className="hidden sm:block lg:hidden bg-no-repeat"
   style={{
     height: "220px",
-    backgroundImage: `url(${primary?.imageNormal})`,
+    backgroundImage: bannerImage ? `url(${bannerImage})` : undefined,
     backgroundSize: "auto 555%",
     backgroundPosition: `right ${settings.y}%`,
   }}
@@ -115,7 +123,7 @@ export default function CommanderBanner({
   className="block sm:hidden bg-no-repeat"
   style={{
     height: "180px",
-    backgroundImage: `url(${primary?.imageNormal})`,
+    backgroundImage: bannerImage ? `url(${bannerImage})` : undefined,
     backgroundSize: "auto 555%",
     backgroundPosition: `right ${settings.y}%`,
   }}

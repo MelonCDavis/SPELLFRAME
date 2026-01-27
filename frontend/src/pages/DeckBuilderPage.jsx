@@ -1288,18 +1288,20 @@ function truncateName(name, max = 22) {
           )}
           
           {isImporting && (
-            <div className="
-              mt-3
-              rounded-md
-              border border-indigo-500/40
-              bg-indigo-500/10
-              px-4 py-3
-              text-sm
-              text-indigo-200
-              animate-pulse
-            ">
-              Importing decklist… resolving cards and quantities
-            </div>
+            <div className="fixed inset-0 z-40 flex items-center justify-center pointer-events-none">
+              <div className="
+                mt-3
+                rounded-md
+                border border-indigo-500/40
+                bg-indigo-500/10
+                px-4 py-3
+                text-sm
+                text-indigo-200
+                animate-pulse
+              ">
+                Importing decklist… resolving cards and quantities
+              </div>
+            </div>  
           )}
 
           {isAuthenticated && isCommanderLocked === true && (

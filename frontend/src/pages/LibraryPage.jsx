@@ -803,6 +803,27 @@ export default function LibraryPage() {
                           boxShadow: ROSE_ACTIVE_SHADOW,
                         }}
                       >
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveSet(null);
+                            setSelectedSet("");
+                            setCurrentPage(1);
+                            setSetDropdownOpen(false);
+                          }}
+                          className="
+                            w-full
+                            px-4 py-2
+                            text-left
+                            text-sm
+                            text-neutral-300
+                            hover:bg-neutral-800
+                            border-b
+                            border-neutral-800
+                          "
+                        >
+                          Clear set filter
+                        </button>
                         {allSets.map(set => (
                           <button
                             key={set.code}

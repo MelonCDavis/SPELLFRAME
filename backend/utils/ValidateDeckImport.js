@@ -1,4 +1,4 @@
-const IMPORT_REGEX = /^[A-Za-z0-9'.,\-()\n ]{1,6000}$/;
+const IMPORT_REGEX = /^[A-Za-z0-9\s:'"(),.\-!\/\\&\n]{1,6000}$/;
 
 function validateDeckImport(raw) {
   if (typeof raw !== "string") {
