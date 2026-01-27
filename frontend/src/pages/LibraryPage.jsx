@@ -627,7 +627,7 @@ export default function LibraryPage() {
                 </p>
               </header>
             
-              <div className="grid grid-cols-3 gap-x-6 gap-y-4">
+              <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-x-6 md:gap-y-4">
                 {/* Type Filter */}
                 <div className="col-span-2">
                   <div
