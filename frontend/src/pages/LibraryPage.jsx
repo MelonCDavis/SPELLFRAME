@@ -617,7 +617,7 @@ export default function LibraryPage() {
           <div className="mx-auto max-w-6xl px-4 py-6">
             <div className="space-y-6">
               {/* Header */}
-              <header>
+              <header className="text-center lg:text-left">
                 <h1 className="text-5xl font-buda text-neutral-100">
                   THE SPELLFRAME COMPENDIUM
                   {libraryTotal !== null && ` (${libraryTotal})`}
@@ -627,17 +627,24 @@ export default function LibraryPage() {
                 </p>
               </header>
 
-              
-            
-              <div className="flex flex-col gap-4 items-center order-2 md:items-stretch lg:order-0 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4">
+              <div
+                className="
+                  flex flex-col gap-4 items-center
+                  order-4
+                  md:flex-row md:flex-wrap md:items-stretch
+                  lg:flex-col
+                  lg:order-0
+                  lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4
+                "
+              >
                 {/* Type Filter */}
-                <div className="w-full flex justify-center order-2 lg:order-0 lg:col-span-2">
+                <div className="w-full md:w-full flex justify-center order-4 md:order-4 lg:order-0 lg:col-span-2">
                   <div
                     className="
                       inline-flex flex-wrap gap-4
                       px-4 py-3
                       rounded-xl
-                      h-13
+                      h-auto lg:h-13
                       bg-neutral-900/60
                       backdrop-blur-sm
                       border border-neutral-700/50
@@ -663,12 +670,12 @@ export default function LibraryPage() {
                 {/* EMPTY RIGHT CELL — keeps column alignment */}
                 <div />
                 {/* SEARCH MODE — ROW 2 / LEFT */}
-                <div className="w-full flex justify-center order-4 lg:order-0 lg:col-span-1">
+                <div className="w-full md:w-full flex justify-center order-1 md:order-1 lg:order-0 lg:col-span-1">
                   <div
                     className="
                       inline-flex gap-6
                       px-4 py-3
-                      h-13
+                      h-auto lg:h-13
                       items-center
                       rounded-xl
                       bg-neutral-900/60
@@ -698,12 +705,11 @@ export default function LibraryPage() {
                   </div>
                 </div>
                 {/* MANA FILTER — ROW 2 / RIGHT */}
-                <div className="w-full flex justify-center order-1 lg:order-0 lg:col-span-1">
+                <div className="w-full md:w-1/2 flex justify-center order-3 md:order-3 lg:order-0 lg:col-span-1">
                   <div
                     className="
-                      inline-flex items-center
+                      inline-flex flex-col md:flex-row items-center gap-3
                       px-4 py-3
-                      h-13
                       rounded-xl
                       bg-neutral-900/60
                       backdrop-blur-md
@@ -711,10 +717,10 @@ export default function LibraryPage() {
                       shadow-[0_0_30px_rgba(0,0,0,0.55)]
                     "
                   >
+                    {/* Mana icons */}
                     <div className="flex gap-2">
                       {COLORS.map(c => {
                         const isActive = selectedColors.includes(c);
-
                         return (
                           <button
                             key={c}
@@ -734,11 +740,95 @@ export default function LibraryPage() {
                         );
                       })}
                     </div>
+
+                    {/* Browse by Set */}
+                    {allSets.length > 0 && (
+                      <div ref={setDropdownRef} className="relative w-full md:w-auto">
+                        <button
+                          type="button"
+                          onClick={() => setSetDropdownOpen(o => !o)}
+                          className="
+                            w-full md:min-w-64
+                            px-3 py-3
+                            rounded-md
+                            border
+                            border-neutral-800
+                            bg-neutral-900
+                            text-sm
+                            text-left
+                            transition
+                          "
+                          style={{
+                            borderColor: 'rgb(190,18,60)',
+                            boxShadow: ROSE_ACTIVE_SHADOW,
+                          }}
+                        >
+                          {activeSet ? activeSet.name : 'Browse by Set'}
+                        </button>
+
+                        {setDropdownOpen && (
+                          <div
+                            className="
+                              absolute right-0 mt-2 z-50
+                              w-80 max-h-96 overflow-y-auto
+                              rounded-md
+                              border
+                              bg-neutral-950
+                            "
+                            style={{
+                              borderColor: 'rgb(190,18,60)',
+                              boxShadow: ROSE_ACTIVE_SHADOW,
+                            }}
+                          >
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveSet(null);
+                                setSelectedSet('');
+                                setCurrentPage(1);
+                                setSetDropdownOpen(false);
+                              }}
+                              className="
+                                w-full
+                                px-4 py-2
+                                text-left
+                                text-sm
+                                text-neutral-300
+                                hover:bg-neutral-800
+                                border-b
+                                border-neutral-800
+                              "
+                            >
+                              Clear set filter
+                            </button>
+
+                            {allSets.map(set => (
+                              <button
+                                key={set.code}
+                                type="button"
+                                onClick={() => searchBySet(set)}
+                                className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800"
+                              >
+                                {set.name}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>           
               {/* Search + Set Browser */}
-              <div className="flex flex-col gap-3 items-stretch order-1 md:flex-row md:items-center lg:order-0">
+              <div
+                className="
+                  flex flex-col gap-3 items-stretch
+                  order-2
+                  md:order-2
+                  md:flex-row md:items-center
+                  lg:order-0
+                "
+              >
                 {/* Search input (form ONLY wraps input) */}
                 <form onSubmit={searchLibrary} className="flex-1">
                   <input
@@ -763,82 +853,7 @@ export default function LibraryPage() {
                       e.currentTarget.style.borderColor = "";
                     }}
                   />
-                </form>
-
-                {allSets.length > 0 && (
-                  <div ref={setDropdownRef} className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setSetDropdownOpen(o => !o)}
-                      className="
-                        min-w-64
-                        px-3
-                        py-3
-                        rounded-md
-                        border
-                        border-neutral-800
-                        bg-neutral-900
-                        text-sm
-                        text-left
-                        transition
-                      "
-                      style={{
-                        borderColor: "rgb(190,18,60)",
-                        boxShadow: ROSE_ACTIVE_SHADOW,
-                      }}
-                    >
-                      {activeSet ? activeSet.name : "Browse by Set"}
-                    </button>
-
-                    {setDropdownOpen && (
-                      <div
-                        className="
-                          absolute right-0 mt-2 z-50
-                          w-80 max-h-96 overflow-y-auto
-                          rounded-md
-                          border
-                          bg-neutral-950
-                        "
-                        style={{
-                          borderColor: "rgb(190,18,60)",
-                          boxShadow: ROSE_ACTIVE_SHADOW,
-                        }}
-                      >
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveSet(null);
-                            setSelectedSet("");
-                            setCurrentPage(1);
-                            setSetDropdownOpen(false);
-                          }}
-                          className="
-                            w-full
-                            px-4 py-2
-                            text-left
-                            text-sm
-                            text-neutral-300
-                            hover:bg-neutral-800
-                            border-b
-                            border-neutral-800
-                          "
-                        >
-                          Clear set filter
-                        </button>
-                        {allSets.map(set => (
-                          <button
-                            key={set.code}
-                            type="button"
-                            onClick={() => searchBySet(set)}
-                            className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800"
-                          >
-                            {set.name}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
+                </form>                
               </div>
 
               {searchMode === "all" &&
