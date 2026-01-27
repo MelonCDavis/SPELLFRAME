@@ -59,6 +59,8 @@ export default function DeckBuilderPage({
   // =========================
   const [mainboardQuery, setMainboardQuery] = useState("");
   const [mainboardResults, setMainboardResults] = useState([]);
+  const MAINBOARD_PAGE_SIZE = 40;
+  const [mainboardPage, setMainboardPage] = useState(1);
   const [mainboardLoading, setMainboardLoading] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [activePicker, setActivePicker] = useState(null);
@@ -555,6 +557,7 @@ export default function DeckBuilderPage({
     function onKey(e) {
       if (e.key === "Escape") {
         setMainboardResults([]);
+        setMainboardPage(1);
       }
     }
 
@@ -589,7 +592,17 @@ export default function DeckBuilderPage({
   )?.prices ??
   null;
 
-    const commanders = [
+  const mainboardTotalPages = Math.max(
+    1,
+    Math.ceil(mainboardResults.length / MAINBOARD_PAGE_SIZE)
+  );
+
+  const paginatedMainboardResults = mainboardResults.slice(
+    (mainboardPage - 1) * MAINBOARD_PAGE_SIZE,
+    mainboardPage * MAINBOARD_PAGE_SIZE
+  );
+
+  const commanders = [
     primaryCommander,
     partner,
     friendsForever,
@@ -1178,6 +1191,7 @@ function truncateName(name, max = 22) {
 
       if (cards.length === 0) {
         setMainboardResults([]);
+        setMainboardPage(1); 
         setMainboardQuery("");
         setMainboardError(
           "There are no cards that match your search. Please refine your search."
@@ -1186,10 +1200,12 @@ function truncateName(name, max = 22) {
       }
 
       setMainboardResults(cards);
+      setMainboardPage(1);
     } catch (err) {
       console.error("Mainboard search failed", err);
 
       setMainboardResults([]);
+      setMainboardPage(1);
       setMainboardQuery("");
       setMainboardError(
         "Please check your spelling and search parameters and try again."
@@ -1439,6 +1455,7 @@ function truncateName(name, max = 22) {
 
                   setMainboardQuery("");
                   setMainboardResults([]);
+                  setMainboardPage(1);
                 }}
               />
 
@@ -1522,6 +1539,7 @@ function truncateName(name, max = 22) {
                     setBasicLandQty(1);
                     setMainboardQuery("");
                     setMainboardResults([]);
+                    setMainboardPage(1);
                 }}
                 className="rounded bg-indigo-600 px-3 py-1 text-sm font-semibold text-white hover:bg-indigo-500"
                     >
@@ -1789,47 +1807,85 @@ function truncateName(name, max = 22) {
 
             <div className="max-h-[70vh] overflow-y-auto p-4">
               {mainboardResults.length > 0 && (
-                <CardGrid
-                  cards={mainboardResults}
-                  loading={mainboardLoading}
-                  selectedIds={selectedIdentityKeys}
-                  identityKey={identityKey}
-                  onSelect={(card) => {
-                    if (isReadOnly) return; // 🔒 HARD BLOCK
+                <>
+                  <CardGrid
+                    cards={paginatedMainboardResults}
+                    loading={mainboardLoading}
+                    selectedIds={selectedIdentityKeys}
+                    identityKey={identityKey}
+                    onSelect={(card) => {
+                      if (isReadOnly) return;
 
-                    const k = identityKey(card);
-                    if (commanders.some(c => identityKey(c) === k)) return;
-                    if (k && selectedIdentityKeys.has(k)) return;
+                      const k = identityKey(card);
+                      if (commanders.some(c => identityKey(c) === k)) return;
+                      if (k && selectedIdentityKeys.has(k)) return;
 
-                    if (card.typeLine?.toLowerCase().includes("basic land")) {
-                      setBasicLandCard(card);
-                      setBasicLandQty(1);
-                      return;
-                    }
+                      if (card.typeLine?.toLowerCase().includes("basic land")) {
+                        setBasicLandCard(card);
+                        setBasicLandQty(1);
+                        return;
+                      }
 
-                    // Mainboard cap applies ONLY to mainboard + non-companion
-                    if (
-                      addDestination === "mainboard" &&
-                      totalDeckCount >= 100
-                    ) {
-                      return;
-                    }
+                      if (
+                        addDestination === "mainboard" &&
+                        totalDeckCount >= 100
+                      ) {
+                        return;
+                      }
 
-                    // Sideboard cap
-                    if (
-                      addDestination === "sideboard" &&
-                      sideboardCount >= 10
-                    ) {
-                      return;
-                    }
+                      if (
+                        addDestination === "sideboard" &&
+                        sideboardCount >= 10
+                      ) {
+                        return;
+                      }
 
-                    const res = guardedAddCard(card, addDestination);
-                    if (res?.error) return;
+                      const res = guardedAddCard(card, addDestination);
+                      if (res?.error) return;
 
-                    setMainboardQuery("");
-                    setMainboardResults([]);
-                  }}
-                />
+                      setMainboardQuery("");
+                      setMainboardResults([]);
+                      setMainboardPage(1);
+                    }}
+                  />
+
+                  {mainboardResults.length > MAINBOARD_PAGE_SIZE && (
+                    <div className="flex justify-center items-center gap-2 pt-4">
+                      <button
+                        disabled={mainboardPage === 1}
+                        onClick={() => setMainboardPage(p => p - 1)}
+                        className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
+                      >
+                        ←
+                      </button>
+
+                      {Array.from(
+                        { length: mainboardTotalPages },
+                        (_, i) => i + 1
+                      ).map(p => (
+                        <button
+                          key={p}
+                          onClick={() => setMainboardPage(p)}
+                          className={`px-3 py-1 text-sm rounded border ${
+                            p === mainboardPage
+                              ? "border-indigo-400 text-indigo-300 shadow-(--spellframe-glow)"
+                              : "border-neutral-700 text-neutral-400 hover:text-neutral-200"
+                          }`}
+                        >
+                          {p}
+                        </button>
+                      ))}
+
+                      <button
+                        disabled={mainboardPage === mainboardTotalPages}
+                        onClick={() => setMainboardPage(p => p + 1)}
+                        className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
+                      >
+                        →
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
