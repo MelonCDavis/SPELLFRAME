@@ -71,7 +71,7 @@ export default function CommanderSelectPage() {
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(sanitizeSearchQuery(e.target.value))}
+            onChange={(e) => setQuery(e.target.value)}
             placeholder="Search commanders…"
             className="
               text-2xl

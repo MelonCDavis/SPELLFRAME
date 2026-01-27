@@ -32,9 +32,9 @@ export default function CommanderBanner({
   const [editingArt, setEditingArt] = useState(false);
 
   const [settings, setSettings] = useState({
-    zoom: 1,
+    zoom: 1.2,
     x: 0.5,
-    y: 0.5,
+    y: 0.28,
     leftFade: 0.7,
     rightFade: 0.2,
     color: "black",
