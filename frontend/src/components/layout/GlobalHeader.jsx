@@ -19,17 +19,20 @@ export default function GlobalHeader({
 
         <div className="flex flex-wrap items-center gap-3 text-sm shrink-0 mr-0 sm:mr-0 md:mr-17">
           {!isAuthenticated ? (
-            <div className="hidden md:flex items-center gap-3">
-              <Link to="/login" className="text-neutral-300 hover:text-white">
-                Log in
-              </Link>
+            <>
+              <div className="hidden md:flex items-center gap-3">
+                <Link to="/login" className="text-neutral-300 hover:text-white">
+                  Log in
+                </Link>
 
-              <Link
-                to="/register"
-                className="rounded bg-indigo-600 px-3 py-1 text-white hover:bg-indigo-500"
-              >
-                Sign up
-              </Link>
+                <Link
+                  to="/register"
+                  className="rounded bg-indigo-600 px-3 py-1 text-white hover:bg-indigo-500"
+                >
+                  Sign up
+                </Link>
+              </div>
+
               <button
                 onClick={() => setMenuOpen(v => !v)}
                 className="md:hidden text-neutral-300 hover:text-white"
@@ -37,7 +40,7 @@ export default function GlobalHeader({
               >
                 ☰
               </button>
-            </div>
+            </>
           ) : (
             <>
               <span className="flex items-center gap-2 text-neutral-400 min-w-0">
@@ -80,6 +83,13 @@ export default function GlobalHeader({
                   Logout
                 </button>
               </div>
+              <button
+                onClick={() => setMenuOpen(v => !v)}
+                className="md:hidden text-neutral-300 hover:text-white"
+                aria-label="Open menu"
+              >
+                ☰
+              </button>
             </>
           )}
         </div>
