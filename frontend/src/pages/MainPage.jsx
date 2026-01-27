@@ -81,7 +81,10 @@ export default function MainPage() {
     // Pagination (cards only)
   const PAGE_SIZE = 40;
   const [currentPage, setCurrentPage] = useState(1);
-  
+  // Pagination (public decks)
+  const DECK_PAGE_SIZE = 40;
+  const [deckPage, setDeckPage] = useState(1);
+
   // sets dropdown
   const [allSets, setAllSets] = useState([]);
   const [setDropdownOpen, setSetDropdownOpen] = useState(false);
@@ -135,6 +138,16 @@ export default function MainPage() {
   const paginatedCardResults = cardResults.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
+  );
+
+  const deckTotalPages = Math.max(
+    1,
+    Math.ceil(deckResults.length / DECK_PAGE_SIZE)
+  );
+
+  const paginatedDeckResults = deckResults.slice(
+    (deckPage - 1) * DECK_PAGE_SIZE,
+    deckPage * DECK_PAGE_SIZE
   );
 
   const effectivePrices = useMemo(() => {
@@ -197,6 +210,7 @@ export default function MainPage() {
     setCardResults([]);
     setCurrentPage(1);
     setDeckResults([]);
+    setDeckPage(1);
     closeInspector();
     setSelectedColors([]);
     setSelectedTypes([]);
@@ -435,6 +449,7 @@ export default function MainPage() {
         const res = await apiGet(`/api/decks/public?${params.toString()}`);
 
         setDeckResults(Array.isArray(res?.decks) ? res.decks : []);
+        setDeckPage(1);
     } catch (err) {
         console.error("Public deck search failed", err);
         setDeckResults([]);
@@ -703,21 +718,70 @@ export default function MainPage() {
                 <section className="space-y-4 px-4">
                   <div className="mx-auto max-w-screen-2xl">
                     {mode === "decks" ? (
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {deckResults.map((deck) => (
-                            <li key={deck._id} className="rounded-md hover:shadow-(--spellframe-glow) transition-shadow">
-                        <MiniDeckBanner
-                                deck={deck}
-                                to={`/decks/${deck._id}`}
-                                onUpdateLikes={(id, likes) => {
-                                    setDeckResults(prev =>
-                                    prev.map(d => d._id === id ? { ...d, likes } : d)
-                                    );
-                                }}
-                                />
-                            </li>
-                        ))}
-                        </ul>
+                        <>
+                          {loading && (
+                            <div className="flex justify-center py-6">
+                              <div className="text-sm text-neutral-400">
+                                Searching public decks…
+                              </div>
+                            </div>
+                          )}
+                          {!loading && deckResults.length === 0 && (
+                            <div className="flex justify-center py-6">
+                              <div className="text-sm text-neutral-300 text-center px-4 py-2 rounded-md bg-neutral-900/60 border border-neutral-700">
+                                No public decks match your search.
+                              </div>
+                            </div>
+                          )}
+                          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {paginatedDeckResults.map((deck) => (
+                                <li key={deck._id} className="rounded-md hover:shadow-(--spellframe-glow) transition-shadow">
+                                    <MiniDeckBanner
+                                      deck={deck}
+                                      to={`/decks/${deck._id}`}
+                                      onUpdateLikes={(id, likes) => {
+                                          setDeckResults(prev =>
+                                          prev.map(d => d._id === id ? { ...d, likes } : d)
+                                          );
+                                      }}
+                                    />
+                                </li>
+                            ))}
+                          </ul>
+                          {deckResults.length > DECK_PAGE_SIZE && (
+                            <div className="flex justify-center items-center gap-3 pt-6">
+                              <button
+                                disabled={deckPage === 1}
+                                onClick={() => setDeckPage(p => p - 1)}
+                                className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
+                              >
+                                ←
+                              </button>
+
+                              {Array.from({ length: deckTotalPages }, (_, i) => i + 1).map(p => (
+                                <button
+                                  key={p}
+                                  onClick={() => setDeckPage(p)}
+                                  className={`px-3 py-1 text-sm rounded border ${
+                                    p === deckPage
+                                      ? "border-indigo-400 text-indigo-300 shadow-(--spellframe-glow)"
+                                      : "border-neutral-700 text-neutral-400 hover:text-neutral-200"
+                                  }`}
+                                >
+                                  {p}
+                                </button>
+                              ))}
+
+                              <button
+                                disabled={deckPage === deckTotalPages}
+                                onClick={() => setDeckPage(p => p + 1)}
+                                className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
+                              >
+                                →
+                              </button>
+                            </div>
+                          )}
+                        </>  
                     ) : mode === "cards" ? (
                       <>
                         {searchMessage && (
