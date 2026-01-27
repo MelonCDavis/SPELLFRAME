@@ -626,240 +626,216 @@ export default function LibraryPage() {
                   Search the entire Magic The Gathering database and manage your collection.
                 </p>
               </header>
+              {/* SEARCH MODE */}
+              <div className="flex justify-center">
+                <div
+                  className="
+                    inline-flex gap-6
+                    px-4 py-3
+                    items-center
+                    rounded-xl
+                    bg-neutral-900/60
+                    backdrop-blur-md
+                    border border-neutral-700/60
+                    shadow-[0_0_30px_rgba(0,0,0,0.55)]
+                    text-m
+                  "
+                >
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      checked={searchMode === 'all'}
+                      onChange={() => setSearchMode('all')}
+                    />
+                    All Cards
+                  </label>
 
-              <div
-                className="
-                  flex flex-col gap-4 items-center
-                  order-4
-                  md:flex-row md:flex-wrap md:items-stretch
-                  lg:flex-col
-                  lg:order-0
-                  lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4
-                "
-              >
-                {/* Type Filter */}
-                <div className="w-full md:w-full flex justify-center order-4 md:order-4 lg:order-0 lg:col-span-2">
-                  <div
-                    className="
-                      inline-flex flex-wrap gap-4
-                      px-4 py-3
-                      rounded-xl
-                      h-auto lg:h-13
-                      bg-neutral-900/60
-                      backdrop-blur-sm
-                      border border-neutral-700/50
-                      shadow-[0_0_20px_rgba(0,0,0,0.35)]
-                      text-m
-                    "
-                  >
-                    {TYPES.map(type => (
-                      <label
-                        key={type}
-                        className="flex items-center gap-2 text-neutral-200"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedTypes.includes(type)}
-                          onChange={() => toggleType(type)}
-                        />
-                        <span className="capitalize">{type}</span>
-                      </label>
-                    ))}
-                  </div>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      checked={searchMode === 'owned'}
+                      onChange={() => setSearchMode('owned')}
+                    />
+                    My Compendium
+                  </label>
                 </div>
-                {/* EMPTY RIGHT CELL — keeps column alignment */}
-                <div />
-                {/* SEARCH MODE — ROW 2 / LEFT */}
-                <div className="w-full md:w-full flex justify-center order-1 md:order-1 lg:order-0 lg:col-span-1">
-                  <div
-                    className="
-                      inline-flex gap-6
-                      px-4 py-3
-                      h-auto lg:h-13
-                      items-center
-                      rounded-xl
-                      bg-neutral-900/60
-                      backdrop-blur-md
-                      border border-neutral-700/60
-                      shadow-[0_0_30px_rgba(0,0,0,0.55)]
-                      text-m
-                    "
-                  >
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        checked={searchMode === 'all'}
-                        onChange={() => setSearchMode('all')}
-                      />
-                      All Cards
-                    </label>
+              </div>
 
-                    <label className="flex items-center gap-2 cursor-pointer">
+              {/* SEARCH INPUT */}
+              <div className="w-full">
+                <form onSubmit={searchLibrary} className="w-full">
+                  <input
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                    placeholder="Search cards by name, type…"
+                    className="
+                      w-full
+                      rounded-md
+                      px-4 py-3
+                      bg-neutral-900
+                      border
+                      border-neutral-800
+                      focus:outline-none
+                    "
+                    onFocus={e => {
+                      e.currentTarget.style.boxShadow = ROSE_ACTIVE_SHADOW;
+                      e.currentTarget.style.borderColor = 'rgb(190,18,60)';
+                    }}
+                    onBlur={e => {
+                      e.currentTarget.style.boxShadow = 'none';
+                      e.currentTarget.style.borderColor = '';
+                    }}
+                  />
+                </form>
+              </div>
+
+              {/* TYPE FILTER */}
+              <div className="flex justify-center">
+                <div
+                  className="
+                    inline-flex flex-wrap gap-4
+                    px-4 py-3
+                    rounded-xl
+                    bg-neutral-900/60
+                    backdrop-blur-sm
+                    border border-neutral-700/50
+                    shadow-[0_0_20px_rgba(0,0,0,0.35)]
+                    text-m
+                  "
+                >
+                  {TYPES.map(type => (
+                    <label
+                      key={type}
+                      className="flex items-center gap-2 text-neutral-200"
+                    >
                       <input
-                        type="radio"
-                        checked={searchMode === 'owned'}
-                        onChange={() => setSearchMode('owned')}
+                        type="checkbox"
+                        checked={selectedTypes.includes(type)}
+                        onChange={() => toggleType(type)}
                       />
-                      My Compendium
+                      <span className="capitalize">{type}</span>
                     </label>
-                  </div>
+                  ))}
                 </div>
-                {/* MANA FILTER — ROW 2 / RIGHT */}
-                <div className="w-full md:w-1/2 flex justify-center order-3 md:order-3 lg:order-0 lg:col-span-1">
-                  <div
-                    className="
-                      inline-flex flex-col md:flex-row items-center gap-3
-                      px-4 py-3
-                      rounded-xl
-                      bg-neutral-900/60
-                      backdrop-blur-md
-                      border border-neutral-700/60
-                      shadow-[0_0_30px_rgba(0,0,0,0.55)]
-                    "
-                  >
-                    {/* Mana icons */}
-                    <div className="flex gap-2">
-                      {COLORS.map(c => {
-                        const isActive = selectedColors.includes(c);
-                        return (
-                          <button
-                            key={c}
-                            onClick={() => toggleColor(c)}
-                            className={`
-                              flex items-center justify-center
-                              w-9 h-9 rounded-full border transition
-                              ${
-                                isActive
-                                  ? COLOR_STYLES[c]
-                                  : 'border-neutral-700 opacity-70 hover:opacity-100'
-                              }
-                            `}
-                          >
-                            <img src={MANA_ICONS[c]} alt={c} className="w-5 h-5" />
-                          </button>
-                        );
-                      })}
-                    </div>
+              </div>
 
-                    {/* Browse by Set */}
-                    {allSets.length > 0 && (
-                      <div ref={setDropdownRef} className="relative w-full md:w-auto">
+              {/* MANA + SET */}
+              <div className="flex justify-center">
+                <div
+                  className="
+                    inline-flex flex-col md:flex-row items-center gap-3
+                    px-4 py-3
+                    rounded-xl
+                    bg-neutral-900/60
+                    backdrop-blur-md
+                    border border-neutral-700/60
+                    shadow-[0_0_30px_rgba(0,0,0,0.55)]
+                  "
+                >
+                  <div className="flex gap-2">
+                    {COLORS.map(c => {
+                      const isActive = selectedColors.includes(c);
+                      return (
                         <button
-                          type="button"
-                          onClick={() => setSetDropdownOpen(o => !o)}
+                          key={c}
+                          onClick={() => toggleColor(c)}
+                          className={`
+                            flex items-center justify-center
+                            w-9 h-9 rounded-full border transition
+                            ${
+                              isActive
+                                ? COLOR_STYLES[c]
+                                : 'border-neutral-700 opacity-70 hover:opacity-100'
+                            }
+                          `}
+                        >
+                          <img src={MANA_ICONS[c]} alt={c} className="w-5 h-5" />
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {allSets.length > 0 && (
+                    <div ref={setDropdownRef} className="relative w-full md:w-auto">
+                      <button
+                        type="button"
+                        onClick={() => setSetDropdownOpen(o => !o)}
+                        className="
+                          w-full md:min-w-64
+                          px-3 py-3
+                          rounded-md
+                          border
+                          border-neutral-800
+                          bg-neutral-900
+                          text-sm
+                          text-left
+                          transition
+                        "
+                        style={{
+                          borderColor: 'rgb(190,18,60)',
+                          boxShadow: ROSE_ACTIVE_SHADOW,
+                        }}
+                      >
+                        {activeSet ? activeSet.name : 'Browse by Set'}
+                      </button>
+
+                      {setDropdownOpen && (
+                        <div
                           className="
-                            w-full md:min-w-64
-                            px-3 py-3
+                            absolute right-0 mt-2 z-50
+                            w-80 max-h-96 overflow-y-auto
                             rounded-md
                             border
-                            border-neutral-800
-                            bg-neutral-900
-                            text-sm
-                            text-left
-                            transition
+                            bg-neutral-950
                           "
                           style={{
                             borderColor: 'rgb(190,18,60)',
                             boxShadow: ROSE_ACTIVE_SHADOW,
                           }}
                         >
-                          {activeSet ? activeSet.name : 'Browse by Set'}
-                        </button>
-
-                        {setDropdownOpen && (
-                          <div
-                            className="
-                              absolute right-0 mt-2 z-50
-                              w-80 max-h-96 overflow-y-auto
-                              rounded-md
-                              border
-                              bg-neutral-950
-                            "
-                            style={{
-                              borderColor: 'rgb(190,18,60)',
-                              boxShadow: ROSE_ACTIVE_SHADOW,
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setActiveSet(null);
+                              setSelectedSet('');
+                              setCurrentPage(1);
+                              setSetDropdownOpen(false);
                             }}
+                            className="
+                              w-full
+                              px-4 py-2
+                              text-left
+                              text-sm
+                              text-neutral-300
+                              hover:bg-neutral-800
+                              border-b
+                              border-neutral-800
+                            "
                           >
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setActiveSet(null);
-                                setSelectedSet('');
-                                setCurrentPage(1);
-                                setSetDropdownOpen(false);
-                              }}
-                              className="
-                                w-full
-                                px-4 py-2
-                                text-left
-                                text-sm
-                                text-neutral-300
-                                hover:bg-neutral-800
-                                border-b
-                                border-neutral-800
-                              "
-                            >
-                              Clear set filter
-                            </button>
+                            Clear set filter
+                          </button>
 
-                            {allSets.map(set => (
-                              <button
-                                key={set.code}
-                                type="button"
-                                onClick={() => searchBySet(set)}
-                                className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800"
-                              >
-                                {set.name}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
+                          {allSets.map(set => (
+                            <button
+                              key={set.code}
+                              type="button"
+                              onClick={() => searchBySet(set)}
+                              className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800"
+                            >
+                              {set.name}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </div>           
-              {/* Search + Set Browser */}
-              <div
-                className="
-                  flex flex-col gap-3 items-stretch
-                  order-2
-                  md:order-2
-                  md:flex-row md:items-center
-                  lg:order-0
-                "
-              >
-                {/* Search input (form ONLY wraps input) */}
-                <form onSubmit={searchLibrary} className="flex-1">
-                  <input
-                    value={query}
-                    onChange={e => setQuery(e.target.value)}
-                    placeholder="Search cards by name, type…"
-                    className="
-                    w-full 
-                    rounded-md 
-                    px-4 py-3
-                    bg-neutral-900 
-                    border
-                    border-neutral-800
-                    focus:outline-none
-                    "
-                    onFocus={e => {
-                      e.currentTarget.style.boxShadow = ROSE_ACTIVE_SHADOW;
-                      e.currentTarget.style.borderColor = "rgb(190,18,60)";
-                    }}
-                    onBlur={e => {
-                      e.currentTarget.style.boxShadow = "none";
-                      e.currentTarget.style.borderColor = "";
-                    }}
-                  />
-                </form>                
-              </div>
+              </div>       
 
               {searchMode === "all" &&
                 selectedColors.length === 0 &&
                 selectedTypes.length === 0 && (
-                  <div className="text-xs text-neutral-200 max-w-3xl">
+                  <div className="text-xs text-neutral-200 max-w-3xl text-center mx-auto">
                     Set searches are limited to ~200 cards per request by the Scryfall API.
                     For best results, narrow your search using color or type filters.
                   </div>
