@@ -628,7 +628,7 @@ export default function LibraryPage() {
               </header>
 
               {/* Search + Set Browser */}
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-3 items-center order-1 lg:order-none">
                 {/* Search input (form ONLY wraps input) */}
                 <form onSubmit={searchLibrary} className="flex-1">
                   <input
@@ -731,7 +731,7 @@ export default function LibraryPage() {
                 )}
               </div>
             
-              <div className="flex flex-col gap-4 items-center md:items-stretch lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4">
+              <div className="flex flex-col gap-4 items-center md:items-stretch order-2 lg:order-none lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4">
                 {/* Type Filter */}
                 <div className="w-full flex justify-center lg:col-span-2">
                   <div
