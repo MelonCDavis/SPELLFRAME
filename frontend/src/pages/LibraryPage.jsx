@@ -626,115 +626,6 @@ export default function LibraryPage() {
                   Search the entire Magic The Gathering database and manage your collection.
                 </p>
               </header>
-            
-              <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-x-6 md:gap-y-4">
-                {/* Type Filter */}
-                <div className="col-span-2">
-                  <div
-                    className="
-                      inline-flex flex-wrap gap-4
-                      px-4 py-3
-                      rounded-xl
-                      h-13
-                      bg-neutral-900/60
-                      backdrop-blur-sm
-                      border border-neutral-700/50
-                      shadow-[0_0_20px_rgba(0,0,0,0.35)]
-                      text-m
-                    "
-                  >
-                    {TYPES.map(type => (
-                      <label
-                        key={type}
-                        className="flex items-center gap-2 text-neutral-200"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedTypes.includes(type)}
-                          onChange={() => toggleType(type)}
-                        />
-                        <span className="capitalize">{type}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-                {/* EMPTY RIGHT CELL — keeps column alignment */}
-                <div />
-                {/* SEARCH MODE — ROW 2 / LEFT */}
-                <div className="col-span-1">
-                  <div
-                    className="
-                      inline-flex gap-6
-                      px-4 py-3
-                      h-13
-                      items-center
-                      rounded-xl
-                      bg-neutral-900/60
-                      backdrop-blur-md
-                      border border-neutral-700/60
-                      shadow-[0_0_30px_rgba(0,0,0,0.55)]
-                      text-m
-                    "
-                  >
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        checked={searchMode === 'all'}
-                        onChange={() => setSearchMode('all')}
-                      />
-                      All Cards
-                    </label>
-
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        checked={searchMode === 'owned'}
-                        onChange={() => setSearchMode('owned')}
-                      />
-                      My Compendium
-                    </label>
-                  </div>
-                </div>
-                {/* MANA FILTER — ROW 2 / RIGHT */}
-                <div className="col-span-1 flex justify-center">
-                  <div
-                    className="
-                      inline-flex items-center
-                      px-4 py-3
-                      h-13
-                      rounded-xl
-                      bg-neutral-900/60
-                      backdrop-blur-md
-                      border border-neutral-700/60
-                      shadow-[0_0_30px_rgba(0,0,0,0.55)]
-                    "
-                  >
-                    <div className="flex gap-2">
-                      {COLORS.map(c => {
-                        const isActive = selectedColors.includes(c);
-
-                        return (
-                          <button
-                            key={c}
-                            onClick={() => toggleColor(c)}
-                            className={`
-                              flex items-center justify-center
-                              w-9 h-9 rounded-full border transition
-                              ${
-                                isActive
-                                  ? COLOR_STYLES[c]
-                                  : 'border-neutral-700 opacity-70 hover:opacity-100'
-                              }
-                            `}
-                          >
-                            <img src={MANA_ICONS[c]} alt={c} className="w-5 h-5" />
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* Search + Set Browser */}
               <div className="flex gap-3 items-center">
@@ -839,6 +730,115 @@ export default function LibraryPage() {
                   </div>
                 )}
               </div>
+            
+              <div className="flex flex-col gap-4 items-center md:items-stretch lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4">
+                {/* Type Filter */}
+                <div className="w-full flex justify-center lg:col-span-2">
+                  <div
+                    className="
+                      inline-flex flex-wrap gap-4
+                      px-4 py-3
+                      rounded-xl
+                      h-13
+                      bg-neutral-900/60
+                      backdrop-blur-sm
+                      border border-neutral-700/50
+                      shadow-[0_0_20px_rgba(0,0,0,0.35)]
+                      text-m
+                    "
+                  >
+                    {TYPES.map(type => (
+                      <label
+                        key={type}
+                        className="flex items-center gap-2 text-neutral-200"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedTypes.includes(type)}
+                          onChange={() => toggleType(type)}
+                        />
+                        <span className="capitalize">{type}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                {/* EMPTY RIGHT CELL — keeps column alignment */}
+                <div />
+                {/* SEARCH MODE — ROW 2 / LEFT */}
+                <div className="w-full flex justify-center lg:col-span-1">
+                  <div
+                    className="
+                      inline-flex gap-6
+                      px-4 py-3
+                      h-13
+                      items-center
+                      rounded-xl
+                      bg-neutral-900/60
+                      backdrop-blur-md
+                      border border-neutral-700/60
+                      shadow-[0_0_30px_rgba(0,0,0,0.55)]
+                      text-m
+                    "
+                  >
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        checked={searchMode === 'all'}
+                        onChange={() => setSearchMode('all')}
+                      />
+                      All Cards
+                    </label>
+
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        checked={searchMode === 'owned'}
+                        onChange={() => setSearchMode('owned')}
+                      />
+                      My Compendium
+                    </label>
+                  </div>
+                </div>
+                {/* MANA FILTER — ROW 2 / RIGHT */}
+                <div className="w-full flex justify-center lg:col-span-1">
+                  <div
+                    className="
+                      inline-flex items-center
+                      px-4 py-3
+                      h-13
+                      rounded-xl
+                      bg-neutral-900/60
+                      backdrop-blur-md
+                      border border-neutral-700/60
+                      shadow-[0_0_30px_rgba(0,0,0,0.55)]
+                    "
+                  >
+                    <div className="flex gap-2">
+                      {COLORS.map(c => {
+                        const isActive = selectedColors.includes(c);
+
+                        return (
+                          <button
+                            key={c}
+                            onClick={() => toggleColor(c)}
+                            className={`
+                              flex items-center justify-center
+                              w-9 h-9 rounded-full border transition
+                              ${
+                                isActive
+                                  ? COLOR_STYLES[c]
+                                  : 'border-neutral-700 opacity-70 hover:opacity-100'
+                              }
+                            `}
+                          >
+                            <img src={MANA_ICONS[c]} alt={c} className="w-5 h-5" />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>           
 
               {searchMode === "all" &&
                 selectedColors.length === 0 &&
