@@ -35,6 +35,21 @@
   z-index: -1;
 }
 
+.mainpage-bg-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+@media (max-width: 639px) {
+  .mainpage-bg-wrap {
+    transform: translateY(8vh);
+    top: -2vh;
+    height: calc(100vh + 8vh);
+  }
+}
+
 .page-veil {
   position: fixed;
   inset: 0;

@@ -77,6 +77,7 @@ export default function MainPage() {
   const [committedQuery, setCommittedQuery] = useState("");
   const [baseCardResults, setBaseCardResults] = useState([]);
   const [searchMessage, setSearchMessage] = useState("");
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
     // Pagination (cards only)
   const PAGE_SIZE = 40;
@@ -475,17 +476,19 @@ export default function MainPage() {
 
   return (
     <>
-      <div className="mainpage-bg" />
+      <div className="mainpage-bg-wrap">
+        <div className="mainpage-bg" />
+      </div>  
       <div className="page-veil" />
-        <div className="fixed inset-0 overflow-hidden z-10 flex pt-27 flex-col">
+        <div className="fixed inset-0 overflow-hidden z-10 flex pt-20 sm:pt-27 flex-col">
           <div className="flex-1 overflow-y-auto">
-            <div className="mx-auto max-w-screen-2xl px-4 py-8 space-y-6">
+            <div className="mx-auto max-w-screen-2xl px-4 py-27 sm:py-8 space-y-8 sm:space-y-6">
               <div className="mx-auto max-w-6xl px-4 space-y-10">
-                <header className="space-y-3 text-center">
-                    <h1 className="text-8xl font-buda tracking-tight">
-                    SPELLFRAME
+                <header className="space-y-2 sm:space-y-3 text-center">
+                    <h1 className="flex justify-center font-buda tracking-tight text-6xl sm:text-8xl md:text-8xl leading-none">
+                      SPELLFRAME
                     </h1>
-                    <p className="text-neutral-200 max-w-3xl mx-auto">
+                    <p className="text-neutral-200 xs:text-xs text-sm sm:text-base max-w-xs sm:max-w-3xl mx-auto leading-snug">
                     Explore Magic cards, discover public Commander decks, find users, and
                     build your next masterpiece.
                     </p>
@@ -534,11 +537,166 @@ export default function MainPage() {
                           "
                       />
 
+                      {/* Mobile actions */}
+                      {!advancedOpen && (
+                        <div className="flex flex-col items-center gap-3 sm:hidden">
+                          <button
+                            type="button"
+                            onClick={() => setAdvancedOpen(true)}
+                            className="
+                              w-1/2
+                              rounded-md
+                              px-4 py-3
+                              text-sm font-medium
+                              text-neutral-100
+                              bg-neutral-900/60
+                              border border-neutral-800
+                              hover:shadow-(--spellframe-glow)
+                            "
+                          >
+                            Advanced Search
+                          </button>
+                        </div>
+                      )}  
+                      {advancedOpen && (
+                        <div className="sm:hidden relative rounded-xl border border-neutral-800 bg-neutral-950/80 backdrop-blur-sm px-4 py-4 space-y-5">
+                          {/* Close */}
+                          <button
+                            onClick={() => setAdvancedOpen(false)}
+                            className="absolute top-3 right-3 text-red-400 hover:text-red-300 text-sm"
+                            aria-label="Close advanced search"
+                          >
+                            ✕
+                          </button>
+
+                          {/* Mana bar */}
+                          <div className="flex justify-center">
+                            <div className="flex gap-2">
+                              {COLORS.map((c) => {
+                                const isActive = selectedColors.includes(c);
+                                return (
+                                  <button
+                                    key={c}
+                                    type="button"
+                                    onClick={() => toggleColor(c)}
+                                    className={`
+                                      w-9 h-9 rounded-full border flex items-center justify-center transition
+                                      ${
+                                        isActive
+                                          ? c === "w"
+                                            ? "border-neutral-300 shadow-[0_0_12px_rgba(255,255,255,0.7)]"
+                                            : c === "u"
+                                            ? "border-blue-500 shadow-[0_0_14px_rgba(59,130,246,0.9)]"
+                                            : c === "b"
+                                            ? "border-purple-500 shadow-[0_0_14px_rgba(168,85,247,0.9)]"
+                                            : c === "r"
+                                            ? "border-red-500 shadow-[0_0_14px_rgba(239,68,68,0.9)]"
+                                            : c === "g"
+                                            ? "border-green-500 shadow-[0_0_14px_rgba(34,197,94,0.9)]"
+                                            : "border-yellow-500 shadow-[0_0_14px_rgba(234,179,8,0.9)]"
+                                          : "border-neutral-700 opacity-70 hover:opacity-100"
+                                      }
+                                    `}
+                                  >
+                                    <img src={MANA_ICONS[c]} alt={c} className="w-5 h-5" />
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          {/* Card types */}
+                          <div className="flex flex-wrap justify-center gap-3 text-sm text-neutral-300">
+                            {TYPES.map((type) => (
+                              <label key={type} className="flex items-center gap-2">
+                                <input
+                                  type="checkbox"
+                                  checked={selectedTypes.includes(type)}
+                                  onChange={() => toggleType(type)}
+                                />
+                                <span className="capitalize">{type}</span>
+                              </label>
+                            ))}
+                          </div>
+
+                          {/* Browse by Set */}
+                          {allSets.length > 0 && (
+                            <div ref={setDropdownRef} className="relative">
+                              <button
+                                type="button"
+                                onClick={() => setSetDropdownOpen((o) => !o)}
+                                className="
+                                  w-full px-3 py-2 rounded-md
+                                  border border-neutral-800 bg-neutral-900
+                                  text-sm text-left text-neutral-200
+                                  hover:shadow-(--spellframe-glow)
+                                "
+                              >
+                                {selectedSet
+                                  ? allSets.find((s) => s.code === selectedSet)?.name ??
+                                    `Set: ${selectedSet}`
+                                  : "Browse by Set"}
+                              </button>
+
+                              {setDropdownOpen && (
+                                <div className="absolute mt-2 z-50 w-full max-h-80 overflow-y-auto rounded-md border border-neutral-800 bg-neutral-950 shadow-lg">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedSet("");
+                                      setSetDropdownOpen(false);
+                                    }}
+                                    className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800 text-neutral-300"
+                                  >
+                                    Clear set filter
+                                  </button>
+
+                                  <div className="h-px bg-neutral-800" />
+
+                                  {allSets.map((set) => (
+                                    <button
+                                      key={set.code}
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedSet(set.code);
+                                        setSetDropdownOpen(false);
+                                        searchFormRef.current?.requestSubmit();
+                                      }}
+                                      className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-800 text-neutral-200"
+                                    >
+                                      {set.name}
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      <div className="sm:hidden flex justify-center pt-1">
+                        <Link
+                          to="/commander"
+                          className="
+                            block
+                            w-1/2
+                            rounded-md
+                            px-4 py-3
+                            text-center
+                            text-sm font-semibold
+                            text-neutral-100
+                            bg-indigo-600
+                            hover:bg-indigo-500
+                            shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_6px_20px_rgba(79,70,229,0.35)]
+                          "
+                        >
+                          BUILD A DECK
+                        </Link>
+                      </div>
                       {(mode === "cards" || mode === "decks") && (
                       <div className="space-y-4">
 
                       {mode === "cards" && (
-                        <div className="flex items-center gap-6">
+                        <div className="hidden sm:flex items-center gap-6">
                             <div className="flex flex-wrap gap-3 text-sm text-neutral-300">
                               {TYPES.map((type) => (
                                   <label 
@@ -557,7 +715,7 @@ export default function MainPage() {
                             <div className="flex-1" />
 
                             {allSets.length > 0 && (
-                            <div ref={setDropdownRef} className="relative">
+                            <div ref={setDropdownRef} className="hidden sm:block relative">
                                 <button
                                 type="button"
                                 onClick={() => setSetDropdownOpen((o) => !o)}
@@ -612,25 +770,25 @@ export default function MainPage() {
                       )}
 
                       {mode === "cards" &&
-                      selectedColors.length === 0 &&
-                      selectedTypes.length === 0 &&
-                      !selectedSet &&
-                      query.trim().length === 0 && (
-                        <div className="flex justify-center">
-                          <div className=" text-xs text-neutral-300 text-center px-3 py-2 rounded-md bg-neutral-900/40 backdrop-blur-sm">
-                          Tip: enter a search term or use filters (color/type/set) to avoid a maxed search of 200.
+                       selectedColors.length === 0 &&
+                       selectedTypes.length === 0 &&
+                       !selectedSet &&
+                       query.trim( ).length === 0 && (
+                        <div className="hidden sm:flex justify-center">
+                          <div className="text-xs text-neutral-300 text-center px-3 py-2 rounded-md bg-neutral-900/40 backdrop-blur-sm">
+                            Tip: enter a search term or use filters (color/type/set) to avoid a maxed search of 200.
                           </div>
                         </div>
                       )}
                       {mode === "decks" && query.trim().length === 0 && (
                         <div className="flex justify-center pt-6">
                           <div className="text-xs text-neutral-300 text-center px-3 py-2 rounded-md bg-neutral-900/40 backdrop-blur-sm">
-                            Tip: even an empty search can have a result!
+                            Tip: sometimes even an empty search can have a result!
                           </div>
                         </div>
                       )}
 
-                      <div className="flex justify-center pt-2">
+                      <div className="hidden sm:flex justify-center pt-2">
                           <div
                               className="
                                   inline-flex
@@ -687,7 +845,7 @@ export default function MainPage() {
                     </form>
                 </section>
                   
-                <section className="flex flex-col sm:flex-row gap-4 pt-0">
+                <section className="hidden sm:flex flex-col sm:flex-row gap-4 pt-0">
                     <Link
                         to="/commander"
                         className="
