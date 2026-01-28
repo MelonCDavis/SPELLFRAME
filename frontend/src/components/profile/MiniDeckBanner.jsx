@@ -40,8 +40,27 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
     deck.owner?.username ??
     "Unknown";
 
-  const y = typeof deck.bannerSettings?.y === "number" ? deck.bannerSettings.y : 25;
-  const rgb = Array.isArray(deck.bannerRGB) ? deck.bannerRGB : [168, 85, 247];
+  const bannerSettings = deck.bannerSettings || {};
+
+  const zoom =
+    typeof bannerSettings.zoom === "number"
+      ? bannerSettings.zoom
+      : 1.2;
+
+  const x =
+    typeof bannerSettings.x === "number"
+      ? bannerSettings.x
+      : 0.5;
+
+  const y =
+    typeof bannerSettings.y === "number"
+      ? bannerSettings.y
+      : 0.28;
+
+  const rgb = Array.isArray(deck.bannerRGB)
+    ? deck.bannerRGB
+    : [168, 85, 247];
+
 
   const artUrl = getArtCrop(deck.commanders?.[0]);
 
@@ -51,8 +70,8 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
         className="absolute inset-0 z-0 bg-no-repeat"
         style={{
           backgroundImage: artUrl ? `url(${artUrl})` : undefined,
-          backgroundSize: "cover",
-          backgroundPosition: `center ${y}%`,
+          backgroundSize: `${zoom * 100}%`,
+          backgroundPosition: `${x * 100}% ${y * 100}%`,
         }}
       />
 
