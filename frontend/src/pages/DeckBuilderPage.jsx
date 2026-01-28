@@ -57,6 +57,8 @@ export default function DeckBuilderPage({
   // =========================
   // 4) DECK EDITING + UI STATE
   // =========================
+  const [xsPreviewOpen, setXsPreviewOpen] = useState(false);
+  const [actionsMenuOpen, setActionsMenuOpen] = useState(false);
   const [smPreviewOpen, setSmPreviewOpen] = useState(false);
   const [mainboardQuery, setMainboardQuery] = useState("");
   const [mainboardResults, setMainboardResults] = useState([]);
@@ -1287,11 +1289,11 @@ function truncateName(name, max = 22) {
               }}
             />
           )}
-          {/* SM preview toggle */}
-          <div className="hidden sm:block md:hidden mt-3">
+          {/* XS preview toggle */}
+          <div className="sm:hidden mt-3">
             <button
               type="button"
-              onClick={() => setSmPreviewOpen(o => !o)}
+              onClick={() => setXsPreviewOpen(o => !o)}
               className="
                 w-full
                 flex items-center justify-center gap-2
@@ -1307,11 +1309,74 @@ function truncateName(name, max = 22) {
               "
             >
               <span className="text-lg leading-none">
-                {smPreviewOpen ? "▲" : "▼"}
+                {xsPreviewOpen ? "▲" : "▼"}
               </span>
               <span>Push me — Preview</span>
             </button>
           </div>
+          {/* XS + SM actions hamburger */}
+          {isAuthenticated && isCommanderLocked === true && (
+            <div className="md:hidden mt-3 relative">
+              <button
+                type="button"
+                onClick={() => setActionsMenuOpen(o => !o)}
+                className="
+                  w-full
+                  flex items-center justify-center gap-2
+                  rounded-md
+                  border border-neutral-800
+                  bg-neutral-900
+                  py-3
+                  text-sm font-semibold
+                  text-neutral-200
+                  hover:bg-neutral-800
+                  transition
+                  shadow-(--spellframe-glow)
+                "
+              >
+                <span className="text-lg leading-none">☰</span>
+                <span>Deck Actions</span>
+              </button>
+
+              {actionsMenuOpen && (
+                <div className="
+                  absolute
+                  left-0 right-0
+                  mt-2
+                  rounded-md
+                  border border-neutral-800
+                  bg-neutral-950
+                  shadow-xl
+                  z-30
+                  divide-y divide-neutral-800
+                ">
+                  <button
+                    type="button"
+                    onClick={() => { setImportOpen(true); setActionsMenuOpen(false); }}
+                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-800"
+                  >
+                    Import Decklist
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => { setExportOpen(true); setActionsMenuOpen(false); }}
+                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-800"
+                  >
+                    Export Decklist
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => { cloneDeck(); setActionsMenuOpen(false); }}
+                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-800"
+                  >
+                    Clone Deck
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
           
           {isImporting && (
             <div className="fixed inset-0 z-40 flex items-center justify-center pointer-events-none">
@@ -1331,7 +1396,7 @@ function truncateName(name, max = 22) {
           )}
 
           {isAuthenticated && isCommanderLocked === true && (
-            <div className="hidden md:flex justify-end gap-2 mt-3">
+            <div className="hidden min-[860px]:flex justify-end gap-2 mt-3">
               <button
                 type="button"
                 onClick={() => setImportOpen(true)}
@@ -1579,520 +1644,522 @@ function truncateName(name, max = 22) {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 items-start">
-                {/* PREVIEW PANEL */}
-            <aside
-              className={`
-                hidden
-                sm:block
-                ${smPreviewOpen ? "block" : "hidden"} 
-                md:block
-                lg:sticky lg:top-6
-                pt-8
-              `}
-            >
-              <div className="flex flex-col items-center gap-3 shrink-0">
-                {/* PREVIEW CARD */}
-                <div
-                  className="w-60 rounded-md border shadow-(--spellframe-glow) border-neutral-800 bg-neutral-900 overflow-hidden "
-                  style={{ aspectRatio: "63 / 88" }}
-                >
-                  {(hoveredCard || primaryCommander)?.imageNormal ||
-                  (hoveredCard || primaryCommander)?.imageLarge ? (
-                    <img
-                      src={
-                        hoveredCard?.imageNormal ||
-                        hoveredCard?.imageLarge ||
-                        primaryCommander?.imageNormal ||
-                        primaryCommander?.imageLarge
-                      }
-                      alt={hoveredCard?.name || primaryCommander?.name || ""}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : null}
-                </div>
+            {/* PREVIEW PANEL */}
+            <div className="grid grid-cols-1 sm:grid-cols-[260px_1fr] gap-6">
+              <aside
+                className={`
+                  hidden
+                  sm:block
+                  ${xsPreviewOpen ? "block" : "hidden"}
+                  min-[860px]:block
+                  lg:sticky lg:top-6
+                  pt-8
+                `}
+              >
+                <div className="flex flex-col items-center gap-3 shrink-0">
+                  {/* PREVIEW CARD */}
+                  <div
+                    className="w-60 rounded-md border shadow-(--spellframe-glow) border-neutral-800 bg-neutral-900 overflow-hidden "
+                    style={{ aspectRatio: "63 / 88" }}
+                  >
+                    {(hoveredCard || primaryCommander)?.imageNormal ||
+                    (hoveredCard || primaryCommander)?.imageLarge ? (
+                      <img
+                        src={
+                          hoveredCard?.imageNormal ||
+                          hoveredCard?.imageLarge ||
+                          primaryCommander?.imageNormal ||
+                          primaryCommander?.imageLarge
+                        }
+                        alt={hoveredCard?.name || primaryCommander?.name || ""}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : null}
+                  </div>
 
-                {/* SIDEBAR: SIDEBOARD (UI ONLY — A1) */}
-                <div className="w-60">
-                  <div className="
-                    rounded-md
-                    border border-neutral-800
-                    bg-neutral-900
-                    p-3
-                    shadow-(--spellframe-glow)
-                  ">
+                  {/* SIDEBAR: SIDEBOARD (UI ONLY — A1) */}
+                  <div className="w-60">
+                    <div className="
+                      rounded-md
+                      border border-neutral-800
+                      bg-neutral-900
+                      p-3
+                      shadow-(--spellframe-glow)
+                    ">
 
-                    <div className="mb-2 flex items-center justify-between">
-                      <h3 className="text-xs font-semibold uppercase tracking-wide text-neutral-300">
-                        Sideboard
-                      </h3>
-                    <span className="text-xs text-neutral-400">
-                      {sideboardCount} / 10
-                    </span>
+                      <div className="mb-2 flex items-center justify-between">
+                        <h3 className="text-xs font-semibold uppercase tracking-wide text-neutral-300">
+                          Sideboard
+                        </h3>
+                      <span className="text-xs text-neutral-400">
+                        {sideboardCount} / 10
+                      </span>
 
-                    </div>
-
-                    {/* Empty state */}
-                    {sideboardCards.length === 0 ? (
-                      <div className="flex h-20 items-center justify-center rounded border border-dashed border-neutral-800 text-xs text-neutral-500">
-                        Sideboard (0/10)
                       </div>
-                    ) : (
-                      <ul className="space-y-1">
-                        {sideboardCards.map(({ card }, index) => {
-                          
-                          return (
-                            <li
-                              key={`${card.scryfallId}-${index}`}
-                              className="
-                                w-full
-                                rounded
-                                border border-neutral-800
-                                bg-neutral-950
-                                px-3 py-1.5
-                                text-xs
-                                text-neutral-200
-                                hover:bg-neutral-800
-                                transition
-                                flex
-                                items-center
-                                justify-between
-                                gap-3
-                              "
-                              onMouseEnter={() => setHoveredCard(card)}
-                              onMouseLeave={() => setHoveredCard(null)}
-                            >
-                              <div className="flex items-center gap-2 min-w-0">
-                                
-                                <button
-                                  type="button"
-                                  onClick={() => openInspector(card)}
-                                  className="flex-1 text-left truncate hover:underline"
-                                  title={card.name}
-                                >
-                                  {truncateName(card.name, 24)}
-                                </button>
-                              </div>
 
-                              {/* RIGHT: mana + remove */}
-                              <div className="flex items-center gap-3 shrink-0">
-                                <ManaCost manaCost={card.manaCost} />
-
-                                {!isReadOnly && (
+                      {/* Empty state */}
+                      {sideboardCards.length === 0 ? (
+                        <div className="flex h-20 items-center justify-center rounded border border-dashed border-neutral-800 text-xs text-neutral-500">
+                          Sideboard (0/10)
+                        </div>
+                      ) : (
+                        <ul className="space-y-1">
+                          {sideboardCards.map(({ card }, index) => {
+                            
+                            return (
+                              <li
+                                key={`${card.scryfallId}-${index}`}
+                                className="
+                                  w-full
+                                  rounded
+                                  border border-neutral-800
+                                  bg-neutral-950
+                                  px-3 py-1.5
+                                  text-xs
+                                  text-neutral-200
+                                  hover:bg-neutral-800
+                                  transition
+                                  flex
+                                  items-center
+                                  justify-between
+                                  gap-3
+                                "
+                                onMouseEnter={() => setHoveredCard(card)}
+                                onMouseLeave={() => setHoveredCard(null)}
+                              >
+                                <div className="flex items-center gap-2 min-w-0">
+                                  
                                   <button
                                     type="button"
-                                    onClick={() => removeCard(card.scryfallId)}
-                                    className="text-neutral-500 hover:text-red-400 transition"
-                                    title="Remove from sideboard"
+                                    onClick={() => openInspector(card)}
+                                    className="flex-1 text-left truncate hover:underline"
+                                    title={card.name}
                                   >
-                                    ✕
+                                    {truncateName(card.name, 24)}
                                   </button>
-                                )}
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    )}
+                                </div>
+
+                                {/* RIGHT: mana + remove */}
+                                <div className="flex items-center gap-3 shrink-0">
+                                  <ManaCost manaCost={card.manaCost} />
+
+                                  {!isReadOnly && (
+                                    <button
+                                      type="button"
+                                      onClick={() => removeCard(card.scryfallId)}
+                                      className="text-neutral-500 hover:text-red-400 transition"
+                                      title="Remove from sideboard"
+                                    >
+                                      ✕
+                                    </button>
+                                  )}
+                                </div>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </aside>
+              </aside>
 
-    {/* MAINBOARD */}
-    {isCommanderLocked === true && (
-      <section className="w-full space-y-4">
-        <form ref={searchFormRef} onSubmit={searchMainboard} className="space-y-2">
-          {/* Add destination toggle */}
-          {!isReadOnly && (
-            <div className="flex items-center gap-2 text-xs text-neutral-200">
-              <span>Add to:</span>
+              {/* MAINBOARD */}
+              {isCommanderLocked === true && (
+                <section className="w-full space-y-4">
+                  <form ref={searchFormRef} onSubmit={searchMainboard} className="space-y-2">
+                    {/* Add destination toggle */}
+                    {!isReadOnly && (
+                      <div className="flex items-center gap-2 text-xs text-neutral-200">
+                        <span>Add to:</span>
 
-              <div className="flex rounded border border-neutral-800 overflow-hidden">
-                <button
-                  type="button"
-                  onClick={() => setAddDestination("mainboard")}
-                  className={`
-                    px-4 py-1.5
-                    font-medium
-                    rounded-lg
-                    transition-colors
-                    ${
-                      addDestination === "mainboard"
-                        ? "bg-blue-500/42 text-white"
-                        : "bg-neutral-900 text-neutral-300 hover:bg-neutral-800"
-                    }
-                  `}
-                >
-                  Mainboard
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setAddDestination("sideboard")}
-                  className={`
-                    px-4 py-1.5
-                    font-medium
-                    rounded-lg
-                    transition-colors
-                    ${
-                      addDestination === "sideboard"
-                        ? "bg-blue-500/42 text-white"
-                        : "bg-neutral-900 text-neutral-300 hover:bg-neutral-800"
-                    }
-                  `}
-                >
-                  Sideboard
-                </button>
-              </div>
-            </div>
-          )}
+                        <div className="flex rounded border border-neutral-800 overflow-hidden">
+                          <button
+                            type="button"
+                            onClick={() => setAddDestination("mainboard")}
+                            className={`
+                              px-4 py-1.5
+                              font-medium
+                              rounded-lg
+                              transition-colors
+                              ${
+                                addDestination === "mainboard"
+                                  ? "bg-blue-500/42 text-white"
+                                  : "bg-neutral-900 text-neutral-300 hover:bg-neutral-800"
+                              }
+                            `}
+                          >
+                            Mainboard
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setAddDestination("sideboard")}
+                            className={`
+                              px-4 py-1.5
+                              font-medium
+                              rounded-lg
+                              transition-colors
+                              ${
+                                addDestination === "sideboard"
+                                  ? "bg-blue-500/42 text-white"
+                                  : "bg-neutral-900 text-neutral-300 hover:bg-neutral-800"
+                              }
+                            `}
+                          >
+                            Sideboard
+                          </button>
+                        </div>
+                      </div>
+                    )}
 
-          {/* Search row */}
-          <div className="flex gap-2">
-            <input
-              disabled={isReadOnly}
-              ref={mainboardInputRef}
-              value={mainboardQuery}
-              onChange={(e) => {
-                setMainboardQuery(e.target.value);
-                if (mainboardError) setMainboardError(null);
-              }}
-              placeholder={
-                mainboardError
-                  ? mainboardError
-                  : "Search cards to add…"
-              }
-              className={`
-                flex-1
-                rounded-md
-                px-3 py-2
-                bg-neutral-900
-                border
-                transition-shadow
-                focus:shadow-(--spellframe-glow)
-                ${mainboardError
-                  ? "border-red-500 placeholder-red-400"
-                  : "border-neutral-800"}
-              `}
-              autoFocus
-            />
-
-            <button
-              type="button"
-              disabled={isReadOnly}
-              onClick={() => {
-                if (isReadOnly) return;
-                setAdvancedSearchOpen(o => !o);
-              }}
-              className={`
-                px-3 py-2
-                rounded-md
-                border
-                text-sm
-                transition-shadow
-                ${
-                  isReadOnly
-                    ? "border-neutral-800 text-neutral-600 cursor-not-allowed opacity-50"
-                    : "border-neutral-800 hover:bg-neutral-800 shadow-(--spellframe-glow)"
-                }
-              `}
-            >
-              Advanced
-            </button>
-          </div>
-
-          {advancedSearchOpen && (
-            <DeckBuilderAdvancedSearch
-              selectedColors={selectedColors}
-              setSelectedColors={setSelectedColors}
-              selectedTypes={selectedTypes}
-              setSelectedTypes={setSelectedTypes}
-              selectedSet={selectedSet}
-              setSelectedSet={setSelectedSet}
-              allSets={allSets}
-              onSetSelect={() => {
-                searchFormRef.current?.requestSubmit();
-              }}
-            />
-          )}
-        </form>
-
-        {/* Floating search results */}
-      {mainboardResults.length > 0 && (
-
-        <div className="fixed inset-0 z-50">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/60"
-            onClick={() => setMainboardResults([])}
-          />
-
-          {/* Results panel */}
-          <div className="absolute left-1/2 top-28 w-full max-w-4xl pt-3 mt-5 -translate-x-1/2 rounded-md border border-neutral-800 bg-neutral-950 shadow-xl">
-            <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-800">
-              <span className="text-sm text-neutral-300">
-                Search results
-              </span>
-
-              <button
-                type="button"
-                onClick={() => setMainboardResults([])}
-                className="text-sm text-neutral-400 hover:text-neutral-200"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="max-h-[70vh] overflow-y-auto p-4">
-              {mainboardResults.length > 0 && (
-                <>
-                  <CardGrid
-                    cards={paginatedMainboardResults}
-                    loading={mainboardLoading}
-                    selectedIds={selectedIdentityKeys}
-                    identityKey={identityKey}
-                    onSelect={(card) => {
-                      if (isReadOnly) return;
-
-                      const k = identityKey(card);
-                      if (commanders.some(c => identityKey(c) === k)) return;
-                      if (k && selectedIdentityKeys.has(k)) return;
-
-                      if (card.typeLine?.toLowerCase().includes("basic land")) {
-                        setBasicLandCard(card);
-                        setBasicLandQty(1);
-                        return;
-                      }
-
-                      if (
-                        addDestination === "mainboard" &&
-                        totalDeckCount >= 100
-                      ) {
-                        return;
-                      }
-
-                      if (
-                        addDestination === "sideboard" &&
-                        sideboardCount >= 10
-                      ) {
-                        return;
-                      }
-
-                      const res = guardedAddCard(card, addDestination);
-                      if (res?.error) return;
-
-                      setMainboardQuery("");
-                      setMainboardResults([]);
-                      setMainboardPage(1);
-                    }}
-                  />
-
-                  {mainboardResults.length > MAINBOARD_PAGE_SIZE && (
-                    <div className="flex justify-center items-center gap-2 pt-4">
-                      <button
-                        disabled={mainboardPage === 1}
-                        onClick={() => setMainboardPage(p => p - 1)}
-                        className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
-                      >
-                        ←
-                      </button>
-
-                      {Array.from(
-                        { length: mainboardTotalPages },
-                        (_, i) => i + 1
-                      ).map(p => (
-                        <button
-                          key={p}
-                          onClick={() => setMainboardPage(p)}
-                          className={`px-3 py-1 text-sm rounded border ${
-                            p === mainboardPage
-                              ? "border-indigo-400 text-indigo-300 shadow-(--spellframe-glow)"
-                              : "border-neutral-700 text-neutral-400 hover:text-neutral-200"
-                          }`}
-                        >
-                          {p}
-                        </button>
-                      ))}
+                    {/* Search row */}
+                    <div className="flex gap-2">
+                      <input
+                        disabled={isReadOnly}
+                        ref={mainboardInputRef}
+                        value={mainboardQuery}
+                        onChange={(e) => {
+                          setMainboardQuery(e.target.value);
+                          if (mainboardError) setMainboardError(null);
+                        }}
+                        placeholder={
+                          mainboardError
+                            ? mainboardError
+                            : "Search cards to add…"
+                        }
+                        className={`
+                          flex-1
+                          rounded-md
+                          px-3 py-2
+                          bg-neutral-900
+                          border
+                          transition-shadow
+                          focus:shadow-(--spellframe-glow)
+                          ${mainboardError
+                            ? "border-red-500 placeholder-red-400"
+                            : "border-neutral-800"}
+                        `}
+                        autoFocus
+                      />
 
                       <button
-                        disabled={mainboardPage === mainboardTotalPages}
-                        onClick={() => setMainboardPage(p => p + 1)}
-                        className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
+                        type="button"
+                        disabled={isReadOnly}
+                        onClick={() => {
+                          if (isReadOnly) return;
+                          setAdvancedSearchOpen(o => !o);
+                        }}
+                        className={`
+                          px-3 py-2
+                          rounded-md
+                          border
+                          text-sm
+                          transition-shadow
+                          ${
+                            isReadOnly
+                              ? "border-neutral-800 text-neutral-600 cursor-not-allowed opacity-50"
+                              : "border-neutral-800 hover:bg-neutral-800 shadow-(--spellframe-glow)"
+                          }
+                        `}
                       >
-                        →
+                        Advanced
                       </button>
                     </div>
-                  )}
-                </>
+
+                    {advancedSearchOpen && (
+                      <DeckBuilderAdvancedSearch
+                        selectedColors={selectedColors}
+                        setSelectedColors={setSelectedColors}
+                        selectedTypes={selectedTypes}
+                        setSelectedTypes={setSelectedTypes}
+                        selectedSet={selectedSet}
+                        setSelectedSet={setSelectedSet}
+                        allSets={allSets}
+                        onSetSelect={() => {
+                          searchFormRef.current?.requestSubmit();
+                        }}
+                      />
+                    )}
+                  </form>
+
+                  {/* Floating search results */}
+                {mainboardResults.length > 0 && (
+
+                  <div className="fixed inset-0 z-50">
+                    {/* Backdrop */}
+                    <div
+                      className="absolute inset-0 bg-black/60"
+                      onClick={() => setMainboardResults([])}
+                    />
+
+                    {/* Results panel */}
+                    <div className="absolute left-1/2 top-28 w-full max-w-4xl pt-3 mt-5 -translate-x-1/2 rounded-md border border-neutral-800 bg-neutral-950 shadow-xl">
+                      <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-800">
+                        <span className="text-sm text-neutral-300">
+                          Search results
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={() => setMainboardResults([])}
+                          className="text-sm text-neutral-400 hover:text-neutral-200"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      <div className="max-h-[70vh] overflow-y-auto p-4">
+                        {mainboardResults.length > 0 && (
+                          <>
+                            <CardGrid
+                              cards={paginatedMainboardResults}
+                              loading={mainboardLoading}
+                              selectedIds={selectedIdentityKeys}
+                              identityKey={identityKey}
+                              onSelect={(card) => {
+                                if (isReadOnly) return;
+
+                                const k = identityKey(card);
+                                if (commanders.some(c => identityKey(c) === k)) return;
+                                if (k && selectedIdentityKeys.has(k)) return;
+
+                                if (card.typeLine?.toLowerCase().includes("basic land")) {
+                                  setBasicLandCard(card);
+                                  setBasicLandQty(1);
+                                  return;
+                                }
+
+                                if (
+                                  addDestination === "mainboard" &&
+                                  totalDeckCount >= 100
+                                ) {
+                                  return;
+                                }
+
+                                if (
+                                  addDestination === "sideboard" &&
+                                  sideboardCount >= 10
+                                ) {
+                                  return;
+                                }
+
+                                const res = guardedAddCard(card, addDestination);
+                                if (res?.error) return;
+
+                                setMainboardQuery("");
+                                setMainboardResults([]);
+                                setMainboardPage(1);
+                              }}
+                            />
+
+                            {mainboardResults.length > MAINBOARD_PAGE_SIZE && (
+                              <div className="flex justify-center items-center gap-2 pt-4">
+                                <button
+                                  disabled={mainboardPage === 1}
+                                  onClick={() => setMainboardPage(p => p - 1)}
+                                  className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
+                                >
+                                  ←
+                                </button>
+
+                                {Array.from(
+                                  { length: mainboardTotalPages },
+                                  (_, i) => i + 1
+                                ).map(p => (
+                                  <button
+                                    key={p}
+                                    onClick={() => setMainboardPage(p)}
+                                    className={`px-3 py-1 text-sm rounded border ${
+                                      p === mainboardPage
+                                        ? "border-indigo-400 text-indigo-300 shadow-(--spellframe-glow)"
+                                        : "border-neutral-700 text-neutral-400 hover:text-neutral-200"
+                                    }`}
+                                  >
+                                    {p}
+                                  </button>
+                                ))}
+
+                                <button
+                                  disabled={mainboardPage === mainboardTotalPages}
+                                  onClick={() => setMainboardPage(p => p + 1)}
+                                  className="px-3 py-1 text-sm rounded border border-neutral-700 text-neutral-300 disabled:opacity-40"
+                                >
+                                  →
+                                </button>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                  {/* Deck columns */}
+                    <div
+                      className="
+                        w-full
+                        columns-1
+                        min-[860px]:columns-2
+                        lg:columns-3
+                        gap-6
+                        pr-2
+                      "
+                    >
+                    {/* COMMANDER GROUP */}
+                    <section className="space-y-2 break-inside-avoid mb-6">
+                      <h3 className="text-sm font-semibold text-neutral-300">
+                        Commander ({commanderCount})
+                      </h3>
+
+                      <ul className="rounded-md border border-neutral-800 bg-neutral-900 divide-y divide-neutral-800">
+                        {commanders.map((card, index) => (
+                          <li
+                            key={`${card.scryfallId}-${index}`}
+                            className="
+                              flex items-center justify-between
+                              px-2 py-1.5
+                              text-sm
+                              hover:bg-neutral-800/50
+                            "
+                            onMouseEnter={() => setHoveredCard(card)}
+                            onMouseLeave={() => setHoveredCard(null)}
+                          >
+                            <div className="flex items-center gap-2 min-w-0">
+                              <span className="w-4 text-right text-neutral-400">1</span>
+
+                              <button
+                                type="button"
+                                onClick={() => openInspector(card)}
+                                className="truncate text-left text-neutral-100 hover:underline"
+                              >
+                                {card.name}
+                              </button>
+
+                              
+                            </div>
+
+                            <ManaCost manaCost={card.manaCost} />
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+
+                    {saveAsOpen && (
+                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+                        <form
+                          className="w-96 rounded-md border border-neutral-800 bg-neutral-900 p-5 space-y-4"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            saveDeckAsConfirmed(saveAsName);
+                          }}
+                        >
+                          <h3 className="text-lg font-semibold text-neutral-200">
+                            Save Deck As
+                          </h3>
+
+                          <input
+                            value={saveAsName}
+                            onChange={(e) => setSaveAsName(e.target.value)}
+                            placeholder="Deck name"
+                            className="w-full rounded-md px-3 py-2 bg-neutral-950 border border-neutral-800"
+                            autoFocus
+                          />
+
+                          <div className="flex justify-end gap-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSaveAsName(deckName);
+                                setSaveAsOpen(false);
+                              }}
+                              className="text-sm text-neutral-400 hover:text-neutral-200"
+                            >
+                              Cancel
+                            </button>
+
+                            <button
+                              type="submit"
+                              className="rounded bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+                            >
+                              Save As
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    )}
+
+
+                    {/* MAINBOARD GROUPS */}
+                    {[
+                      ["Planeswalkers", "planeswalkers"],
+                      ["Creatures", "creatures"],
+                      ["Sorceries", "sorceries"],
+                      ["Instants", "instants"],
+                      ["Artifacts", "artifacts"],
+                      ["Enchantments", "enchantments"],
+                      ["Lands", "lands"],
+                    ].map(([label, key]) => {
+                      const cards = groupedMainboard[key];
+                      if (!cards.length) return null;
+
+                      const count = cards.reduce((s, c) => s + c.quantity, 0);
+
+                      return (
+                        <section
+                          key={key}
+                          className="mb-6"
+                        >
+                          {/* Section header */}
+                          <div className="mb-2 break-inside-avoid">
+                            <h3 className="text-sm font-semibold text-neutral-300">
+                              {label} ({count})
+                            </h3>
+
+                            {/* Continuation header (appears ONLY if column breaks here) */}
+                            <h3
+                              className="
+                                hidden
+                                text-sm
+                                font-semibold
+                                text-neutral-400
+                                pt-2
+                                mt-2
+                                border-t
+                                border-neutral-800
+                                before:content-[attr(data-cont)]
+                              "
+                              data-cont={`${label} (cont.)`}
+                            />
+                          </div>
+
+                          <ul className="divide-y divide-neutral-800">
+                            {cards.map(({ card, quantity }, index) => (
+                              <DeckRow
+                                key={`${card.scryfallId}-${index}`}
+                                card={card}
+                                quantity={quantity}
+                                onHover={setHoveredCard}
+                                onRemove={
+                                  isReadOnly
+                                    ? undefined
+                                    : () => {
+                                        removeCard(card.scryfallId);
+                                        setHoveredCard((prev) =>
+                                          prev?.name === card.name ? null : prev
+                                        );
+                                      }
+                                }
+                              />
+                            ))}
+                          </ul>
+                        </section>
+                      );
+                    })}
+                  </div>
+                </section>
               )}
             </div>
-          </div>
-        </div>
-      )}
-
-        {/* Deck columns */}
-          <div
-            className="
-              w-full
-              columns-1
-              md:columns-2
-              lg:columns-3
-              gap-6
-              pr-2
-            "
-          >
-          {/* COMMANDER GROUP */}
-          <section className="space-y-2 break-inside-avoid mb-6">
-            <h3 className="text-sm font-semibold text-neutral-300">
-              Commander ({commanderCount})
-            </h3>
-
-            <ul className="rounded-md border border-neutral-800 bg-neutral-900 divide-y divide-neutral-800">
-              {commanders.map((card, index) => (
-                <li
-                  key={`${card.scryfallId}-${index}`}
-                  className="
-                    flex items-center justify-between
-                    px-2 py-1.5
-                    text-sm
-                    hover:bg-neutral-800/50
-                  "
-                  onMouseEnter={() => setHoveredCard(card)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="w-4 text-right text-neutral-400">1</span>
-
-                    <button
-                      type="button"
-                      onClick={() => openInspector(card)}
-                      className="truncate text-left text-neutral-100 hover:underline"
-                    >
-                      {card.name}
-                    </button>
-
-                    
-                  </div>
-
-                  <ManaCost manaCost={card.manaCost} />
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {saveAsOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-              <form
-                className="w-96 rounded-md border border-neutral-800 bg-neutral-900 p-5 space-y-4"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  saveDeckAsConfirmed(saveAsName);
-                }}
-              >
-                <h3 className="text-lg font-semibold text-neutral-200">
-                  Save Deck As
-                </h3>
-
-                <input
-                  value={saveAsName}
-                  onChange={(e) => setSaveAsName(e.target.value)}
-                  placeholder="Deck name"
-                  className="w-full rounded-md px-3 py-2 bg-neutral-950 border border-neutral-800"
-                  autoFocus
-                />
-
-                <div className="flex justify-end gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSaveAsName(deckName);
-                      setSaveAsOpen(false);
-                    }}
-                    className="text-sm text-neutral-400 hover:text-neutral-200"
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="submit"
-                    className="rounded bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-                  >
-                    Save As
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
-
-
-          {/* MAINBOARD GROUPS */}
-          {[
-            ["Planeswalkers", "planeswalkers"],
-            ["Creatures", "creatures"],
-            ["Sorceries", "sorceries"],
-            ["Instants", "instants"],
-            ["Artifacts", "artifacts"],
-            ["Enchantments", "enchantments"],
-            ["Lands", "lands"],
-          ].map(([label, key]) => {
-            const cards = groupedMainboard[key];
-            if (!cards.length) return null;
-
-            const count = cards.reduce((s, c) => s + c.quantity, 0);
-
-            return (
-              <section
-                key={key}
-                className="mb-6"
-              >
-                {/* Section header */}
-                <div className="mb-2 break-inside-avoid">
-                  <h3 className="text-sm font-semibold text-neutral-300">
-                    {label} ({count})
-                  </h3>
-
-                  {/* Continuation header (appears ONLY if column breaks here) */}
-                  <h3
-                    className="
-                      hidden
-                      text-sm
-                      font-semibold
-                      text-neutral-400
-                      pt-2
-                      mt-2
-                      border-t
-                      border-neutral-800
-                      before:content-[attr(data-cont)]
-                    "
-                    data-cont={`${label} (cont.)`}
-                  />
-                </div>
-
-                <ul className="divide-y divide-neutral-800">
-                  {cards.map(({ card, quantity }, index) => (
-                    <DeckRow
-                      key={`${card.scryfallId}-${index}`}
-                      card={card}
-                      quantity={quantity}
-                      onHover={setHoveredCard}
-                      onRemove={
-                        isReadOnly
-                          ? undefined
-                          : () => {
-                              removeCard(card.scryfallId);
-                              setHoveredCard((prev) =>
-                                prev?.name === card.name ? null : prev
-                              );
-                            }
-                      }
-                    />
-                  ))}
-                </ul>
-              </section>
-            );
-          })}
-        </div>
-      </section>
-    )}
           </div>
           {detailIndex !== null && (
             <div className="fixed inset-0 z-90 flex items-center justify-center px-4">
