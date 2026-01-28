@@ -2290,6 +2290,7 @@ function truncateName(name, max = 22) {
               className="
                 max-h-full
                 overflow-y-auto
+                max-[599px]:overflow-visible
                 pr-2
                 space-y-4
               "
@@ -2398,6 +2399,7 @@ function truncateName(name, max = 22) {
                 animate-[inspectorIn_180ms_ease-out]
                 max-h-full
                 overflow-y-auto
+                max-[599px]:overflow-visible
                 pr-6
                 space-y-8
               "
