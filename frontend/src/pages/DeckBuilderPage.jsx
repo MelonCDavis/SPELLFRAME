@@ -1667,6 +1667,7 @@ function truncateName(name, max = 22) {
             </div>
           )}
 
+          
             {/* PREVIEW PANEL */}
             <div className="grid grid-cols-1 sm:grid-cols-[260px_1fr] gap-6">
               <aside
@@ -2181,7 +2182,7 @@ function truncateName(name, max = 22) {
                 </section>
               )}
             </div>
-          </div>
+          
           {detailIndex !== null && (
             <div className="fixed inset-0 z-90 flex items-center justify-center px-4">
               {/* Backdrop */}
