@@ -1289,13 +1289,14 @@ function truncateName(name, max = 22) {
               }}
             />
           )}
-          {/* XS preview toggle */}
-          <div className="sm:hidden mt-3">
+          {/* XS controls row */}
+          <div className="sm:hidden mt-3 flex gap-2">
+            {/* XS preview toggle */}
             <button
               type="button"
               onClick={() => setXsPreviewOpen(o => !o)}
               className="
-                w-full
+                flex-1
                 flex items-center justify-center gap-2
                 rounded-md
                 border border-neutral-800
@@ -1311,17 +1312,16 @@ function truncateName(name, max = 22) {
               <span className="text-lg leading-none">
                 {xsPreviewOpen ? "▲" : "▼"}
               </span>
-              <span>Push me — Preview</span>
+              <span>Preview</span>
             </button>
-          </div>
-          {/* XS + SM actions hamburger */}
-          {isAuthenticated && isCommanderLocked === true && (
-            <div className="md:hidden mt-3 relative">
+
+            {/* XS hamburger */}
+            {isAuthenticated && isCommanderLocked === true && (
               <button
                 type="button"
                 onClick={() => setActionsMenuOpen(o => !o)}
                 className="
-                  w-full
+                  flex-1
                   flex items-center justify-center gap-2
                   rounded-md
                   border border-neutral-800
@@ -1335,14 +1335,38 @@ function truncateName(name, max = 22) {
                 "
               >
                 <span className="text-lg leading-none">☰</span>
-                <span>Deck Actions</span>
+                <span>Actions</span>
+              </button>
+            )}
+          </div>
+          {/* SM actions hamburger */}
+          {isAuthenticated && isCommanderLocked === true && (
+            <div className="hidden sm:flex min-[860px]:hidden mt-3 relative justify-end">
+              <button
+                type="button"
+                onClick={() => setActionsMenuOpen(o => !o)}
+                className="
+                  flex items-center justify-center
+                  rounded-md
+                  border border-neutral-800
+                  bg-neutral-900
+                  p-2
+                  text-neutral-200
+                  hover:bg-neutral-800
+                  transition
+                  shadow-(--spellframe-glow)
+                "
+                aria-label="Deck actions"
+              >
+                ☰
               </button>
 
               {actionsMenuOpen && (
                 <div className="
                   absolute
-                  left-0 right-0
+                  right-0
                   mt-2
+                  w-56
                   rounded-md
                   border border-neutral-800
                   bg-neutral-950
@@ -1396,7 +1420,7 @@ function truncateName(name, max = 22) {
           )}
 
           {isAuthenticated && isCommanderLocked === true && (
-            <div className="hidden min-[860px]:flex justify-end gap-2 mt-3">
+            <div className="hidden min-[860px]:flex justify-end gap-2 mt-3 pr-1">
               <button
                 type="button"
                 onClick={() => setImportOpen(true)}
@@ -1643,15 +1667,12 @@ function truncateName(name, max = 22) {
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 items-start">
             {/* PREVIEW PANEL */}
             <div className="grid grid-cols-1 sm:grid-cols-[260px_1fr] gap-6">
               <aside
                 className={`
-                  hidden
-                  sm:block
                   ${xsPreviewOpen ? "block" : "hidden"}
-                  min-[860px]:block
+                  sm:block
                   lg:sticky lg:top-6
                   pt-8
                 `}
@@ -2003,7 +2024,7 @@ function truncateName(name, max = 22) {
                         min-[860px]:columns-2
                         lg:columns-3
                         gap-6
-                        pr-2
+                        pr-1
                       "
                     >
                     {/* COMMANDER GROUP */}
