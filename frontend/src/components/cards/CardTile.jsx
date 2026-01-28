@@ -6,7 +6,6 @@ export default function CardTile({
   onSelect,
   isSelected,
   showCommanderRestriction = false,
-  showFoil = false,
 }) {
   // Support both direct Card objects AND wrapper shapes (e.g. deckCard.card)
   const c = card?.card ?? card;
