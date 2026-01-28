@@ -37,12 +37,7 @@ export default function LibraryPage() {
     cardPrintings?.find(p => p.prices)?.prices ??
     null;
 
-  const effectivePrice =
-    prices?.usd_foil ??
-    prices?.usd ??
-    prices?.eur_foil ??
-    prices?.eur ??
-    null;
+  const effectivePrices = prices ?? null;
 
   const COLOR_STYLES = {
     w: "border-neutral-300 text-neutral-200 shadow-[0_0_8px_rgba(255,255,255,0.35)]",
