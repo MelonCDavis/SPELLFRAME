@@ -1239,7 +1239,8 @@ function truncateName(name, max = 22) {
         via-neutral-800/95
         to-neutral-950
         flex flex-col
-        pt-13
+        pt-10
+        md:pt-27
       "
         >
       <div className="flex-1 overflow-y-auto space-y-6">

@@ -304,8 +304,9 @@ export default function CommanderBanner({
                 )}
             </div>
 
-            <div className="ml-auto flex items-center gap-3">
-              <span className="text-neutral-300/80">
+            <div className="ml-auto flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+              {/* XS: count ABOVE edit */}
+              <span className="sm:hidden text-xs text-neutral-300/80 text-right">
                 {totalDeckCount} / 100
               </span>
 
@@ -321,10 +322,16 @@ export default function CommanderBanner({
                     });
                     setEditing(true);
                   }}
-                  className="ml-3 px-3 py-1.5 shadow-(--spellframe-glow) rounded-md border border-neutral-700 text-sm font-medium text-neutral-200 hover:border-neutral-400 hover:bg-neutral-800 transition">
+                  className="px-3 py-1.5 shadow-(--spellframe-glow) rounded-md border border-neutral-700 text-sm font-medium text-neutral-200 hover:border-neutral-400 hover:bg-neutral-800 transition"
+                >
                   Edit
                 </button>
               )}
+
+              {/* SM+: count INLINE */}
+              <span className="hidden sm:inline text-neutral-300/80">
+                {totalDeckCount} / 100
+              </span>
             </div>
           </div>
         </div>
