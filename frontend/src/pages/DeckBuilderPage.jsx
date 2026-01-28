@@ -2277,13 +2277,14 @@ function truncateName(name, max = 22) {
                 <div
                   key={detailList[detailIndex].name}
                   className="
-                    grid grid-cols-[256px_1fr]
+                    grid
+                    grid-cols-[256px_1fr]
+                    max-[599px]:grid-cols-1
                     gap-x-6 gap-y-10
                     flex-1
                     overflow-hidden
                   "
                 >
-
             {/* IMAGE COLUMN */}
             <div 
               className="
