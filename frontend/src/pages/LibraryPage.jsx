@@ -34,10 +34,15 @@ export default function LibraryPage() {
   // Filters
   const prices =
     activePrinting?.prices ??
-    cardPrintings?.find(p => p.prices)?.prices ??
+    cardPrintings?.find(
+      p => p.prices?.usd || p.prices?.usd_foil
+    )?.prices ??
     null;
 
-  const effectivePrices = prices ?? null;
+  const displayPrice =
+    prices?.usd ??
+    prices?.usd_foil ??
+    null;
 
   const COLOR_STYLES = {
     w: "border-neutral-300 text-neutral-200 shadow-[0_0_8px_rgba(255,255,255,0.35)]",
@@ -965,49 +970,16 @@ export default function LibraryPage() {
                                 style={{ aspectRatio: "63 / 88" }}
                               />
                             )}
-                            {effectivePrices && (
-                              <div className="mt-3 rounded-md border border-neutral-800 bg-neutral-900/60 px-3 py-3 text-center">
-                                <div className="text-xs uppercase tracking-wide text-neutral-400 mb-1">
-                                  Current Average Price
+                              {displayPrice && (
+                                <div className="mt-3 rounded-md border border-neutral-800 bg-neutral-900/60 px-3 py-3 text-center">
+                                  <div className="text-xs uppercase tracking-wide text-neutral-400 mb-1">
+                                    Current Average Price
+                                  </div>
+                                  <div className="text-lg font-semibold text-neutral-100">
+                                    ${displayPrice}
+                                  </div>
                                 </div>
-
-                                <div className="flex items-center justify-center gap-2 text-lg font-semibold text-neutral-100">
-                                  {effectivePrices.usd_foil ? (
-                                    <>
-                                      <span>${effectivePrices.usd_foil}</span>
-                                      <span className="text-xs font-normal text-neutral-400">
-                                        Foil
-                                      </span>
-                                    </>
-                                  ) : effectivePrices.usd ? (
-                                    <>
-                                      <span>${effectivePrices.usd}</span>
-                                      <span className="text-xs font-normal text-neutral-400">
-                                        Non-foil
-                                      </span>
-                                    </>
-                                  ) : effectivePrices.eur_foil ? (
-                                    <>
-                                      <span>€{effectivePrices.eur_foil}</span>
-                                      <span className="text-xs font-normal text-neutral-400">
-                                        Foil
-                                      </span>
-                                    </>
-                                  ) : effectivePrices.eur ? (
-                                    <>
-                                      <span>€{effectivePrices.eur}</span>
-                                      <span className="text-xs font-normal text-neutral-400">
-                                        Non-foil
-                                      </span>
-                                    </>
-                                  ) : (
-                                    <span className="text-sm text-neutral-500">
-                                      No pricing data
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            )}
+                              )}
                           </div>
 
                           <div className="space-y-6">
