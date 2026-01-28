@@ -57,6 +57,7 @@ export default function DeckBuilderPage({
   // =========================
   // 4) DECK EDITING + UI STATE
   // =========================
+  const [smPreviewOpen, setSmPreviewOpen] = useState(false);
   const [mainboardQuery, setMainboardQuery] = useState("");
   const [mainboardResults, setMainboardResults] = useState([]);
   const MAINBOARD_PAGE_SIZE = 40;
@@ -1286,6 +1287,31 @@ function truncateName(name, max = 22) {
               }}
             />
           )}
+          {/* SM preview toggle */}
+          <div className="hidden sm:block md:hidden mt-3">
+            <button
+              type="button"
+              onClick={() => setSmPreviewOpen(o => !o)}
+              className="
+                w-full
+                flex items-center justify-center gap-2
+                rounded-md
+                border border-neutral-800
+                bg-neutral-900
+                py-3
+                text-sm font-semibold
+                text-neutral-200
+                hover:bg-neutral-800
+                transition
+                shadow-(--spellframe-glow)
+              "
+            >
+              <span className="text-lg leading-none">
+                {smPreviewOpen ? "▲" : "▼"}
+              </span>
+              <span>Push me — Preview</span>
+            </button>
+          </div>
           
           {isImporting && (
             <div className="fixed inset-0 z-40 flex items-center justify-center pointer-events-none">
@@ -1305,7 +1331,7 @@ function truncateName(name, max = 22) {
           )}
 
           {isAuthenticated && isCommanderLocked === true && (
-            <div className="flex justify-end gap-2 mt-3">
+            <div className="hidden md:flex justify-end gap-2 mt-3">
               <button
                 type="button"
                 onClick={() => setImportOpen(true)}
@@ -1554,7 +1580,16 @@ function truncateName(name, max = 22) {
 
           <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 items-start">
                 {/* PREVIEW PANEL */}
-            <aside className="lg:sticky lg:top-6 flex justify-center lg:justify-end pt-8 lg:pr-0">
+            <aside
+              className={`
+                hidden
+                sm:block
+                ${smPreviewOpen ? "block" : "hidden"} 
+                md:block
+                lg:sticky lg:top-6
+                pt-8
+              `}
+            >
               <div className="flex flex-col items-center gap-3 shrink-0">
                 {/* PREVIEW CARD */}
                 <div
@@ -1899,10 +1934,10 @@ function truncateName(name, max = 22) {
             className="
               w-full
               columns-1
-              lg:columns-2
-              xl:columns-3
+              md:columns-2
+              lg:columns-3
               gap-6
-              pr-2 md:pr-2 lg:pr-2 xl:pr-2.5
+              pr-2
             "
           >
           {/* COMMANDER GROUP */}
