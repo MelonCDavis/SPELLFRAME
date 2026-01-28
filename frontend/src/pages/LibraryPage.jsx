@@ -32,14 +32,16 @@ export default function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Filters
-  const effectivePrices =
+  const prices =
     activePrinting?.prices ??
-    cardPrintings?.find(p =>
-      p.prices?.usd ||
-      p.prices?.usd_foil ||
-      p.prices?.eur ||
-      p.prices?.eur_foil
-    )?.prices ??
+    cardPrintings?.find(p => p.prices)?.prices ??
+    null;
+
+  const effectivePrice =
+    prices?.usd_foil ??
+    prices?.usd ??
+    prices?.eur_foil ??
+    prices?.eur ??
     null;
 
   const COLOR_STYLES = {
