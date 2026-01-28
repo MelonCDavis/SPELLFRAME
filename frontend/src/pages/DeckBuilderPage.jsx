@@ -1239,7 +1239,7 @@ function truncateName(name, max = 22) {
         via-neutral-800/95
         to-neutral-950
         flex flex-col
-        pt-27
+        pt-13
       "
         >
       <div className="flex-1 overflow-y-auto space-y-6">
@@ -1302,7 +1302,7 @@ function truncateName(name, max = 22) {
             />
           )}
           {/* XS controls row */}
-          <div className="sm:hidden mt-3 flex gap-2">
+          <div className="mt-3 flex gap-2 min-[860px]:hidden">
             {/* XS preview toggle */}
             <button
               type="button"
