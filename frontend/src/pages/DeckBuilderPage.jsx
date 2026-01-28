@@ -2206,7 +2206,7 @@ function truncateName(name, max = 22) {
                 className="
                   relative
                   w-full lg:w-1/2 max-w-4xl
-                  h-full
+                  h-full max-[599px]:overflow-y-auto
                   bg-neutral-950
                   border border-neutral-800
                   shadow-(--spellframe-glow)

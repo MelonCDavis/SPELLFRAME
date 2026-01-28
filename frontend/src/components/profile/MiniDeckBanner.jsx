@@ -7,6 +7,19 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
+  function getArtCrop(card) {
+    if (!card) return null;
+
+    return (
+      card.artCrop ||
+      card.imageLarge ||
+      card.imageNormal ||
+      card.imageUris?.art_crop ||
+      card.card_faces?.[0]?.imageUris?.art_crop ||
+      null
+    );
+  }
+
   async function handleToggleLike(e) {
     e.stopPropagation();
 
@@ -30,11 +43,7 @@ export default function MiniDeckBanner({ deck, to, onToggleVisibility, onUpdateL
   const y = typeof deck.bannerSettings?.y === "number" ? deck.bannerSettings.y : 25;
   const rgb = Array.isArray(deck.bannerRGB) ? deck.bannerRGB : [168, 85, 247];
 
-  const artUrl =
-    deck.commanders?.[0]?.artCrop ||
-    deck.commanders?.[0]?.imageUris?.art_crop ||
-    deck.commanders?.[0]?.imageLarge ||
-    null;
+  const artUrl = getArtCrop(deck.commanders?.[0]);
 
   return (
     <div className="relative h-20 rounded-md overflow-hidden border border-neutral-800">
