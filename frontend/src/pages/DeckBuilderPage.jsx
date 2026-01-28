@@ -682,6 +682,18 @@ export default function DeckBuilderPage({
     setVisibilityStep("choice");
   }, [deckId, visibilityPrompted, totalDeckCount]);
 
+  useEffect(() => {
+    if (!actionsMenuOpen) return;
+
+    function onKey(e) {
+      if (e.key === "Escape") {
+        setActionsMenuOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [actionsMenuOpen]);
 
   const hasFriendsForever =
     !!primaryCommander &&
@@ -1339,69 +1351,66 @@ function truncateName(name, max = 22) {
               </button>
             )}
           </div>
-          {/* SM actions hamburger */}
-          {isAuthenticated && isCommanderLocked === true && (
-            <div className="hidden sm:flex min-[860px]:hidden mt-3 relative justify-end">
-              <button
-                type="button"
-                onClick={() => setActionsMenuOpen(o => !o)}
-                className="
-                  flex items-center justify-center
-                  rounded-md
-                  border border-neutral-800
-                  bg-neutral-900
-                  p-2
-                  text-neutral-200
-                  hover:bg-neutral-800
-                  transition
-                  shadow-(--spellframe-glow)
-                "
-                aria-label="Deck actions"
-              >
-                ☰
-              </button>
+          
+          {/* XS + SM actions menu */}
+          {actionsMenuOpen && isAuthenticated && isCommanderLocked === true && (
+            <div className="fixed inset-0 z-40">
+              {/* Backdrop */}
+              <div
+                className="absolute inset-0 bg-black/60"
+                onClick={() => setActionsMenuOpen(false)}
+              />
 
-              {actionsMenuOpen && (
-                <div className="
+              {/* Menu */}
+              <div
+                className="
                   absolute
-                  right-0
-                  mt-2
+                  top-32
+                  right-4
                   w-56
                   rounded-md
                   border border-neutral-800
                   bg-neutral-950
                   shadow-xl
-                  z-30
                   divide-y divide-neutral-800
-                ">
-                  <button
-                    type="button"
-                    onClick={() => { setImportOpen(true); setActionsMenuOpen(false); }}
-                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-800"
-                  >
-                    Import Decklist
-                  </button>
+                "
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setImportOpen(true);
+                    setActionsMenuOpen(false);
+                  }}
+                  className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-800"
+                >
+                  Import Decklist
+                </button>
 
-                  <button
-                    type="button"
-                    onClick={() => { setExportOpen(true); setActionsMenuOpen(false); }}
-                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-800"
-                  >
-                    Export Decklist
-                  </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExportOpen(true);
+                    setActionsMenuOpen(false);
+                  }}
+                  className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-800"
+                >
+                  Export Decklist
+                </button>
 
-                  <button
-                    type="button"
-                    onClick={() => { cloneDeck(); setActionsMenuOpen(false); }}
-                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-800"
-                  >
-                    Clone Deck
-                  </button>
-                </div>
-              )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    cloneDeck();
+                    setActionsMenuOpen(false);
+                  }}
+                  className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-800"
+                >
+                  Clone Deck
+                </button>
+              </div>
             </div>
           )}
-          
+
           {isImporting && (
             <div className="fixed inset-0 z-40 flex items-center justify-center pointer-events-none">
               <div className="
@@ -2023,7 +2032,7 @@ function truncateName(name, max = 22) {
                         w-full
                         columns-1
                         min-[860px]:columns-2
-                        lg:columns-3
+                        min-[1150px]:columns-3
                         gap-6
                         pr-1
                       "
