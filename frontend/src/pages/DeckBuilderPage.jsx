@@ -1129,14 +1129,6 @@ function truncateName(name, max = 22) {
       });
     }
 
-    if (card.isFoil) {
-      badges.push({
-        key: "foil",
-        label: "★",
-        className: "bg-yellow-500/20 text-yellow-400 border border-yellow-500/40",
-      });
-    }
-
     return badges;
   }
 

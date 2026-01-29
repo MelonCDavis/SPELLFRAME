@@ -77,26 +77,7 @@ export default function LibraryPage() {
   /* ---------------------------------- */
   /* Derived Data                       */
   /* ---------------------------------- */
-  function expandByFinish(cards) {
-    return cards.flatMap(card => {
-      if (!Array.isArray(card.finishes) || card.finishes.length === 0) {
-        return [{
-          ...card,
-          finish: "nonfoil",
-          _inventoryKey: `${card.scryfallId}:nonfoil`,
-        }];
-      }
-
-      return card.finishes.map(finish => ({
-        ...card,
-        finish,
-        _inventoryKey: `${card.scryfallId}:${finish}`,
-      }));
-    });
-  }
-
-  const expandedResults = expandByFinish(results);
-  const filteredResults = expandedResults.filter(card => {
+  const filteredResults = results.filter(card => {
 
     if (selectedSet && card.setCode !== selectedSet) return false;
 
@@ -414,11 +395,8 @@ export default function LibraryPage() {
     );
   }
 
- 
-
-
   function getInspectorKey(c) {
-    return c?._inventoryKey ?? c?.scryfallId ?? c?.oracleId ?? c?.name;
+    return c?.scryfallId ?? c?.oracleId ?? c?.name;
   }
 
   function openInspector(clickedCard) {

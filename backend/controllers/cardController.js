@@ -119,7 +119,6 @@ exports.importCard = async (req, res) => {
       collectorNumber: data.collectorNumber,
       rarity: data.rarity,
       legalities: data.legalities,
-      isFoil: Boolean(data.isFoil),
       layout: data.layout ?? null,
       cardFaces: data.cardFaces ?? null,
     });
@@ -208,7 +207,6 @@ exports.getPrintings = async (req, res) => {
         rarity: card.rarity,
         imageSmall: card.image_uris?.small,
         imageNormal: card.image_uris?.normal,
-        isFoil: card.finishes?.includes("foil") ?? false,
         prices: card.prices ?? null, 
       })),
     });

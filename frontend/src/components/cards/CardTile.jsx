@@ -1,5 +1,4 @@
 import { useState } from "react";
-import FoilSticker from "../ui/FoilSticker";
 
 export default function CardTile({
   card,
@@ -9,19 +8,6 @@ export default function CardTile({
 }) {
   // Support both direct Card objects AND wrapper shapes (e.g. deckCard.card)
   const c = card?.card ?? card;
-
-  // 1) printing is intrinsically foil
-  const printingIsFoil =
-    (c?.nonfoil === false && c?.foil === true) ||
-    (Array.isArray(c?.finishes) && c.finishes.length === 1 && c.finishes[0] === "foil");
-
-  // 2) instance explicitly marked foil (deck / inventory)
-  const instanceIsFoil =
-    card?.isFoil === true ||
-    card?.finish === "foil";
-
-  // FINAL decision
-  const showFoil = printingIsFoil || instanceIsFoil;
 
   // Support backend-normalized "cardFaces" AND raw Scryfall "card_faces"
   const faces = Array.isArray(c?.cardFaces)
@@ -111,8 +97,6 @@ export default function CardTile({
           <span className="mt-1 block text-neutral-200">{name}</span>
         </div>
       )}
-
-      {showFoil && <FoilSticker />}
       
       {/* Flip badge */}
       {hasFaceImages && (
