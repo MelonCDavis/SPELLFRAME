@@ -1,4 +1,4 @@
-const IMPORT_REGEX = /^[A-Za-z0-9\s:'"(),:.\-!\/\\&\n]{1,6000}$/;
+const IMPORT_REGEX = /^[\p{L}\p{N}\s:'"(),:.\-!\/\\&\n]{1,6000}$/u;
 
 function validateDeckImport(raw) {
   if (typeof raw !== "string") {
@@ -34,7 +34,10 @@ function validateDeckImport(raw) {
     };
   }
 
-  return { ok: true };
+  return {
+    ok: true,
+    lines,
+  };
 }
 
 module.exports = {
