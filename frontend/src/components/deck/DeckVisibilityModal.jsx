@@ -1,13 +1,23 @@
+import { useEffect, useRef } from "react";
+
 export default function DeckVisibilityModal({
   step = "choice",
   onMakePublic,
   onChoosePrivate,
   onConfirmPrivate,
 }) {
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    formRef.current?.focus();
+  }, []);
+
   return (
     <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/70 px-4">
       
         <form
+          ref={formRef}
+          tabIndex={-1}
           onSubmit={(e) => {
             e.preventDefault();
             onMakePublic();

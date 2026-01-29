@@ -2291,7 +2291,7 @@ function truncateName(name, max = 22) {
                 max-h-full
                 overflow-y-auto
                 max-[599px]:overflow-visible
-                pr-2
+                pr-2 max-[599px]:flex max-[599px]:flex-col max-[599px]:items-center
                 space-y-4
               "
             >
@@ -2400,7 +2400,7 @@ function truncateName(name, max = 22) {
                 max-h-full
                 overflow-y-auto
                 max-[599px]:overflow-visible
-                pr-6
+                pr-6 max-[599px]:px-4 max-[599px]:text-center
                 space-y-8
               "
               style={{

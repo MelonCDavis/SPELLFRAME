@@ -9,6 +9,10 @@ export default function FounderRoute({ children }) {
     return null;
   }
   
+  if (!user) {
+    return null;
+  }
+  
   if (!isAuthenticated) {
     return <Navigate to="/profile" replace />;
   }
