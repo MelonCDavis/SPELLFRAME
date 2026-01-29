@@ -1,30 +1,16 @@
-import { useEffect, useRef } from "react";
-
 export default function DeckVisibilityModal({
   step = "choice",
   onMakePublic,
   onChoosePrivate,
   onConfirmPrivate,
 }) {
-  const formRef = useRef(null);
-
-  useEffect(() => {
-    formRef.current?.focus();
-  }, []);
 
   return (
     <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/70 px-4">
       
-        <form
-          ref={formRef}
-          tabIndex={-1}
-          onSubmit={(e) => {
-            e.preventDefault();
-            onMakePublic();
-          }}
+        <div
           className="w-full max-w-sm rounded-md border border-neutral-800 bg-neutral-900 p-5 space-y-4"
         >
-
           {step === "choice" ? (
             <>
               <h3 className="text-lg font-semibold text-neutral-200">
@@ -37,7 +23,8 @@ export default function DeckVisibilityModal({
 
               <div className="flex flex-col gap-2">
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={onMakePublic}
                   className="rounded bg-indigo-600 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
                 >
                   🌐 Make Public
@@ -64,7 +51,8 @@ export default function DeckVisibilityModal({
 
               <div className="flex flex-col gap-2">
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={onMakePublic}
                   className="rounded bg-indigo-600 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
                 >
                   😎 Fine, make it Public
@@ -80,8 +68,7 @@ export default function DeckVisibilityModal({
               </div>
             </>
           )}
-        </form>
-
+        </div>
     </div>
   );
 }
