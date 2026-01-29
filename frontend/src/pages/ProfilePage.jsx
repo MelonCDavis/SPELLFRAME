@@ -11,7 +11,7 @@ import ChangePasswordModal from "../components/profile/ChangePasswordModal";
 import DeleteAccountModal from "../components/profile/DeleteAccountModal";
 
 export default function ProfilePage() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, isInitializing, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation(); 
   const [accountOpen, setAccountOpen] = useState(false);
@@ -25,6 +25,9 @@ export default function ProfilePage() {
   const [libraryTotal, setLibraryTotal] = useState(null);
 
   useEffect(() => {
+    if (isInitializing) return;
+    if (!user) return;
+
     if (!isAuthenticated) {
       navigate("/login");
       return;
@@ -42,9 +45,10 @@ export default function ProfilePage() {
         );
     }
   }, [
+    isInitializing,
     isAuthenticated,
-    navigate,
     user,
+    navigate,
     location.state?.refreshDecks,
   ]);
 
@@ -323,7 +327,7 @@ export default function ProfilePage() {
           <AvatarEditorModal
             user={user}
             onClose={() => setEditingAvatar(false)}
-            onSaved={() => window.location.reload()}
+            onSaved={() => setEditingAvatar(false)}
           />
         )}
         <AccountSettingsModal
