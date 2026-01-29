@@ -2282,7 +2282,7 @@ function truncateName(name, max = 22) {
                     max-[599px]:grid-cols-1
                     gap-x-6 gap-y-10
                     flex-1
-                    overflow-hidden
+                    overflow-hidden max-[599px]:overflow-y-auto
                   "
                 >
             {/* IMAGE COLUMN */}

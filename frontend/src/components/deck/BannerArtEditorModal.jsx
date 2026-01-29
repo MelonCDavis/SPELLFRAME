@@ -65,7 +65,7 @@ export default function BannerArtEditorModal({
           cursor-grab active:cursor-grabbing
           shadow-(--spellframe-glow)
         "
-        style={{ height: "320px" }}
+        style={{ height: "275px" }}
       >
         <div
           className="absolute inset-0 bg-no-repeat"

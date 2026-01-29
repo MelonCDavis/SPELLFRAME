@@ -108,23 +108,42 @@ export default function GlobalHeader({
         <div className="md:hidden border-t border-neutral-800 bg-neutral-950 px-4 py-3 flex flex-col gap-3 text-sm text-neutral-300">
           {!isAuthenticated ? (
             <>
-              <Link to="/login">Log in</Link>
-              <Link to="/register">Sign up</Link>
+              <Link to="/login" onClick={() => setMenuOpen(false)}>
+                Log in
+              </Link>
+              <Link to="/register" onClick={() => setMenuOpen(false)}>
+                Sign up
+              </Link>
             </>
           ) : (
             <>
-              <Link to="/profile">Profile</Link>
-              <button onClick={logout} className="text-left">
-                Logout
-              </button>
+             <Link to="/profile" onClick={() => setMenuOpen(false)}>
+               Profile
+             </Link>
+
+             <button
+               onClick={() => {
+                 setMenuOpen(false);
+                 logout();
+               }}
+               className="text-left"
+             >
+               Logout
+             </button>
             </>
           )}
 
           <hr className="border-neutral-800" />
 
-          <Link to="/">Search Cards & Decks</Link>
-          <Link to="/commander">Build a Deck</Link>
-          <Link to="/faq">Commander FAQ</Link>
+          <Link to="/" onClick={() => setMenuOpen(false)}>
+            Search Cards & Decks
+          </Link>
+          <Link to="/commander" onClick={() => setMenuOpen(false)}>
+            Build a Deck
+          </Link>
+          <Link to="/faq" onClick={() => setMenuOpen(false)}>
+            Commander FAQ
+          </Link>
         </div>
       )}
       <nav className="hidden md:block border-t border-neutral-800">
