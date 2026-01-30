@@ -114,10 +114,10 @@ export default function CommanderBanner({
 
   return (
     <section className="relative z-20 w-screen left-1/2 right-1/2 -mx-[50vw] mb-6">
-      <div className="relative">
+      <div className="absolute inset-x-0 -top-16 h-[calc(100%+3.5rem)] overflow-visible z-0 pointer-events-none">
         {/* LG+ — large */}
         <div
-          className="hidden lg:block bg-no-repeat"
+          className="hidden lg:block absolute inset-0 bg-no-repeat"
           style={{
             height: "275px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
@@ -128,7 +128,7 @@ export default function CommanderBanner({
 
         {/* MD — medium */}
         <div
-          className="hidden md:block lg:hidden bg-no-repeat"
+          className="hidden md:block lg:hidden absolute inset-0 bg-no-repeat"
           style={{
             height: "220px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
@@ -139,13 +139,23 @@ export default function CommanderBanner({
 
         {/* XS + SM — small */}
         <div
-          className="block md:hidden bg-no-repeat"
+          className="block md:hidden absolute inset-0 bg-no-repeat"
           style={{
             height: "180px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
           }}
+        />
+        {/* Bottom background fade */}
+        <div
+          className="
+            absolute bottom-0 left-0 right-0
+            h-4
+            `bg-linear-to-b`
+            from-transparent
+            to-neutral-950
+          "
         />
       </div>
       {/* LEFT fade */}
