@@ -91,6 +91,23 @@ exports.saveDeck = async (req, res) => {
       return res.json(deck);
     }
 
+    // Enforce deck limit (creation only)
+    const isFounder = Boolean(req.user?.isFounder);
+
+    if (!isFounder) {
+      const existingCount = await Deck.countDocuments({
+        user: req.user._id,
+        isArchived: false,
+      });
+
+      if (existingCount >= 42) {
+        return res.status(403).json({
+          error:
+            "Deck limit reached. Users may create up to 42 decks. You may archive an older deck to make room.",
+        });
+      }
+    }
+
     // Create new
     const created = await Deck.create(updates);
     return res.json(created);
