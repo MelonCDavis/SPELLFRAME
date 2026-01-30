@@ -12,7 +12,7 @@ export default function GlobalHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950">
-      <div className="mx-auto max-w-screen-2xl px-4 pt-3 pb-6 flex flex-wrap items-center justify-center gap-3 md:justify-between min-w-0">
+      <div className="mx-auto max-w-screen-2xl px-4 pt-3 pb-7 flex flex-wrap items-center justify-center gap-3 md:justify-between min-w-0">
         <div className="text-2xl font-buda text-neutral-100 shrink-0 ml-0 sm:ml-0 md:ml-17">
           <Link to="/">SPELLFRAME</Link>
         </div>
@@ -146,7 +146,7 @@ export default function GlobalHeader({
           </Link>
         </div>
       )}
-      <nav className="hidden md:block border-t border-neutral-800">
+      <nav className="hidden [min-width:860px]:block border-t border-neutral-800">
         <div className="mx-auto max-w-screen-2xl px-4 py-2 flex flex-wrap gap-4 text-sm text-neutral-400">
           <Link to="/" className="hover:text-neutral-100">
             Search Cards & Decks
