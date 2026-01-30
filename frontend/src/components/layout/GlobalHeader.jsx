@@ -12,7 +12,7 @@ export default function GlobalHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950">
-      <div className="mx-auto max-w-screen-2xl px-4 py-3 flex flex-wrap items-center justify-center gap-3 md:justify-between min-w-0">
+      <div className="mx-auto max-w-screen-2xl px-4 pt-3 flex flex-wrap items-center justify-center gap-3 md:justify-between min-w-0">
         <div className="text-2xl font-buda text-neutral-100 shrink-0 ml-0 sm:ml-0 md:ml-17">
           <Link to="/">SPELLFRAME</Link>
         </div>

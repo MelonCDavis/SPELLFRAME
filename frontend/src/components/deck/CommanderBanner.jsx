@@ -123,6 +123,30 @@ export default function CommanderBanner({
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
+            WebkitMaskImage: `
+              linear-gradient(
+                to bottom,
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,1) calc(100% - 15px),
+                rgba(0,0,0,0.9) calc(100% - 12px),
+                rgba(0,0,0,0.7) calc(100% - 9px),
+                rgba(0,0,0,0.5) calc(100% - 6px),
+                rgba(0,0,0,0.3) calc(100% - 3px),
+                rgba(0,0,0,0) 100%
+              )
+            `,
+            maskImage: `
+              linear-gradient(
+                to bottom,
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,1) calc(100% - 15px),
+                rgba(0,0,0,0.9) calc(100% - 12px),
+                rgba(0,0,0,0.7) calc(100% - 9px),
+                rgba(0,0,0,0.5) calc(100% - 6px),
+                rgba(0,0,0,0.3) calc(100% - 3px),
+                rgba(0,0,0,0) 100%
+              )
+            `,
           }}
         />
 
@@ -134,6 +158,30 @@ export default function CommanderBanner({
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
+                        WebkitMaskImage: `
+              linear-gradient(
+                to bottom,
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,1) calc(100% - 15px),
+                rgba(0,0,0,0.9) calc(100% - 12px),
+                rgba(0,0,0,0.7) calc(100% - 9px),
+                rgba(0,0,0,0.5) calc(100% - 6px),
+                rgba(0,0,0,0.3) calc(100% - 3px),
+                rgba(0,0,0,0) 100%
+              )
+            `,
+            maskImage: `
+              linear-gradient(
+                to bottom,
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,1) calc(100% - 15px),
+                rgba(0,0,0,0.9) calc(100% - 12px),
+                rgba(0,0,0,0.7) calc(100% - 9px),
+                rgba(0,0,0,0.5) calc(100% - 6px),
+                rgba(0,0,0,0.3) calc(100% - 3px),
+                rgba(0,0,0,0) 100%
+              )
+            `,
           }}
         />
 
@@ -145,6 +193,30 @@ export default function CommanderBanner({
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
+                        WebkitMaskImage: `
+              linear-gradient(
+                to bottom,
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,1) calc(100% - 15px),
+                rgba(0,0,0,0.9) calc(100% - 12px),
+                rgba(0,0,0,0.7) calc(100% - 9px),
+                rgba(0,0,0,0.5) calc(100% - 6px),
+                rgba(0,0,0,0.3) calc(100% - 3px),
+                rgba(0,0,0,0) 100%
+              )
+            `,
+            maskImage: `
+              linear-gradient(
+                to bottom,
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,1) calc(100% - 15px),
+                rgba(0,0,0,0.9) calc(100% - 12px),
+                rgba(0,0,0,0.7) calc(100% - 9px),
+                rgba(0,0,0,0.5) calc(100% - 6px),
+                rgba(0,0,0,0.3) calc(100% - 3px),
+                rgba(0,0,0,0) 100%
+              )
+            `,
           }}
         />
       </div>
@@ -171,15 +243,6 @@ export default function CommanderBanner({
             rgba(${r},${g},${b},${rightA * 0.35}) 65%,
             transparent 80%
           )`,
-        }}
-      />
-
-      {/* Vertical readability overlay */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.35) 55%, transparent 100%)",
         }}
       />
 
