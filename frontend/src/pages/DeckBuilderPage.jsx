@@ -1358,6 +1358,7 @@ function truncateName(name, max = 22) {
               <div
                 className="
                   absolute
+                  z-40
                   top-32
                   right-4
                   w-56
@@ -1671,7 +1672,7 @@ function truncateName(name, max = 22) {
 
           
             {/* PREVIEW PANEL */}
-            <div className="grid grid-cols-1 sm:grid-cols-[260px_1fr] gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-[260px_1fr] z-40 gap-6">
               <aside
                 className={`
                   ${xsPreviewOpen ? "block" : "hidden"}
@@ -1794,7 +1795,7 @@ function truncateName(name, max = 22) {
                   <form ref={searchFormRef} onSubmit={searchMainboard} className="space-y-2">
                     {/* Add destination toggle */}
                     {!isReadOnly && (
-                      <div className="flex items-center gap-2 text-xs text-neutral-200">
+                      <div className="flex items-center gap-2 text-xs z-40 text-neutral-200">
                         <span>Add to:</span>
 
                         <div className="flex rounded border border-neutral-800 overflow-hidden">
@@ -1837,7 +1838,7 @@ function truncateName(name, max = 22) {
                     )}
 
                     {/* Search row */}
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 z-40">
                       <input
                         disabled={isReadOnly}
                         ref={mainboardInputRef}

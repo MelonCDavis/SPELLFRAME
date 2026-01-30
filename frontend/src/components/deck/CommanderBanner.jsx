@@ -114,7 +114,14 @@ export default function CommanderBanner({
 
   return (
     <section className="relative z-30 w-screen left-1/2 right-1/2 -mx-[50vw] mb-6 overflow-visible">
-      <div className="relative">
+      <div
+        className="
+          absolute inset-x-0
+          -top-12
+          z-0
+          pointer-events-none
+        "
+      >
         {/* LG+ — large */}
         <div
           className="hidden lg:block bg-no-repeat"
