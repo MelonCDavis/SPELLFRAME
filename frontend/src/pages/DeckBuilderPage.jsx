@@ -1231,8 +1231,8 @@ function truncateName(name, max = 22) {
         via-neutral-800/95
         to-neutral-950
         flex flex-col
-        pt-10
-        md:pt-27
+        pt-18
+        min-[860px]:pt-27.25
       "
         >
       <div className="flex-1 overflow-y-auto space-y-6">
@@ -1244,11 +1244,16 @@ function truncateName(name, max = 22) {
             <Navigate to="/" replace />
           )}
           {isReadOnly && (
-            <div className="flex justify-end">
+            <>
+              {/* < 860px — header = 72px */}
               <button
                 type="button"
                 onClick={exitViewer}
                 className="
+                  fixed
+                  right-4
+                  z-50
+                  min-[860px]:hidden
                   flex items-center gap-2
                   px-4 py-2
                   rounded-md
@@ -1259,14 +1264,40 @@ function truncateName(name, max = 22) {
                   hover:text-red-300
                   transition
                 "
+                style={{ top: 72 }}
                 aria-label="Exit deck viewer"
               >
                 <span className="text-lg leading-none">✕</span>
                 <span className="text-sm font-semibold">Exit</span>
               </button>
-            </div>
-          )}
 
+              {/* ≥ 860px — header = 109px */}
+              <button
+                type="button"
+                onClick={exitViewer}
+                className="
+                  fixed
+                  right-6
+                  z-50
+                  hidden min-[860px]:flex
+                  items-center gap-2
+                  px-4 py-2
+                  rounded-md
+                  border border-red-600
+                  bg-red-600/10
+                  text-red-400
+                  hover:bg-red-600/20
+                  hover:text-red-300
+                  transition
+                "
+                style={{ top: 109 }}
+                aria-label="Exit deck viewer"
+              >
+                <span className="text-lg leading-none">✕</span>
+                <span className="text-sm font-semibold">Exit</span>
+              </button>
+            </>
+          )}
           {isCommanderLocked === true && (
             <CommanderBanner
               key={deckId || "new"}
