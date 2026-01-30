@@ -119,7 +119,7 @@ export default function CommanderBanner({
         <div
           className="hidden lg:block bg-no-repeat"
           style={{
-            height: "275px",
+            height: "340px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
@@ -130,7 +130,7 @@ export default function CommanderBanner({
         <div
           className="hidden md:block lg:hidden bg-no-repeat"
           style={{
-            height: "220px",
+            height: "280px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
@@ -141,21 +141,11 @@ export default function CommanderBanner({
         <div
           className="block md:hidden bg-no-repeat"
           style={{
-            height: "180px",
+            height: "235px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
           }}
-        />
-        {/* Bottom background fade */}
-        <div
-          className="
-            absolute bottom-0 left-0 right-0
-            h-4
-            `bg-linear-to-b`
-            from-transparent
-            to-neutral-950
-          "
         />
       </div>
       {/* LEFT fade */}
