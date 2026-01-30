@@ -377,6 +377,16 @@ export default function CommanderBanner({
               {isOwner && (
                 <button
                   type="button"
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    setSettings({
+                      y: settings.y,
+                      leftFade: settings.leftFade,
+                      rightFade: settings.rightFade,
+                      color: settings.color,
+                    });
+                    setEditing(true);
+                  }}
                   onClick={() => {
                     setSettings({
                       y: settings.y,
@@ -407,7 +417,26 @@ export default function CommanderBanner({
             onClick={() => setEditing(false)}
           />
 
-          <div className="relative w-full max-w-md rounded-md border border-neutral-700 bg-neutral-950 p-4 space-y-4 shadow-(--spellframe-glow)">
+          <div
+            className="
+              relative
+              w-[92vw]
+              rounded-md
+              border border-neutral-700
+              bg-neutral-950
+              p-4
+              space-y-4
+              shadow-(--spellframe-glow)
+            "
+            style={{
+              maxWidth:
+                window.innerWidth >= 1150
+                  ? 480
+                  : window.innerWidth >= 860
+                  ? 420
+                  : 360,
+            }}
+          >
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-neutral-200">
                 Edit Banner
