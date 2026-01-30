@@ -35,7 +35,7 @@ export default function GlobalHeader({
               </div>
 
               {/* Mobile auth */}
-              <div className="flex md:hidden pb-1.5 items-center gap-3">
+              <div className="flex [min-width:860px]:hidden pb-1.5 items-center gap-3">
                 <button
                   onClick={() => setMenuOpen(v => !v)}
                   className="text-2xl leading-none text-neutral-300 hover:text-white"
@@ -105,7 +105,7 @@ export default function GlobalHeader({
         </div>
       </div>
       {menuOpen && (
-        <div className="md:hidden border-t border-neutral-800 bg-neutral-950 px-4 py-3 flex flex-col gap-3 text-sm text-neutral-300">
+        <div className="[min-width:860px]:hidden border-t border-neutral-800 bg-neutral-950 px-4 py-3 flex flex-col gap-3 text-sm text-neutral-300">
           {!isAuthenticated ? (
             <>
               <Link to="/login" onClick={() => setMenuOpen(false)}>
