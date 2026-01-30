@@ -113,13 +113,13 @@ export default function CommanderBanner({
 
 
   return (
-    <section className="relative z-20 w-screen left-1/2 right-1/2 -mx-[50vw] mb-6">
+    <section className="relative z-30 w-screen left-1/2 right-1/2 -mx-[50vw] mb-6 overflow-visible">
       <div className="relative">
         {/* LG+ — large */}
         <div
           className="hidden lg:block bg-no-repeat"
           style={{
-            height: "275px",
+            height: "300px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
@@ -130,7 +130,7 @@ export default function CommanderBanner({
         <div
           className="hidden md:block lg:hidden bg-no-repeat"
           style={{
-            height: "220px",
+            height: "250px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
@@ -141,7 +141,7 @@ export default function CommanderBanner({
         <div
           className="block md:hidden bg-no-repeat"
           style={{
-            height: "180px",
+            height: "210px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
             backgroundSize: `${(settings.zoom ?? 1) * 100}%`,
             backgroundPosition: `${(settings.x ?? 0.5) * 100}% ${(settings.y ?? 0.5) * 100}%`,
