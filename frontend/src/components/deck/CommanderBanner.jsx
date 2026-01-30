@@ -114,10 +114,10 @@ export default function CommanderBanner({
 
   return (
     <section className="relative z-20 w-screen left-1/2 right-1/2 -mx-[50vw] mb-6">
-      <div className="absolute inset-x-0 -top-16 h-[calc(100%+3.5rem)] overflow-visible z-0 pointer-events-none">
+      <div className="relative">
         {/* LG+ — large */}
         <div
-          className="hidden lg:block absolute inset-0 bg-no-repeat"
+          className="hidden lg:block bg-no-repeat"
           style={{
             height: "275px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
@@ -128,7 +128,7 @@ export default function CommanderBanner({
 
         {/* MD — medium */}
         <div
-          className="hidden md:block lg:hidden absolute inset-0 bg-no-repeat"
+          className="hidden md:block lg:hidden bg-no-repeat"
           style={{
             height: "220px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
@@ -139,7 +139,7 @@ export default function CommanderBanner({
 
         {/* XS + SM — small */}
         <div
-          className="block md:hidden absolute inset-0 bg-no-repeat"
+          className="block md:hidden bg-no-repeat"
           style={{
             height: "180px",
             backgroundImage: artUrl ? `url(${artUrl})` : undefined,
