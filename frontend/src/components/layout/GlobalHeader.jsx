@@ -12,7 +12,7 @@ export default function GlobalHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-800 bg-neutral-950">
-      <div className="mx-auto max-w-screen-2xl px-4 pt-3 pb-7 flex flex-wrap items-center justify-center gap-3 md:justify-between min-w-0">
+      <div className="mx-auto max-w-screen-2xl px-4 pt-3 pb-7 flex flex-wrap items-center justify-center gap-3 min-[860px]:justify-between min-w-0">
         <div className="text-2xl font-buda text-neutral-100 shrink-0 ml-0 sm:ml-0 md:ml-17">
           <Link to="/">SPELLFRAME</Link>
         </div>
@@ -21,7 +21,7 @@ export default function GlobalHeader({
           {!isAuthenticated ? (
             <>
               {/* Desktop auth */}
-              <div className="hidden md:flex items-center gap-3">
+              <div className="hidden min-[860px]:flex items-center gap-3">
                 <Link to="/login" className="text-neutral-300 hover:text-white">
                   Log in
                 </Link>
@@ -35,7 +35,7 @@ export default function GlobalHeader({
               </div>
 
               {/* Mobile auth */}
-              <div className="flex [min-width:860px]:hidden pb-1.5 items-center gap-3">
+              <div className="flex min-[860px]:hidden pb-1.5 items-center gap-3">
                 <button
                   onClick={() => setMenuOpen(v => !v)}
                   className="text-2xl leading-none text-neutral-300 hover:text-white"
@@ -78,7 +78,7 @@ export default function GlobalHeader({
                   {user?.username || "Commander"}
                 </span>
               </span>
-              <div className="hidden md:flex items-center gap-3">
+              <div className="hidden min-[860px]:flex items-center gap-3">
                 <Link
                   to="/profile"
                   className="text-indigo-400 hover:text-indigo-300"
@@ -95,7 +95,7 @@ export default function GlobalHeader({
               </div>
               <button
                 onClick={() => setMenuOpen(v => !v)}
-                className="md:hidden text-neutral-300 hover:text-white"
+              className="min-[860px]:hidden text-neutral-300 hover:text-white"
                 aria-label="Open menu"
               >
                 ☰
@@ -105,7 +105,7 @@ export default function GlobalHeader({
         </div>
       </div>
       {menuOpen && (
-        <div className="[min-width:860px]:hidden border-t border-neutral-800 bg-neutral-950 px-4 py-3 flex flex-col gap-3 text-sm text-neutral-300">
+      <div className="min-[860px]:hidden border-t border-neutral-800 bg-neutral-950 px-4 py-3 flex flex-col gap-3 text-sm text-neutral-300">
           {!isAuthenticated ? (
             <>
               <Link to="/login" onClick={() => setMenuOpen(false)}>
@@ -146,7 +146,7 @@ export default function GlobalHeader({
           </Link>
         </div>
       )}
-      <nav className="hidden [min-width:860px]:block border-t border-neutral-800">
+      <nav className="hidden min-[860px]:block border-t border-neutral-800">
         <div className="mx-auto max-w-screen-2xl px-4 py-2 flex flex-wrap gap-4 text-sm text-neutral-400">
           <Link to="/" className="hover:text-neutral-100">
             Search Cards & Decks
