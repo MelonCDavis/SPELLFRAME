@@ -61,7 +61,13 @@ export default function MainPage() {
   // "cards" | "decks" | "users"
   const navigate = useNavigate();
   const location = useLocation();
-  const [mode, setMode] = useState("cards");
+  const initialMode =
+    new URLSearchParams(location.search).get("mode") === "decks"
+      ? "decks"
+      : "cards";
+
+  const [mode, setMode] = useState(initialMode);
+
   const [query, setQuery] = useState("");
 
   // cards-only filters
@@ -208,6 +214,18 @@ export default function MainPage() {
   }, [setDropdownOpen]);
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+
+    if (mode === "decks") {
+      params.set("mode", "decks");
+    } else {
+      params.delete("mode");
+    }
+
+    navigate({ search: params.toString() }, { replace: true });
+  }, [mode]);
+
+  useEffect(() => {
     setCardResults([]);
     setCurrentPage(1);
     setDeckResults([]);
@@ -220,6 +238,9 @@ export default function MainPage() {
     setCommittedQuery("");
     setBaseCardResults([]);
     setSearchMessage("");
+      if (mode === "decks") {
+      searchPublicDecks();
+    }
   }, [mode]);
 
   function toggleColor(color) {

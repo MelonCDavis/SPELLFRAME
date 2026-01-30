@@ -318,40 +318,56 @@ exports.searchPublicDecks = async (req, res) => {
     // 🔍 Text search (validated)
     if (q && q.trim()) {
       if (!validateSearchQuery(q)) {
-        return res.status(400).json({
-          error: "Invalid search query.",
-        });
+        return res.status(400).json({ error: "Invalid search query." });
       }
 
       const trimmed = q.trim();
 
-      // Try to resolve username → userId
-      const foundUser = await User.findOne({
-        username: { $regex: `^${trimmed}$`, $options: "i" },
-      }).select("_id");
+      // Find any matching users (partial match, case-insensitive)
+      // This enables username search without aggregation/$lookup.
+      const matchingUsers = await User.find({
+        username: { $regex: trimmed, $options: "i" },
+      })
+        .select("_id")
+        .limit(50);
 
+      const userIds = matchingUsers.map((u) => u._id);
+
+      // OR across:
+      // - deck name
+      // - commanders
+      // - deck cards (embedded snapshots)
+      // - owner username (via userIds)
       filter.$or = [
         { name: { $regex: trimmed, $options: "i" } },
         { "commanders.name": { $regex: trimmed, $options: "i" } },
+
+        // Deck list search (covers common deckCards snapshot shapes)
+        { "deckCards.card.name": { $regex: trimmed, $options: "i" } },
+        { "deckCards.name": { $regex: trimmed, $options: "i" } },
+        { "deckCards.cardName": { $regex: trimmed, $options: "i" } },
       ];
 
-      // 👤 Include user's decks if username matched
-      if (foundUser) {
-        filter.$or.push({ user: foundUser._id });
+      if (userIds.length > 0) {
+        filter.$or.push({ user: { $in: userIds } });
       }
     }
 
-    // 🎨 Color identity filter
+    // 🎨 Color identity filter (normalize to uppercase)
     if (colors) {
-      const colorArray = colors.split("");
-      filter["commanders.colorIdentity"] = { $all: colorArray };
+      const colorArray = String(colors)
+        .split("")
+        .map((c) => c.toUpperCase())
+        .filter(Boolean);
+
+      if (colorArray.length > 0) {
+        filter["commanders.colorIdentity"] = { $all: colorArray };
+      }
     }
 
     const decks = await Deck.find(filter)
-      .select(
-        "name commanders likes bannerRGB bannerSettings cardHeight updatedAt"
-      )
-      .populate("user", "username")
+      .select("name commanders likes bannerRGB bannerSettings cardHeight updatedAt user")
+      .populate("user", "username avatar")
       .sort({ likes: -1, updatedAt: -1 })
       .limit(60);
 
@@ -361,3 +377,4 @@ exports.searchPublicDecks = async (req, res) => {
     return res.status(500).json({ error: "Failed to search public decks" });
   }
 };
+
