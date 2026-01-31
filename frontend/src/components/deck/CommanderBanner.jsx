@@ -274,7 +274,7 @@ export default function CommanderBanner({
 
                   {/* Owner name */}
                   <div
-                    className=" font-semibold tracking-tight text-neutral-200 leading-tight translate-y-7"
+                    className=" font-[Orbitron] tracking-tight text-neutral-200 leading-tight translate-y-7"
                     style={{
                       fontSize: "clamp(22px, 4vw, 36px)",
                     }}
@@ -289,7 +289,7 @@ export default function CommanderBanner({
             onChange={(e) => setDeckName(e.target.value)}
             disabled={!isOwner}
             className="
-              w-full max-w-3xl bg-transparent font-semibold tracking-tight text-neutral-100 placeholder-neutral-400 leading-tight focus:outline-none disabled:cursor-default"
+              w-full max-w-3xl bg-transparent font-[Orbitron] tracking-tight text-neutral-100 placeholder-neutral-400 leading-tight focus:outline-none disabled:cursor-default"
             style={{
               fontSize: "clamp(24px, 5vw, 38px)",
             }}
