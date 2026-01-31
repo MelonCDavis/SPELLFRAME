@@ -274,7 +274,7 @@ export default function CommanderBanner({
 
                   {/* Owner name */}
                   <div
-                    className=" font-semibold tracking-tight text-neutral-200 leading-tight translate-y-3"
+                    className=" font-semibold tracking-tight text-neutral-200 leading-tight translate-y-7"
                     style={{
                       fontSize: "clamp(22px, 4vw, 36px)",
                     }}
