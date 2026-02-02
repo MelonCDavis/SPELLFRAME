@@ -2103,7 +2103,14 @@ function truncateName(name, max = 22) {
                               </button>
                             </div>
                             <div className="shrink-0">
-                              <ManaCost manaCost={card.manaCost} />
+                              <ManaCost
+                                manaCost={
+                                  card.manaCost ??
+                                  card.card?.manaCost ??
+                                  card.cardFaces?.[0]?.manaCost ??
+                                  card.card?.cardFaces?.[0]?.manaCost
+                                }
+                              />
                             </div>
                           </li>
                         ))}
