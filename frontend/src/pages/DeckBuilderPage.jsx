@@ -115,6 +115,21 @@ export default function DeckBuilderPage({
   // 6) PERSISTENCE FUNCTIONS (SAVE / HYDRATE)
   // =========================
   useEffect(() => {
+    if (!exportOpen) return;
+
+    function handleKeyDown(e) {
+      if (e.key === "Escape") {
+        setExportOpen(false);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [exportOpen]);
+
+  useEffect(() => {
     apiGet("/api/cards/sets")
       .then((res) => setAllSets(Array.isArray(res) ? res : []))
       .catch(() => setAllSets([]));
@@ -2087,9 +2102,10 @@ function truncateName(name, max = 22) {
                               <button
                                 type="button"
                                 onClick={() => openInspector(card)}
+                                title={card.name}
                                 className="truncate text-left text-neutral-100 hover:underline"
                               >
-                                {card.name}
+                                {truncateName(card.name, 24)}
                               </button>
 
                               

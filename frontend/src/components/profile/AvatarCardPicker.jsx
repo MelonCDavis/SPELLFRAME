@@ -36,7 +36,7 @@ export default function AvatarCardPicker({ onSelect }) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-7">
       <input
         type="text"
         value={query}

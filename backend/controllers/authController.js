@@ -11,13 +11,15 @@ exports.register = async (req, res) => {
   try {
     const { email, username, password } = req.body;
 
+    const rawUsername = username.trim();
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await User.create({
       email,
-      username,
+      username: rawUsername,
+      usernameKey: rawUsername.toLowerCase(),
       passwordHash: hashedPassword,
-    });
+    }); 
 
     // 🔐 Create email verification token
     const verificationToken = user.createEmailVerificationToken();

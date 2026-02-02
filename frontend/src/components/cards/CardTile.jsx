@@ -16,10 +16,13 @@ export default function CardTile({
       ? c.card_faces
       : null;
 
-  const hasFaceImages =
+  const isDoubleFaced =
     Array.isArray(faces) &&
-    faces.length > 1 &&
-    faces.every((f) =>
+    ["transform", "modal_dfc", "double_faced_token"].includes(c?.layout);
+
+  const hasFaceImages =
+    isDoubleFaced &&
+    faces.some((f) =>
       f?.imageNormal ||
       f?.image_uris?.normal ||
       f?.imageLarge ||
