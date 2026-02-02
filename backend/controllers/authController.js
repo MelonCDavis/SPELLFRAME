@@ -69,11 +69,20 @@ exports.verifyEmail = async (req, res) => {
       return res.status(400).json({ error: "Token invalid or expired" });
     }
 
-    user.isEmailVerified = true;
-    user.emailVerificationToken = undefined;
-    user.emailVerificationExpires = undefined;
+    await User.updateOne(
+      {
+        emailVerificationToken: hashedToken,
+        emailVerificationExpires: { $gt: Date.now() },
+      },
+      {
+        $set: {
+          isEmailVerified: true,
+          emailVerificationToken: null,
+          emailVerificationExpires: null,
+        },
+      }
+    );
 
-    await user.save();
 
    return res.redirect(
      `${process.env.FRONTEND_URL}/login?verified=1`
