@@ -69,6 +69,12 @@ frontend/
 
 ## Getting Started
 
+### Where to watch and how to use Spellframe
+
+* a Video walk through of the project: https://www.loom.com/share/928bd18788f346718cd44c8de78f1702
+* a link to the app live:  https://spellframe-rho.vercel.app/
+* or if you would like to launch on your own. Feel free to follow below.
+
 ### Prerequisites
 
 * Node.js (v18 or newer recommended)
