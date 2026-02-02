@@ -2099,7 +2099,7 @@ function truncateName(name, max = 22) {
                                 title={card.name}
                                 className="truncate text-left text-neutral-100 hover:underline"
                               >
-                                {truncateName(card.name, 24)}
+                                {truncateName(card.name, 26)}
                               </button>
                             </div>
                             <div className="shrink-0">
