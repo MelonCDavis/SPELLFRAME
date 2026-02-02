@@ -2022,7 +2022,6 @@ function truncateName(name, max = 22) {
                                 setMainboardPage(1);
                               }}
                             />
-
                             {mainboardResults.length > MAINBOARD_PAGE_SIZE && (
                               <div className="flex justify-center items-center gap-2 pt-4">
                                 <button
@@ -2032,7 +2031,6 @@ function truncateName(name, max = 22) {
                                 >
                                   ←
                                 </button>
-
                                 {Array.from(
                                   { length: mainboardTotalPages },
                                   (_, i) => i + 1
@@ -2049,7 +2047,6 @@ function truncateName(name, max = 22) {
                                     {p}
                                   </button>
                                 ))}
-
                                 <button
                                   disabled={mainboardPage === mainboardTotalPages}
                                   onClick={() => setMainboardPage(p => p + 1)}
@@ -2065,7 +2062,6 @@ function truncateName(name, max = 22) {
                     </div>
                   </div>
                 )}
-
                   {/* Deck columns */}
                     <div
                       className="
@@ -2082,7 +2078,6 @@ function truncateName(name, max = 22) {
                       <h3 className="text-sm font-semibold text-neutral-300">
                         Commander ({commanderCount})
                       </h3>
-
                       <ul className="rounded-md border border-neutral-800 bg-neutral-900 divide-y divide-neutral-800">
                         {commanders.map((card, index) => (
                           <li
@@ -2098,7 +2093,6 @@ function truncateName(name, max = 22) {
                           >
                             <div className="flex items-center gap-2 min-w-0">
                               <span className="w-4 text-right text-neutral-400">1</span>
-
                               <button
                                 type="button"
                                 onClick={() => openInspector(card)}
@@ -2107,11 +2101,10 @@ function truncateName(name, max = 22) {
                               >
                                 {truncateName(card.name, 24)}
                               </button>
-
-                              
                             </div>
-
-                            <ManaCost manaCost={card.manaCost} />
+                            <div className="shrink-0">
+                              <ManaCost manaCost={card.manaCost} />
+                            </div>
                           </li>
                         ))}
                       </ul>
