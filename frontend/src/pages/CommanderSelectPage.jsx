@@ -89,7 +89,7 @@ export default function CommanderSelectPage() {
           <div className="flex justify-center pb-4">
             <button
               type="button"
-              onClick={() => setShowImport(true)}
+              onPointerDown={() => setShowImport(true)}
               className="
                 px-6 py-2
                 rounded-md
