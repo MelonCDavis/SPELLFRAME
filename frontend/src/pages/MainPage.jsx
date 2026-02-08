@@ -501,8 +501,8 @@ export default function MainPage() {
         <div className="mainpage-bg" />
       </div>  
       <div className="page-veil" />
-        <div className="fixed inset-0 overflow-hidden z-10 flex pt-20 sm:pt-27 flex-col">
-          <div className="flex-1 overflow-y-auto">
+        <div className="relative z-10 pt-20 sm:pt-27">
+
             <div className="mx-auto max-w-screen-2xl px-4 py-27 sm:py-8 space-y-8 sm:space-y-6">
               <div className="mx-auto max-w-6xl px-4 space-y-10">
                 <header className="space-y-2 sm:space-y-3 text-center">
@@ -1220,7 +1220,6 @@ export default function MainPage() {
                 )}
               </div>
             </div>
-          </div>
         </div>
     </>
   );

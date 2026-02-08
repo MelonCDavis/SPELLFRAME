@@ -1240,7 +1240,7 @@ function truncateName(name, max = 22) {
   return (
     <div
       className="
-        fixed inset-0 overflow-hidden
+        relative
         bg-linear-to-b
         from-neutral-700/85
         via-neutral-800/95
