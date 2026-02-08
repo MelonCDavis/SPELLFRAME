@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import GlobalHeader from "./components/layout/GlobalHeader";
+import GlobalFooter from "./components/layout/GlobalFooter";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import MainPage from "./pages/MainPage";
 import CommanderSelectPage from "./pages/CommanderSelectPage";
@@ -28,10 +29,10 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
 
-      <div className="min-h-dvh text-neutral-100">
+      <div className="min-h-dvh text-neutral-100 flex flex-col">
         <GlobalHeader />
 
-        <main className="relative">
+        <main className="relative flex-1">
           <Routes>
             {/* PUBLIC ROUTES */}
             <Route path="/login" element={<LoginPage />} />
@@ -85,6 +86,7 @@ export default function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
+        <GlobalFooter />
       </div>
     </BrowserRouter>
   );
