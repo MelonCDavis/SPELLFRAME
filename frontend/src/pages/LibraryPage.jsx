@@ -578,7 +578,7 @@ export default function LibraryPage() {
   /* ---------------------------------- */
 
   return (
-    <div className="fixed inset-0 overflow-hidden">
+    <div className="relative">
       {/* FULL-BLEED BACKGROUND */}
       <div className="library-bg fixed inset-0 z-0" />
         <div className="relative z-20 h-full overflow-y-auto">
@@ -586,7 +586,6 @@ export default function LibraryPage() {
         <div
         className="
           rounded-2xl
-          pt-27
           min-h-dvh
           bg-linear-to-b
           from-neutral-400/10
@@ -863,7 +862,7 @@ export default function LibraryPage() {
               )}
 
               {detailIndex !== null && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center px-4 pt-27">
+                <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
                   <div
                     className="absolute inset-0 bg-black/70"
                     onClick={closeInspector}

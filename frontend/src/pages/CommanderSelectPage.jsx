@@ -61,7 +61,7 @@ export default function CommanderSelectPage() {
     : new Set();
     
   return (
-    <div className="fixed inset-0 overflow-hidden text-neutral-100 flex flex-col pt-27">
+    <div className="relative text-neutral-100 flex flex-col">
       <div className="commander-bg absolute inset-0" />
       <div className="page-veil absolute inset-0 z-10" />
 

@@ -1246,8 +1246,6 @@ function truncateName(name, max = 22) {
         via-neutral-800/95
         to-neutral-950
         flex flex-col
-        pt-18
-        min-[860px]:pt-27.25
       "
         >
       <div className="flex-1 overflow-y-auto space-y-6">
@@ -2256,7 +2254,7 @@ function truncateName(name, max = 22) {
               >
                 {/* Header */}
                 <div
-                  className="flex items-center justify-between px-5 py-3 border-b pt-27"
+                  className="flex items-center justify-between px-5 py-3 border-b"
                   style={{
                     borderColor: `rgba(${r},${g},${b},0.4)`,
                     boxShadow: `0 4px 16px rgba(${r},${g},${b},0.35)`,

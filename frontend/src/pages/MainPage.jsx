@@ -501,9 +501,9 @@ export default function MainPage() {
         <div className="mainpage-bg" />
       </div>  
       <div className="page-veil" />
-        <div className="relative z-10 pt-20 sm:pt-27">
+        <div className="relative z-10">
 
-            <div className="mx-auto max-w-screen-2xl px-4 py-27 sm:py-8 space-y-8 sm:space-y-6">
+            <div className="mx-auto max-w-screen-2xl px-4 sm:py-8 space-y-8 sm:space-y-6">
               <div className="mx-auto max-w-6xl px-4 space-y-10">
                 <header className="space-y-2 sm:space-y-3 text-center">
                     <h1 className="flex justify-center font-buda tracking-tight text-6xl sm:text-8xl md:text-8xl leading-none">
@@ -1015,7 +1015,7 @@ export default function MainPage() {
                 </section>
 
                 {detailIndex !== null && mode === "cards" && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 pt-27">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
                       <div className="absolute inset-0 bg-black/70" onClick={closeInspector} />
 
                         <div className="relative w-full max-w-4xl h-[90vh] bg-neutral-950 border border-neutral-800 rounded-md shadow-2xl flex flex-col">
