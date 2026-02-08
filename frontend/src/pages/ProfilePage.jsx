@@ -92,7 +92,7 @@ export default function ProfilePage() {
     }
 
   return (
-    <div className="relative z-10 profile-page-root flex flex-col">
+    <div className="relative z-10 profile-page-root flex flex-col min-h-dvh">
       <div className="rounded-2xl bg-linear-to-b from-neutral-500 via-neutral-600 to-neutral-800">
         <div className="w-full max-w-6xl mx-auto px-3 sm:px-4 py-6 space-y-6">
         {/* ========================= */}
