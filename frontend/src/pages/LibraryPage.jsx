@@ -581,7 +581,7 @@ export default function LibraryPage() {
     <div className="relative">
       {/* FULL-BLEED BACKGROUND */}
       <div className="library-bg fixed inset-0 z-0" />
-        <div className="relative z-20 h-full overflow-y-auto">
+        <div className="relative z-20">
         {/* PAGE CONTENT */}
         <div
         className="

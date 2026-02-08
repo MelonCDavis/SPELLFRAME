@@ -93,7 +93,7 @@ export default function ProfilePage() {
 
   return (
     <div className="relative profile-page-root flex flex-col">
-      <div className="flex-1 overflow-y-auto rounded-2xl bg-linear-to-b from-neutral-500 via-neutral-600 to-neutral-800">
+      <div className="flex-1 rounded-2xl bg-linear-to-b from-neutral-500 via-neutral-600 to-neutral-800">
         <div className="w-full max-w-6xl mx-auto px-3 sm:px-4 py-6 space-y-6">
         {/* ========================= */}
         {/* HEADER */}
