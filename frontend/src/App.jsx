@@ -32,7 +32,7 @@ export default function App() {
       <div className="min-h-dvh text-neutral-100 flex flex-col">
         <GlobalHeader />
 
-        <main className="relative flex-1">
+        <main className="relative flex-1 pb-14">
           <Routes>
             {/* PUBLIC ROUTES */}
             <Route path="/login" element={<LoginPage />} />

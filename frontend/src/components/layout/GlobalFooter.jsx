@@ -4,8 +4,8 @@ export default function GlobalFooter() {
         <footer
           className="
             w-full
-            border-t border-Neutreal-800
-            bg-Neutreal-950
+            border-t border-Neutral-800
+            bg-Neutral-950
             text-neutral-400
             text-sm
           "
