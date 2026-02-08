@@ -99,7 +99,7 @@ export default function ProfilePage() {
         {/* HEADER */}
         {/* ========================= */}
         <section className="profile-banner rounded-2xl shadow-(--spellframe-glow)">
-          <div className="relative z-10 h-full px-6 flex items-center">
+          <div className="relative z-0 h-full px-6 flex items-center">
             <div className="flex w-full items-center">
               
               <div className="flex items-center gap-6">
