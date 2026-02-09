@@ -87,27 +87,59 @@ export default function CommanderSelectPage() {
         </form>
         {isAuthenticated && (
           <div className="flex justify-center pb-4">
-            <button
-              type="button"
-              onPointerDown={() => setShowImport(true)}
-              className="
-                px-6 py-2
-                rounded-md
-                border border-neutral-800
-                bg-neutral-900
-                text-md font-semibold
-                text-neutral-200
-                transition-shadow
-                hover:bg-neutral-800
-                shadow-(--spellframe-glow)
-              "
-            >
-              Import Decklist
-            </button>
+            <div className="flex w-full max-w-xl gap-3">
+              
+              {/* Select Commander */}
+              <button
+                type="button"
+                disabled={!selectedCommander}
+                onClick={() => {
+                  if (!selectedCommander) return;
+                  navigate("/deck", { state: { commander: selectedCommander } });
+                }}
+                className={`
+                  flex-1
+                  h-12
+                  rounded-md
+                  font-semibold
+                  transition
+                  ${
+                    selectedCommander
+                      ? "bg-indigo-600 hover:bg-indigo-500 shadow-(--spellframe-glow)"
+                      : "bg-neutral-800 text-neutral-400 cursor-not-allowed"
+                  }
+                `}
+              >
+                {selectedCommander
+                  ? `Select ${selectedCommander.name}`
+                  : "Select Commander"}
+              </button>
+
+              {/* Import Decklist */}
+              <button
+                type="button"
+                disabled={cards.length > 0}
+                onClick={() => setShowImport(true)}
+                className={`
+                  flex-1
+                  h-12
+                  rounded-md
+                  font-semibold
+                  transition
+                  ${
+                    cards.length > 0
+                      ? "bg-neutral-800 text-neutral-500 cursor-not-allowed"
+                      : "bg-neutral-900 text-neutral-200 hover:bg-neutral-800 shadow-(--spellframe-glow)"
+                  }
+                `}
+              >
+                Import Decklist
+              </button>
+
+            </div>
           </div>
         )}
       </div>
-
       <div className="relative z-40 flex-1 overflow-y-auto pt-5">
         <div className="mx-auto max-w-7xl px-4 pb-28">
           <CardGrid
@@ -122,35 +154,6 @@ export default function CommanderSelectPage() {
             renderOverlay={() => null}
           />
         </div>
-      </div>
-
-      {/* Fixed footer */}
-      <div
-        className={`w-full py-3 rounded-md z-50 font-semibold transition-shadow ${
-          selectedCommander
-            ? "bg-indigo-600 hover:bg-indigo-500 shadow-(--spellframe-glow)"
-            : "bg-neutral-800 text-neutral-400 cursor-not-allowed"
-        }`}
-      >
-        <button
-          onClick={() => {
-            if (!selectedCommander) return;
-            navigate("/deck", { state: { commander: selectedCommander } });
-          }}
-          className={`
-            w-full py-3 rounded-md font-semibold transition
-            ${
-              selectedCommander
-                ? "bg-indigo-600 hover:bg-indigo-500"
-                : "bg-neutral-800 text-neutral-400 cursor-not-allowed"
-            }
-          `}
-          disabled={!selectedCommander}
-        >
-          {selectedCommander
-            ? `Select ${selectedCommander.name}`
-            : "Select Commander"}
-        </button>
       </div>
       <div className="z-60">
         <DeckImportModal
