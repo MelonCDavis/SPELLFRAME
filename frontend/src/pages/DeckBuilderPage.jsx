@@ -19,7 +19,6 @@ import CardGrid from "../components/cards/CardGrid";
 import { getColorIdentity } from "../utils/colorIdentity";
 import DeckBuilderAdvancedSearch from "../components/deck/DeckBuilderAdvancedSearch";
 import DeckVisibilityModal from "../components/deck/DeckVisibilityModal";
-import { sanitizeSearchQuery } from "../utils/validateSearchQuery";
 
 export default function DeckBuilderPage({
   mode = "edit",

@@ -7,13 +7,13 @@ import Header from "../components/layout/Header";
 import CardGrid from "../components/cards/CardGrid";
 import { apiGet } from "../services/apiClient";
 import { isCommanderLegal } from "../utils/isCommanderLegal";
-import { sanitizeSearchQuery } from "../utils/validateSearchQuery";
 
 export default function CommanderSelectPage() {
   const [query, setQuery] = useState("");
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedCommander, setSelectedCommander] = useState(null);
+  const [hasFocusedSearch, setHasFocusedSearch] = useState(false);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [showImport, setShowImport] = useState(false);
@@ -72,6 +72,8 @@ export default function CommanderSelectPage() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setHasFocusedSearch(true)}
+            onMouseEnter={() => setHasFocusedSearch(true)}
             placeholder="Search commanders…"
             className="
               text-2xl
@@ -106,7 +108,9 @@ export default function CommanderSelectPage() {
                   ${
                     selectedCommander
                       ? "bg-indigo-600 hover:bg-indigo-500 shadow-(--spellframe-glow)"
-                      : "bg-neutral-800 text-neutral-400 cursor-not-allowed"
+                      : hasFocusedSearch
+                        ? "bg-indigo-600/40 text-indigo-200 shadow-(--spellframe-glow)"
+                        : "bg-neutral-800 text-neutral-400 cursor-not-allowed"
                   }
                 `}
               >

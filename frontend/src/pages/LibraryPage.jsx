@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { apiGet, apiPost } from "../services/apiClient";
 import CardGrid from "../components/cards/CardGrid";
 import CardQuantityOverlay from "../components/cards/CardQuantityOverlay";
-import { sanitizeSearchQuery } from "../utils/validateSearchQuery";
 
 export default function LibraryPage() {
   const [query, setQuery] = useState("");
