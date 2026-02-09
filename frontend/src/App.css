@@ -32,13 +32,13 @@
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  z-index: -1;
+  z-index: 0;
 }
 
 .mainpage-bg-wrap {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   overflow: hidden;
 }
 
@@ -116,7 +116,7 @@
   background-size: cover;
   background-position: center 25%;
   background-repeat: no-repeat;
-  z-index: -1;
+  z-index: 0;
 }
 
 .faq-bg {

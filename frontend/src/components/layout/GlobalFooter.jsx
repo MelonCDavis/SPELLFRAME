@@ -8,6 +8,7 @@ export default function GlobalFooter() {
             bg-Neutral-950
             text-neutral-400
             text-sm
+            z-20
           "
         >
           <div 

@@ -29,7 +29,7 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
 
-      <div className="min-h-dvh text-neutral-100 flex flex-col">
+      <div className="relative z-10 min-h-dvh bg-neutral-950 text-neutral-100 flex flex-col">
         <GlobalHeader />
 
         <main className="relative flex-1">
